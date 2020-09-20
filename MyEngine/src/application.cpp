@@ -1,3 +1,5 @@
+#include "glad/glad.h"
+
 #include "application.hpp"
 #include "indexBuffer.hpp"
 #include "vertexBuffer.hpp"
@@ -8,7 +10,6 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "glad/glad.h"
 
 #include <iostream>
 #include <GLFW/glfw3.h>

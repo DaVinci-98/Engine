@@ -1,7 +1,6 @@
 #pragma once
 
 #include "glException.hpp"
-#include "glad/glad.h"
 
 #include <glm/glm.hpp>
 #include <string>
@@ -13,7 +12,7 @@
 struct ShaderFile
 {
     std::string m_filepath;
-    GLenum m_type;
+    unsigned int m_type;
 };
 
 
@@ -40,7 +39,7 @@ namespace MyEngine
     private:
         unsigned int attachShader(ShaderFile const& t_file);
         void detachShader(unsigned int t_id);
-        unsigned int compileShader(std::string const& t_source, GLenum t_type) const;        
+        unsigned int compileShader(std::string const& t_source, unsigned int t_type) const;        
         std::string readFile(std::string const& t_path) const;
         int getUniformLocation(std::string const& t_name);
 

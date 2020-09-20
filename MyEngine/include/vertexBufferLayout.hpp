@@ -1,7 +1,5 @@
 #pragma once
 
-#include "glad/glad.h"
-
 #include <vector>
 #include <iostream>
 
@@ -10,9 +8,9 @@ namespace MyEngine
     struct VertexBufferElement
     {
         unsigned int count;
-        GLenum type;
+        unsigned int type;
         unsigned int typeSize;
-        GLenum normalized;
+        unsigned int normalized;
     };
 
     class VertexBufferLayout

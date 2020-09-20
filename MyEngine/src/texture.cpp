@@ -1,7 +1,8 @@
+#include "glad/glad.h"
+
 #include "texture.hpp"
 #include "glException.hpp"
 #include "stb_image.h"
-#include "glad/glad.h"
 
 #include <iostream>
 

@@ -1,5 +1,8 @@
+#include "glad/glad.h"
+
 #include "vertexArray.hpp"
 #include "glException.hpp"
+
 #include <iostream>
 #include <algorithm>
 

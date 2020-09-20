@@ -5,7 +5,6 @@
 #include "vertexArray.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
-#include "glad/glad.h"
 
 #include <iostream>
 #include <GLFW/glfw3.h>

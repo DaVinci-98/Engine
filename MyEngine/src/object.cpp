@@ -1,6 +1,9 @@
+#include "glad/glad.h"
+
 #include "object.hpp"
 #include "vertexBuffer.hpp"
 #include "vertexBufferLayout.hpp"
+
 #include <algorithm>
 #include <iostream>
 

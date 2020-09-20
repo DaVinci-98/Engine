@@ -1,5 +1,6 @@
-#include "vertexBufferLayout.hpp"
 #include "glad/glad.h"
+
+#include "vertexBufferLayout.hpp"
 
 #include <exception>
 #include <iostream>

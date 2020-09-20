@@ -1,3 +1,5 @@
+#include "glad/glad.h"
+
 #include "renderer.hpp"
 #include "glException.hpp"
 #include "object.hpp"
