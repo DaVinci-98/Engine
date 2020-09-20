@@ -8,9 +8,9 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "glad/glad.h"
 
 #include <iostream>
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stdexcept>
 #include <exception>
@@ -38,8 +38,7 @@ namespace MyEngine
 
         glfwSwapInterval(1);
 
-        GLenum err = glewInit();
-        if(GLEW_OK != err)
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) 
         {
             return -1;
         }

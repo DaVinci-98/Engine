@@ -38,15 +38,15 @@ project "MyEngine"
     includedirs{
         "%{prj.location}/include",
         "vendor/stb/include",
-        "vendor/ImGui/include"
-        --"%{prj.name}/vendor/Glad/include"
+        "vendor/ImGui/include",
+        "vendor/Glad/include"
     }
 
     links{
         "glfw",
         "GL", 
         "GLU", 
-        "GLEW",
+        "Glad",
         "ImGui",
         "stb"
     }
@@ -81,6 +81,28 @@ project "stb"
 
     files { 
         "%{prj.location}/src/**.cpp",
+        "%{prj.location}/include/**.h"
+    }
+
+    includedirs{
+        "%{prj.location}/include"
+    }
+
+    filter{"system:linux"}
+        buildoptions{"-fPIC"}
+
+    filter { }
+
+project "Glad"
+    kind "StaticLib"
+    language "C++"
+    location "vendor/%{prj.name}"
+    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
+    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
+
+    files { 
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/src/**.c",
         "%{prj.location}/include/**.h"
     }
 

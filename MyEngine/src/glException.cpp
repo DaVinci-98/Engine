@@ -1,7 +1,7 @@
 #include "glException.hpp"
+#include "glad/glad.h"
 
 #include <iostream>
-#include <GL/glew.h>
 #include <algorithm>
 #include <vector>
 

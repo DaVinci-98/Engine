@@ -1,6 +1,7 @@
 #include "vertexBufferLayout.hpp"
+#include "glad/glad.h"
+
 #include <exception>
-#include <GL/glew.h>
 #include <iostream>
 
 namespace MyEngine

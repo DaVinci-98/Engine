@@ -1,10 +1,10 @@
 #pragma once
 
 #include "glException.hpp"
+#include "glad/glad.h"
 
 #include <glm/glm.hpp>
 #include <string>
-#include <GL/glew.h>
 #include <vector>
 #include <unordered_map>
 #include <array>

@@ -1,7 +1,8 @@
 #pragma once
 
+#include "glad/glad.h"
+
 #include <vector>
-#include <GL/glew.h>
 #include <iostream>
 
 namespace MyEngine
