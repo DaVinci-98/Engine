@@ -12,8 +12,8 @@ namespace MyEngine
         Renderer() { };
         ~Renderer() { };
         // Clear the window.
-        void clear() const;
+        bool clear() const;
         // Draw a t_object usign Model-View-Projection matrix t_MVP.
-        void draw(Object& t_object, glm::mat4& t_MVP);
+        bool draw(Object& t_object, glm::mat4& t_MVP);
     };
 }
