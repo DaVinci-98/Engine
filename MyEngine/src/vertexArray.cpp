@@ -69,6 +69,10 @@ namespace MyEngine
         void const* offset = static_cast<char const*>(0) + t_offset;
 
         GL_CALL(glEnableVertexAttribArray(t_pos));
+        // Every value is converted to float when accessed, 
+        // Nomralize puts int values into [-1,1] / [0,1] range,
+        // To get int values inside shader use glVertexAttribIPointer,
+        // To get double values inside shader use glVertexAttribLPointer
         GL_CALL(glVertexAttribPointer(t_pos, t_element.count, t_element.type, t_element.normalized, t_stride, offset));
              
         t_offset += t_element.count * t_element.typeSize;

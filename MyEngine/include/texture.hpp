@@ -3,6 +3,7 @@
 
 namespace MyEngine
 {
+    // Stores a texture
     class Texture
     {
     public:

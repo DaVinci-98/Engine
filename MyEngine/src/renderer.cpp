@@ -26,13 +26,4 @@ namespace MyEngine
 
         GL_CALL(glDrawElements(GL_TRIANGLES, t_object.indexBuffer().count(), GL_UNSIGNED_INT, nullptr));
     }
-
-    void Renderer::draw(VertexArray& t_va, IndexBuffer& t_ib, Shader& t_sh, GLenum t_mode)
-    {
-        t_sh.bind();
-        t_va.bind();
-        t_ib.bind();
-
-        GL_CALL(glDrawElements(t_mode, t_ib.count(), GL_UNSIGNED_INT, nullptr));
-    }
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "glException.hpp"
-
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
@@ -9,31 +7,34 @@
 #include <array>
 #include <iostream>
 
-struct ShaderFile
-{
-    std::string m_filepath;
-    unsigned int m_type;
-};
-
-
 namespace MyEngine
 {
+    struct ShaderFile
+    {
+        std::string m_filepath;
+        unsigned int m_type;
+    };
+
+    // Responsible for storing shaders and interaction with uniforms.
     class Shader
     {
+
     public:
         Shader(std::vector<ShaderFile> const& t_files);
         Shader() { };
         ~Shader();
 
-        void init(std::vector<ShaderFile> const& t_files);
         void bind();
         void unbind();
         bool bound() const { return m_bound; } 
 
+        // set uniform value
         template<typename T>
         void setUniform(std::string const& t_name, T t_value);
+        // set uniform vector
         template<int N, typename T> 
         void setUniform(std::string const& t_name, glm::vec<N,T> const& t_vector);
+        // set uniform matrix
         template<int N> 
         void setUniform(std::string const& t_name, glm::mat<N,N,float> const& t_matrix);
     private:

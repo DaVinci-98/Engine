@@ -1,17 +1,12 @@
 #pragma once
 
-#include "indexBuffer.hpp"
-#include "vertexBuffer.hpp"
-#include "vertexArray.hpp"
-#include "shader.hpp"
-#include "texture.hpp"
-
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include <memory>
 
 namespace MyEngine
 {
+    //Represents whole application.
     class Application
     {
     public:
@@ -19,12 +14,19 @@ namespace MyEngine
             : m_title(t_title), m_screenWidth(t_w), m_screenHeight(t_h) { };
         virtual ~Application();
 
+        // Set up window.
         int initialize();
+        // Start the main loop.
         void startLoop();
 
-        virtual bool onWindowCreate() = 0;
+        // Functions for overriding:
+        // Called after window was created.
+        virtual bool onWindowCreate() { return true; };
+        // Called before the main loop starts.
         virtual bool onLoopStart() { return true; };
+        // Called inside the main loop.
         virtual bool onLoop() = 0;
+        // Called after main loop ends.
         virtual bool onLoopEnd() { return true; };
 
     private:

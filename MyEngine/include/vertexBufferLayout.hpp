@@ -5,6 +5,7 @@
 
 namespace MyEngine
 {
+    // Layout of vertecies in vertex buffer
     struct VertexBufferElement
     {
         unsigned int count;
@@ -13,12 +14,14 @@ namespace MyEngine
         unsigned int normalized;
     };
 
+    // Layout of the Vertex buffer
     class VertexBufferLayout
     {
     public:
         VertexBufferLayout() { };
 
-        template<typename T> void push(size_t m_count);
+        // Add t_count of values of type T to the layout
+        template<typename T> void push(size_t t_count);
 
         unsigned int stride() const { return m_stride; }
         unsigned int numElements() const { return m_elements.size(); }

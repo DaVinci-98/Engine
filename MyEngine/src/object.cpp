@@ -1,5 +1,6 @@
 #include "glad/glad.h"
 
+#include "glException.hpp"
 #include "object.hpp"
 #include "vertexBuffer.hpp"
 #include "vertexBufferLayout.hpp"
@@ -11,11 +12,13 @@ namespace MyEngine
 {
     bool Object::bake()
     {   
+        // Move triangles into the function
+        // Change triangle data into buffers
         auto triangles(std::move(m_triangles));
         for (auto const& triangle : triangles) 
             bakeTriangle(triangle);
 
-        unsigned int bufferCount = m_buffer.size() * m_buffer.front().size();
+        // Push the buffers from individual vertecies into single one
         std::vector<float> buffer;
         for (auto const& row : m_buffer) 
             buffer.insert(buffer.end(), row.begin(), row.end());
@@ -24,18 +27,20 @@ namespace MyEngine
         {
             m_vertexArray = std::make_unique<VertexArray>();
             m_buffers.push_back(std::make_unique<VertexBuffer>(buffer));
-
             VertexBufferLayout layout;
 
+            // Get a layout of vertecies in traingles
             auto triangleLayout = triangles.front()->layout();
 
+            // Assume all values are float
             for (auto const& a : triangleLayout)
                 layout.push<float>(a);
 
-
+            // Make vertex array and index buffer
             m_vertexArray -> addBuffer(*m_buffers.back(), layout);
             m_indexBuffer = std::make_unique<IndexBuffer>(m_indecies);
             
+            // Load shaders
             std::vector<ShaderFile> files 
             {
                 ShaderFile {"Sandbox/res/shaders/basicVertex.shader", GL_VERTEX_SHADER },

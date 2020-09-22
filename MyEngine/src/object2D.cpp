@@ -13,6 +13,7 @@ namespace MyEngine
 
     bool Object2D::mapTexture(std::vector<Triangle2D> const& t_coordinates, std::string const& path)
     {
+        // Check if number of texture trangles is equal to number of triangles in  the obejct
         if(t_coordinates.size() != m_triangles.size()) return false;
 
         bool textured = m_texture != nullptr;
@@ -22,6 +23,8 @@ namespace MyEngine
 
         unsigned int tex_stride = t_coordinates.front().vertecies().size() / 3;
         
+        // Map texture on individual triangles
+        // Version with zip
         auto zip = std::move(Zip::Zip2(t_coordinates, m_triangles));
         for(auto const& [coordinates, triangle] : zip)
         {
@@ -35,6 +38,7 @@ namespace MyEngine
                                        tex_a_y, tex_b_y, tex_c_y);
         }
 
+        // Version without zip
         // for(int i = 0; i < t_coordinates.size(); i++)
         // {
         //     float tex_a_x = t_coordinates[i].vertecies()[0];
@@ -51,6 +55,7 @@ namespace MyEngine
 
     void Object2D::bakeTriangle(std::unique_ptr<Triangle> const& t_triangle)
     {
+        // Copy vertexes into seperate vectors
         unsigned int stride = t_triangle->vertecies().size() / 3;
         std::vector<float> buffer_a(
             t_triangle->vertecies().begin(),
@@ -62,6 +67,7 @@ namespace MyEngine
             t_triangle->vertecies().begin() + 2 * stride,
             t_triangle->vertecies().begin() + 3 * stride);
 
+        // Save individual vertexes
         saveVertex(buffer_a);
         saveVertex(buffer_b);
         saveVertex(buffer_c);
@@ -69,6 +75,7 @@ namespace MyEngine
 
     void Object2D::saveVertex(std::vector<float> const& t_vertex)
     {
+        // Check if vertex is already in the buffer adn get it's index
         auto sameVertex = [&](std::vector<float> const& a) -> bool
         {
             return a[0] == t_vertex[0] && a[1] == t_vertex[1];
@@ -77,11 +84,14 @@ namespace MyEngine
 
         if(index == m_buffer.end())
         {
+            // if vertex is not in the buffer add it,
+            // add it's index to index buffer
             m_buffer.push_back(t_vertex);
             m_indecies.push_back(m_buffer.size() - 1);
         }
         else
         {
+            //add the index to index buffer
             m_indecies.push_back(index - m_buffer.begin());
         }
     }

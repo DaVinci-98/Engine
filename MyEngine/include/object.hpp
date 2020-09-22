@@ -12,15 +12,20 @@
 
 namespace MyEngine
 {
+    // Base class for an arbitrary displayable object
     class Object
     {
     public:
         Object() { };
 
+        // Copy a triangle to obejct's triangle list.
         bool pushTriangle(Triangle const& t_triangle);
+        // Move a triangle to obejct's triangle list.
         bool pushTriangle(Triangle && t_triangle);
+        // Add a texture to the obejct.
         bool mapTexture(std::vector<Triangle2D> const& t_coordinates, std::string const& t_path);
         
+        // Change trinagles into vertex buffers used by openGL.
         bool bake();
 
         bool isTextured() const { return m_texture != nullptr; }

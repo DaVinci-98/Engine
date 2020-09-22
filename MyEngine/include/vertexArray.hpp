@@ -5,6 +5,8 @@
 
 namespace MyEngine
 {
+    // Abstraction for openGL buffer object.
+    // Vertex data with applied layout
     class VertexArray
     {
     public:
@@ -15,6 +17,7 @@ namespace MyEngine
         void unbind();
         bool bound() const { return m_bound; } 
 
+        // Assign buffer with specified layout
         void addBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout);
     private:
         void addAttrib(VertexBufferElement const& t_element, 
