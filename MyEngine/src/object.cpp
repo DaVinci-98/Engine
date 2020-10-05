@@ -10,13 +10,13 @@
 
 namespace MyEngine
 {
-    bool Object::bake()
+    bool Object::toVAO()
     {   
         // Move triangles into the function
         // Change triangle data into buffers
         auto triangles(std::move(m_triangles));
         for (auto const& triangle : triangles) 
-            bakeTriangle(triangle);
+            triangleToVAO(triangle);
 
         // Push the buffers from individual vertecies into single one
         std::vector<float> buffer;

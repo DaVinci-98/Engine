@@ -19,7 +19,7 @@ namespace MyEngine
         bool mapTexture(std::vector<Triangle2D> const& t_coordinates, std::string const& t_path);
 
     private:
-        void bakeTriangle(std::unique_ptr<Triangle> const& t_triangle) override;
+        void triangleToVAO(std::unique_ptr<Triangle> const& t_triangle) override;
         void saveVertex(std::vector<float> const& t_vertex);
     };
 }

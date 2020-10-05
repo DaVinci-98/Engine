@@ -26,7 +26,7 @@ namespace MyEngine
         bool mapTexture(std::vector<Triangle2D> const& t_coordinates, std::string const& t_path);
         
         // Change trinagles into vertex buffers used by openGL.
-        bool bake();
+        bool toVAO();
 
         bool isTextured() const { return m_texture != nullptr; }
         VertexArray & vertexArray() const { return *m_vertexArray; }
@@ -35,7 +35,7 @@ namespace MyEngine
         Texture & texture() const { return *m_texture; }
 
     protected:
-        virtual void bakeTriangle(std::unique_ptr<Triangle> const& t_triangle) = 0;
+        virtual void triangleToVAO(std::unique_ptr<Triangle> const& t_triangle) = 0;
 
         std::vector<std::unique_ptr<Triangle> > m_triangles;
         std::vector<unsigned int> m_indecies;

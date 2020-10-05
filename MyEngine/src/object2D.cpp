@@ -53,7 +53,7 @@ namespace MyEngine
         return true;
     }
 
-    void Object2D::bakeTriangle(std::unique_ptr<Triangle> const& t_triangle)
+    void Object2D::triangleToVAO(std::unique_ptr<Triangle> const& t_triangle)
     {
         // Copy vertexes into seperate vectors
         unsigned int stride = t_triangle->vertecies().size() / 3;
