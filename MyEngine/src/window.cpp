@@ -29,7 +29,7 @@ namespace MyEngine
 
     bool Window::initializeWindow()
     {
-        if (!glfwInit()) return -1;
+        if (!glfwInit()) return false;
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -39,12 +39,14 @@ namespace MyEngine
         if (!m_window)
         {
             glfwTerminate();
-            return -1;
+            return false;
         }
 
         glfwMakeContextCurrent(m_window);
 
         glfwSwapInterval(1);
+        
+        return true;
     }
 
     Window::~Window()

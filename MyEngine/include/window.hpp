@@ -16,6 +16,8 @@ namespace MyEngine
     class Window
     {
     public:
+        ~Window();
+
         void setParams(WindowParams&& t_params);
         bool initializeWindow();
         void pollEvents() const;
@@ -31,5 +33,5 @@ namespace MyEngine
         GLFWwindow *m_window = nullptr;
 
         WindowParams m_params;
-    }
+    };
 }
