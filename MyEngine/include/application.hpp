@@ -27,6 +27,10 @@ namespace MyEngine
         virtual bool onLoop() = 0;
         // Called after main loop ends.
         virtual bool onLoopEnd() { return true; };
+
+        std::string title() const { return m_window.title(); }
+        int screenWidth() const { return m_window.screenWidth(); }
+        int screenHeight() const { return m_window.screenHeight(); }
     private:
         Window m_window;
     };
