@@ -12,32 +12,28 @@
 #include "imgui_impl_opengl3.h"
 
 #include <iostream>
-#include <GLFW/glfw3.h>
 #include <stdexcept>
 #include <exception>
 #include <string>
 
 namespace MyEngine
 {
+    Application::Application(std::string& t_title, int t_w, int t_h)
+    {
+        WindowParams params;
+        params.m_title = t_title;
+        params.m_screenWidth = t_w;
+        params.m_screenHeight = t_h;
+
+        m_window.setParams(std::move(params));
+    }
+
     int Application::initialize()
     {
-        if (!glfwInit()) return -1;
-        m_glfwInitialized = true;
-
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-        m_window = glfwCreateWindow(m_screenWidth, m_screenHeight, m_title.c_str(), NULL, NULL);
-        if (!m_window)
+        if(!m_window.initializeWindow())
         {
-            glfwTerminate();
             return -1;
         }
-
-        glfwMakeContextCurrent(m_window);
-
-        glfwSwapInterval(1);
 
         if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) 
         {
@@ -60,10 +56,8 @@ namespace MyEngine
             onLoopEnd();
             return;
         }
-        while (!glfwWindowShouldClose(m_window))
+        while (m_window.isActive())
         {
-            glfwPollEvents();
-
             bool frame = onLoop();
             if(!frame)
             {
@@ -71,25 +65,10 @@ namespace MyEngine
                 return;
             }
 
-            glfwSwapBuffers(m_window);
+            m_window.draw();
+            m_window.pollEvents();
         }
         bool end = onLoopEnd();
         return;
-    }
-
-    Application::~Application()
-    {
-        try
-        {   
-            if(m_glfwInitialized)
-            {
-                glfwDestroyWindow(m_window);
-                glfwTerminate();
-            }
-        }
-        catch(GlException& e)
-        {
-            e.printErrors();
-        }
     }
 }

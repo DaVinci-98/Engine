@@ -1,7 +1,8 @@
 #pragma once
 
+#include <window.hpp>
+
 #include <iostream>
-#include <GLFW/glfw3.h>
 #include <memory>
 
 namespace MyEngine
@@ -10,9 +11,7 @@ namespace MyEngine
     class Application
     {
     public:
-        Application(std::string& t_title, int t_w, int t_h) 
-            : m_title(t_title), m_screenWidth(t_w), m_screenHeight(t_h) { };
-        virtual ~Application();
+        Application(std::string& t_title, int t_w, int t_h);
 
         // Set up window.
         int initialize();
@@ -28,16 +27,8 @@ namespace MyEngine
         virtual bool onLoop() = 0;
         // Called after main loop ends.
         virtual bool onLoopEnd() { return true; };
-
     private:
-        GLFWwindow *m_window = nullptr;
-        bool m_glfwInitialized = false;
-
-    protected:
-
-        std::string m_title = "";
-        int m_screenWidth = 0;
-        int m_screenHeight = 0;
+        Window m_window;
     };
 
     std::unique_ptr<Application> CreateApplication();
