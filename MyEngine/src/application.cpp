@@ -1,11 +1,11 @@
 #include "glad/glad.h"
 
 #include "application.hpp"
-#include "indexBuffer.hpp"
-#include "vertexBuffer.hpp"
-#include "vertexArray.hpp"
+#include "openGL/indexBuffer.hpp"
+#include "openGL/vertexBuffer.hpp"
+#include "openGL/vertexArray.hpp"
 #include "shader.hpp"
-#include "glException.hpp"
+#include "openGL/glException.hpp"
 #include "renderer.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -25,7 +25,35 @@ namespace MyEngine
         params.m_screenWidth = t_w;
         params.m_screenHeight = t_h;
 
+        params.m_eventCallback = [&](Event&& t_event) -> void
+        {
+            this->onEvent(std::move(t_event));
+        };
+
         m_window.setParams(std::move(params));
+    }
+
+    void Application::onEvent(Event&& t_event)
+    {
+        switch(t_event.eventType())
+        {
+            case Event::EventType::keyEvent:
+                KeyEvent& keyEvent = static_cast<KeyEvent&>(t_event);
+                m_keyEventListener.dispatch(std::move(keyEvent));
+                break;
+        }
+    }
+
+    void Application::setKeyCallback(std::function<void(KeyEvent&)>&& t_callback, 
+            KeyEvent::Key t_key, KeyEvent::KeyEventType t_keyEventType, KeyEvent::KeyMods t_mods)
+    {
+        if(!m_keyEventListener.isListening())
+        {
+            m_window.listenForKeyEvents();
+            m_keyEventListener.setListening();
+        }
+        unsigned int keyCode = KeyEvent::getKeyCode(t_mods, t_key, t_keyEventType);
+        m_keyEventListener.setKeyCallback(keyCode, std::move(t_callback));
     }
 
     int Application::initialize()

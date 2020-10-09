@@ -1,4 +1,4 @@
-#include "glException.hpp"
+#include "openGL/glException.hpp"
 #include "glad/glad.h"
 
 #include <iostream>

@@ -2,8 +2,8 @@
 #include "triangle.hpp"
 #include "triangle2D.hpp"
 #include "texture.hpp"
-#include "vertexArray.hpp"
-#include "indexBuffer.hpp"
+#include "openGL/vertexArray.hpp"
+#include "openGL/indexBuffer.hpp"
 #include "shader.hpp"
 #include <vector>
 #include <tuple>

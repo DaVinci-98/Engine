@@ -1,9 +1,12 @@
 #pragma once
 
-#include <window.hpp>
+#include "window.hpp"
+#include "event/event.hpp"
+#include "event/keyEventListener.hpp"
 
 #include <iostream>
 #include <memory>
+#include <unordered_map>
 
 namespace MyEngine
 {
@@ -28,11 +31,17 @@ namespace MyEngine
         // Called after main loop ends.
         virtual bool onLoopEnd() { return true; };
 
+        void setKeyCallback(std::function<void(KeyEvent&)>&& t_callback, KeyEvent::Key t_key, 
+            KeyEvent::KeyEventType t_keyEventType = KeyEvent::KeyEventType::keyPressedEvent, 
+            KeyEvent::KeyMods t_mods = KeyEvent::KeyMods::none);
+
         std::string title() const { return m_window.title(); }
         int screenWidth() const { return m_window.screenWidth(); }
         int screenHeight() const { return m_window.screenHeight(); }
     private:
+        void onEvent(Event&& event);
         Window m_window;
+        KeyEventListener m_keyEventListener;
     };
 
     std::unique_ptr<Application> CreateApplication();

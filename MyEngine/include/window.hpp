@@ -1,7 +1,13 @@
 #pragma once
 
+#include "event/event.hpp"
+#include "event/keyEvent.hpp"
+#include "event/mouseKeyEvent.hpp"
+#include "event/mouseMoveEvent.hpp"
+
 #include <GLFW/glfw3.h>
 #include <string>
+#include <functional>
 
 namespace MyEngine
 {
@@ -10,6 +16,8 @@ namespace MyEngine
         std::string m_title = "";
         int m_screenWidth = 0;
         int m_screenHeight = 0;
+
+        std::function<void(Event&&)> m_eventCallback; 
     };
     
 
@@ -23,6 +31,11 @@ namespace MyEngine
         void pollEvents() const;
         void draw() const;
         bool isActive() const;
+
+        void listenForAllEvents() const;
+        void listenForKeyEvents() const;
+        void listenForMouseKeyEvents() const;
+        void listenForMouseMoveEvents() const;
 
         std::string title() const { return m_params.m_title; }
         int screenWidth() const { return m_params.m_screenWidth; }

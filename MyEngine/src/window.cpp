@@ -1,8 +1,60 @@
 #include "window.hpp"
-#include "glException.hpp"
+
+#include <iostream>
 
 namespace MyEngine
 {
+    void Window::listenForAllEvents() const
+    {
+        listenForKeyEvents();
+        listenForMouseKeyEvents();
+        listenForMouseMoveEvents();
+    }
+
+    void Window::listenForKeyEvents() const
+    {
+        auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
+        {
+            WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
+
+            if(t_key < 0 || t_action < 0 || t_mods < 0) return;
+
+            KeyEvent::KeyMods mods = static_cast<KeyEvent::KeyMods>(t_mods);
+            KeyEvent::Key key = static_cast<KeyEvent::Key>(t_key);
+            KeyEvent::KeyEventType keyEventType = static_cast<KeyEvent::KeyEventType>(t_action);
+            
+            unsigned int keyCode = KeyEvent::getKeyCode(mods, key, keyEventType);
+
+            user->m_eventCallback(KeyEvent(keyCode));
+        };
+
+        glfwSetKeyCallback(m_window, callback);
+    }
+
+    void Window::listenForMouseKeyEvents() const
+    {
+        // TODO
+        // auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
+        // {
+        //     WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
+        //     MouseKeyEvent event;
+        //     user->m_eventCallback(std::move(event));
+        // };
+        // glfwSetKeyCallback(m_window, callback);
+    }
+
+    void Window::listenForMouseMoveEvents() const
+    {
+        // TODO
+        // auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
+        // {
+        //     WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
+        //     MouseMoveEvent event;
+        //     user->m_eventCallback(std::move(event));
+        // };
+        // glfwSetKeyCallback(m_window, callback);
+    }
+
     void Window::pollEvents() const
     {
         glfwPollEvents();
@@ -25,6 +77,7 @@ namespace MyEngine
         m_params.m_title = t_params.m_title;
         m_params.m_screenWidth = t_params.m_screenWidth;
         m_params.m_screenHeight = t_params.m_screenHeight;
+        m_params.m_eventCallback = t_params.m_eventCallback;
     }
 
     bool Window::initializeWindow()
@@ -45,23 +98,22 @@ namespace MyEngine
         glfwMakeContextCurrent(m_window);
 
         glfwSwapInterval(1);
+
+        glfwSetWindowUserPointer(m_window, &m_params);
+
+        listenForAllEvents();
+
+        glfwSetInputMode(m_window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
         
         return true;
     }
 
     Window::~Window()
     {
-        try
-        {   
-            if(initialzed())
-            {
-                glfwDestroyWindow(m_window);
-                glfwTerminate();
-            }
-        }
-        catch(GlException& e)
+        if(initialzed())
         {
-            e.printErrors();
+            glfwDestroyWindow(m_window);
+            glfwTerminate();
         }
     }
 
