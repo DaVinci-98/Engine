@@ -1,6 +1,6 @@
 #include "glad/glad.h"
 
-#include "shader.hpp"
+#include "openGL/shader.hpp"
 #include "openGL/glException.hpp"
 
 #include <exception>

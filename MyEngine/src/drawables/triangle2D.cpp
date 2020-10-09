@@ -1,4 +1,4 @@
-#include "triangle2D.hpp"
+#include "drawables/triangle2D.hpp"
 
 namespace MyEngine
 {

@@ -1,10 +1,12 @@
 #pragma once
-#include "triangle.hpp"
-#include "triangle2D.hpp"
-#include "texture.hpp"
+
+#include "drawables/triangle.hpp"
+#include "drawables/triangle2D.hpp"
+#include "openGL/texture.hpp"
 #include "openGL/vertexArray.hpp"
 #include "openGL/indexBuffer.hpp"
-#include "shader.hpp"
+#include "openGL/shader.hpp"
+
 #include <vector>
 #include <tuple>
 #include <array>

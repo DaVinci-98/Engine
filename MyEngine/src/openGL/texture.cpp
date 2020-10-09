@@ -1,6 +1,6 @@
 #include "glad/glad.h"
 
-#include "texture.hpp"
+#include "openGL/texture.hpp"
 #include "openGL/glException.hpp"
 #include "stb_image.h"
 

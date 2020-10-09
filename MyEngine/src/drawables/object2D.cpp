@@ -1,5 +1,5 @@
-#include "object2D.hpp"
-#include "zip.hpp"
+#include "drawables/object2D.hpp"
+#include "helpers/zip.hpp"
 #include <iostream>
 #include <algorithm>
 

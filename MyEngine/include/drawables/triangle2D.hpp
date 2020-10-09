@@ -1,5 +1,7 @@
 #pragma once
-#include "triangle.hpp"
+
+#include "drawables/triangle.hpp"
+
 #include <array>
 #include <iostream>
 

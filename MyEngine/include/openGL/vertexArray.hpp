@@ -1,7 +1,7 @@
 #pragma once
 
-#include "vertexBuffer.hpp"
-#include "vertexBufferLayout.hpp"
+#include "openGL/vertexBuffer.hpp"
+#include "openGL/vertexBufferLayout.hpp"
 
 namespace MyEngine
 {

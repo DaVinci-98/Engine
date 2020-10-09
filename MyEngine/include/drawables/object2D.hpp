@@ -1,6 +1,7 @@
 #pragma once
-#include "object.hpp"
-#include "triangle2D.hpp"
+
+#include "drawables/object.hpp"
+#include "drawables/triangle2D.hpp"
 
 #include <memory>
 

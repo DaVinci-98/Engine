@@ -2,9 +2,10 @@
 
 #include "application.hpp"
 #include "entryPoint.hpp"
-#include "renderer.hpp"
-#include "object2D.hpp"
-#include "triangle2D.hpp"
+#include "openGL/renderer.hpp"
+
+#include "drawables/object2D.hpp"
+#include "drawables/triangle2D.hpp"
 
 #include "event/keyEvent.hpp"
 #include "event/mouseKeyEvent.hpp"
