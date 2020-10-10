@@ -45,7 +45,6 @@ project "MyEngine"
     links{
         "glfw",
         "GL", 
-        "GLU", 
         "Glad",
         "ImGui",
         "stb"
@@ -64,7 +63,8 @@ project "ImGui"
     }
 
     includedirs{
-        "%{prj.location}/include"
+        "%{prj.location}/include",
+        "vendor/Glad/include"
     }
 
     filter{"system:linux"}
