@@ -1,6 +1,6 @@
 #pragma once
 
-#include "event/keyEvent.hpp"
+#include "keyEvent.hpp"
 
 #include <unordered_map>
 #include <functional>

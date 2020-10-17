@@ -1,9 +1,9 @@
 #pragma once
 
-#include "event/event.hpp"
-#include "event/keyEvent.hpp"
-#include "event/mouseKeyEvent.hpp"
-#include "event/mouseMoveEvent.hpp"
+#include "event.hpp"
+#include "keyEvent.hpp"
+#include "mouseKeyEvent.hpp"
+#include "mouseMoveEvent.hpp"
 
 #include <GLFW/glfw3.h>
 #include <string>

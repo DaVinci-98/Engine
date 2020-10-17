@@ -1,7 +1,7 @@
 #include "glad/glad.h"
 
-#include "openGL/vertexBuffer.hpp"
-#include "openGL/glException.hpp"
+#include "vertexBuffer.hpp"
+#include "glException.hpp"
 
 #include <array>
 #include <iostream>

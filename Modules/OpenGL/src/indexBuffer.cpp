@@ -1,7 +1,7 @@
 #include "glad/glad.h"
 
-#include "openGL/indexBuffer.hpp"
-#include "openGL/glException.hpp"
+#include "indexBuffer.hpp"
+#include "glException.hpp"
 
 #include <array>
 #include <iostream>

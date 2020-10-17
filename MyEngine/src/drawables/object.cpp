@@ -1,9 +1,9 @@
 #include "glad/glad.h"
 
-#include "openGL/glException.hpp"
+#include "glException.hpp"
 #include "drawables/object.hpp"
-#include "openGL/vertexBuffer.hpp"
-#include "openGL/vertexBufferLayout.hpp"
+#include "vertexBuffer.hpp"
+#include "vertexBufferLayout.hpp"
 
 #include <algorithm>
 #include <iostream>

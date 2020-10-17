@@ -2,10 +2,10 @@
 
 #include "drawables/triangle.hpp"
 #include "drawables/triangle2D.hpp"
-#include "openGL/texture.hpp"
-#include "openGL/vertexArray.hpp"
-#include "openGL/indexBuffer.hpp"
-#include "openGL/shader.hpp"
+#include "texture.hpp"
+#include "vertexArray.hpp"
+#include "indexBuffer.hpp"
+#include "shader.hpp"
 
 #include <vector>
 #include <tuple>

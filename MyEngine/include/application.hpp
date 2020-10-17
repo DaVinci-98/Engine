@@ -1,8 +1,8 @@
 #pragma once
 
 #include "window.hpp"
-#include "event/event.hpp"
-#include "event/keyEventListener.hpp"
+#include "event.hpp"
+#include "keyEventListener.hpp"
 
 #include <iostream>
 #include <memory>

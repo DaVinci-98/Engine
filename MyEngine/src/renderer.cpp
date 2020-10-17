@@ -1,7 +1,7 @@
 #include "glad/glad.h"
 
-#include "openGL/renderer.hpp"
-#include "openGL/glException.hpp"
+#include "renderer.hpp"
+#include "glException.hpp"
 #include "drawables/object.hpp"
 
 namespace MyEngine

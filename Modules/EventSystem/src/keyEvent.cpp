@@ -1,4 +1,4 @@
-#include "event/keyEvent.hpp"
+#include "keyEvent.hpp"
 
 namespace MyEngine
 {

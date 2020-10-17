@@ -37,9 +37,11 @@ project "MyEngine"
 
     includedirs{
         "%{prj.location}/include",
-        "vendor/stb/include",
-        "vendor/ImGui/include",
-        "vendor/Glad/include"
+        "Vendor/stb/include",
+        "Vendor/ImGui/include",
+        "Vendor/Glad/include",
+        "Modules/OpenGL/include",
+        "Modules/EventSystem/include",
     }
 
     links{
@@ -47,13 +49,58 @@ project "MyEngine"
         "GL", 
         "Glad",
         "ImGui",
-        "stb"
+        "stb",
+        "OpenGL",
+        "EventSystem"
     }
+
+project "OpenGL"
+    kind "StaticLib"
+    language "C++"
+    
+    location "Modules/%{prj.name}"
+    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
+    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
+
+    files {
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/include/**.hpp"
+    }
+
+    includedirs{
+        "%{prj.location}/include",
+        "Vendor/Glad/include",
+        "Vendor/stb/include"
+    }
+
+    filter{"system:linux"}
+        buildoptions{"-fPIC"}
+
+project "EventSystem"
+    kind "StaticLib"
+    language "C++"
+    
+    location "Modules/%{prj.name}"
+    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
+    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
+
+    files {
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/include/**.hpp"
+    }
+
+    includedirs{
+        "%{prj.location}/include",
+        "Vendor/Glad/include"
+    }
+
+    filter{"system:linux"}
+        buildoptions{"-fPIC"}
 
 project "ImGui"
     kind "StaticLib"
     language "C++"
-    location "vendor/%{prj.name}"
+    location "Vendor/%{prj.name}"
     targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
     objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
 
@@ -64,7 +111,7 @@ project "ImGui"
 
     includedirs{
         "%{prj.location}/include",
-        "vendor/Glad/include"
+        "Vendor/Glad/include"
     }
 
     filter{"system:linux"}
@@ -75,7 +122,7 @@ project "ImGui"
 project "stb"
     kind "StaticLib"
     language "C++"
-    location "vendor/%{prj.name}"
+    location "Vendor/%{prj.name}"
     targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
     objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
 
@@ -96,7 +143,7 @@ project "stb"
 project "Glad"
     kind "StaticLib"
     language "C++"
-    location "vendor/%{prj.name}"
+    location "Vendor/%{prj.name}"
     targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
     objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
 
