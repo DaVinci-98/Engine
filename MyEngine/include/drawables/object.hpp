@@ -31,10 +31,10 @@ namespace MyEngine
         bool toVAO();
 
         bool isTextured() const { return m_texture != nullptr; }
-        VertexArray & vertexArray() const { return *m_vertexArray; }
-        IndexBuffer & indexBuffer() const { return *m_indexBuffer; }
-        Shader & shader() const { return *m_shader; }
-        Texture & texture() const { return *m_texture; }
+        OpenGL::VertexArray & vertexArray() const { return *m_vertexArray; }
+        OpenGL::IndexBuffer & indexBuffer() const { return *m_indexBuffer; }
+        OpenGL::Shader & shader() const { return *m_shader; }
+        OpenGL::Texture & texture() const { return *m_texture; }
 
     protected:
         virtual void triangleToVAO(std::unique_ptr<Triangle> const& t_triangle) = 0;
@@ -43,13 +43,13 @@ namespace MyEngine
         std::vector<unsigned int> m_indecies;
         std::vector<std::vector<float> > m_buffer;
 
-        std::unique_ptr<Texture> m_texture;
-        std::unique_ptr<Shader> m_shader;
-        std::unique_ptr<VertexArray> m_vertexArray;
-        std::unique_ptr<IndexBuffer> m_indexBuffer;
+        std::unique_ptr<OpenGL::Texture> m_texture;
+        std::unique_ptr<OpenGL::Shader> m_shader;
+        std::unique_ptr<OpenGL::VertexArray> m_vertexArray;
+        std::unique_ptr<OpenGL::IndexBuffer> m_indexBuffer;
 
     private:
 
-        std::vector<std::unique_ptr<VertexBuffer> > m_buffers;
+        std::vector<std::unique_ptr<OpenGL::VertexBuffer> > m_buffers;
     };
 }

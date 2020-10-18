@@ -25,9 +25,9 @@ namespace MyEngine
 
         try
         {
-            m_vertexArray = std::make_unique<VertexArray>();
-            m_buffers.push_back(std::make_unique<VertexBuffer>(buffer));
-            VertexBufferLayout layout;
+            m_vertexArray = std::make_unique<OpenGL::VertexArray>();
+            m_buffers.push_back(std::make_unique<OpenGL::VertexBuffer>(buffer));
+            OpenGL::VertexBufferLayout layout;
 
             // Get a layout of vertecies in traingles
             auto triangleLayout = triangles.front()->layout();
@@ -38,17 +38,17 @@ namespace MyEngine
 
             // Make vertex array and index buffer
             m_vertexArray -> addBuffer(*m_buffers.back(), layout);
-            m_indexBuffer = std::make_unique<IndexBuffer>(m_indecies);
+            m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indecies);
             
             // Load shaders
-            std::vector<ShaderFile> files 
+            std::vector<OpenGL::ShaderFile> files 
             {
-                ShaderFile {"Sandbox/res/shaders/basicVertex.shader", GL_VERTEX_SHADER },
-                ShaderFile {"Sandbox/res/shaders/basicFragment.shader", GL_FRAGMENT_SHADER }
+                OpenGL::ShaderFile {"Sandbox/res/shaders/basicVertex.shader", GL_VERTEX_SHADER },
+                OpenGL::ShaderFile {"Sandbox/res/shaders/basicFragment.shader", GL_FRAGMENT_SHADER }
             };
-            m_shader = std::make_unique<Shader>(files);
+            m_shader = std::make_unique<OpenGL::Shader>(files);
         }
-        catch(GlException &e)
+        catch(OpenGL::GlException &e)
         {
             e.printErrors();
             return false;

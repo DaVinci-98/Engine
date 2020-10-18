@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     VertexArray::VertexArray()
     {

@@ -17,7 +17,7 @@ namespace MyEngine
         int m_screenWidth = 0;
         int m_screenHeight = 0;
 
-        std::function<void(Event&&)> m_eventCallback; 
+        std::function<void(EventSystem::Event&&)> m_eventCallback; 
     };
     
 

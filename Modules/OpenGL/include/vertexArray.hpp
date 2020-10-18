@@ -3,7 +3,7 @@
 #include "vertexBuffer.hpp"
 #include "vertexBufferLayout.hpp"
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     // Abstraction for openGL buffer object.
     // Vertex data with applied layout

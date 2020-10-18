@@ -3,7 +3,7 @@
 #include <array>
 #include <vector>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     // Abstraction for openGL buffer object.
     // Identifies which vertecies belong to a triangle,

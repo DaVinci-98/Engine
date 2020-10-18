@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     Texture::Texture(std::string const& t_filePath)
         : m_filePath(t_filePath)

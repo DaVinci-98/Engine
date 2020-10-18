@@ -2,7 +2,7 @@
 
 #include "event.hpp"
 
-namespace MyEngine
+namespace MyEngine::EventSystem
 {
     class KeyEvent: public Event
     {

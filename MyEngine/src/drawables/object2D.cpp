@@ -18,7 +18,7 @@ namespace MyEngine
 
         bool textured = m_texture != nullptr;
         if(textured) m_texture.reset();
-        m_texture = std::make_unique<Texture>(path);
+        m_texture = std::make_unique<OpenGL::Texture>(path);
 
 
         unsigned int tex_stride = t_coordinates.front().vertecies().size() / 3;

@@ -1,6 +1,6 @@
 #include "event.hpp"
 
-namespace MyEngine
+namespace MyEngine::EventSystem
 {
 
 }

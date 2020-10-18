@@ -13,7 +13,7 @@ namespace MyEngine
             GL_CALL(glClear(GL_COLOR_BUFFER_BIT));
             return true;
         }
-        catch(GlException& e)
+        catch(OpenGL::GlException& e)
         {
             e.printErrors();
             return false;
@@ -38,7 +38,7 @@ namespace MyEngine
             GL_CALL(glDrawElements(GL_TRIANGLES, t_object.indexBuffer().count(), GL_UNSIGNED_INT, nullptr));
             return true;
         }
-        catch(GlException& e)
+        catch(OpenGL::GlException& e)
         {
             e.printErrors();
             return false;

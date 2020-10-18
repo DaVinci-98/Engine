@@ -7,7 +7,7 @@
 #include <iostream>
 #include <algorithm>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     Shader::Shader(std::vector<ShaderFile> const& t_files)
     {

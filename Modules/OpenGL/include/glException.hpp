@@ -5,12 +5,12 @@
 #include <vector>
 
 #define GL_CALL(x) \
-    MyEngine::GlException::glClearError();\
+    MyEngine::OpenGL::GlException::glClearError();\
     x;\
-    MyEngine::GlException::glLogErrors(#x, __FILE__, __LINE__);
+    MyEngine::OpenGL::GlException::glLogErrors(#x, __FILE__, __LINE__);
 
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     struct ErrorMessage
     {

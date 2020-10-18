@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     // Stores a texture
     class Texture

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace MyEngine
+namespace MyEngine::EventSystem
 {
     class Event
     {

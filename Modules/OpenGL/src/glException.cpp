@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     void GlException::printErrors() const
     {

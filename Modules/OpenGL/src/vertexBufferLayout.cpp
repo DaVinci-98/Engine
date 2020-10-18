@@ -5,7 +5,7 @@
 #include <exception>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     template<typename T> 
     void VertexBufferLayout::push(size_t t_count)

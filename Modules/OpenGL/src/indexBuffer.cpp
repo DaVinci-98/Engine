@@ -6,7 +6,7 @@
 #include <array>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {    
     IndexBuffer::IndexBuffer(std::vector<unsigned int> const& t_data)
         : m_count(t_data.size())

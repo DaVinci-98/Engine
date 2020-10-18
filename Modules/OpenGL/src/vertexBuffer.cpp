@@ -6,7 +6,7 @@
 #include <array>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {   
     VertexBuffer::VertexBuffer(std::vector<float>const& t_data)
     {

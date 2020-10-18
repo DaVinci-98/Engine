@@ -4,14 +4,12 @@
 #include "texture.hpp"
 #include "shader.hpp"
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     class Framework
     {
     public:
-        void initialize(); 
-        void updateVertexArray();
-        unsigned int loadTexture(std::string& path);
-
+        static void initialize(); 
+        static void close();
     };
 }

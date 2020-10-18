@@ -25,7 +25,7 @@ namespace MyEngine
         params.m_screenWidth = t_w;
         params.m_screenHeight = t_h;
 
-        params.m_eventCallback = [&](Event&& t_event) -> void
+        params.m_eventCallback = [&](EventSystem::Event&& t_event) -> void
         {
             this->onEvent(std::move(t_event));
         };
@@ -33,26 +33,28 @@ namespace MyEngine
         m_window.setParams(std::move(params));
     }
 
-    void Application::onEvent(Event&& t_event)
+    void Application::onEvent(EventSystem::Event&& t_event)
     {
         switch(t_event.eventType())
         {
-            case Event::EventType::keyEvent:
-                KeyEvent& keyEvent = static_cast<KeyEvent&>(t_event);
+            case EventSystem::Event::EventType::keyEvent:
+                EventSystem::KeyEvent& keyEvent = static_cast<EventSystem::KeyEvent&>(t_event);
                 m_keyEventListener.dispatch(std::move(keyEvent));
                 break;
         }
     }
 
-    void Application::setKeyCallback(std::function<void(KeyEvent&)>&& t_callback, 
-            KeyEvent::Key t_key, KeyEvent::KeyEventType t_keyEventType, KeyEvent::KeyMods t_mods)
+    void Application::setKeyCallback(std::function<void(EventSystem::KeyEvent&)>&& t_callback, 
+            EventSystem::KeyEvent::Key t_key, 
+            EventSystem::KeyEvent::KeyEventType t_keyEventType, 
+            EventSystem::KeyEvent::KeyMods t_mods)
     {
         if(!m_keyEventListener.isListening())
         {
             m_window.listenForKeyEvents();
             m_keyEventListener.setListening();
         }
-        unsigned int keyCode = KeyEvent::getKeyCode(t_mods, t_key, t_keyEventType);
+        unsigned int keyCode = EventSystem::KeyEvent::getKeyCode(t_mods, t_key, t_keyEventType);
         m_keyEventListener.setKeyCallback(keyCode, std::move(t_callback));
     }
 

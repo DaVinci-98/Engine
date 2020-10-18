@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     // Layout of vertecies in vertex buffer
     struct VertexBufferElement

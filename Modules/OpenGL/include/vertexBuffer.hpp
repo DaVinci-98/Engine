@@ -4,7 +4,7 @@
 #include <any>
 #include <vector>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     // Abstraction for openGL buffer object.
     // Vertex data is stored into GPU memory.

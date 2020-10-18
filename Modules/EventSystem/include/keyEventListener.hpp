@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace MyEngine
+namespace MyEngine::EventSystem
 {
     class KeyEventListener
     {

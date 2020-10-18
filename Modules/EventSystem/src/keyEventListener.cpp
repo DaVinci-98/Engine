@@ -1,6 +1,6 @@
 #include "keyEventListener.hpp"
 
-namespace MyEngine
+namespace MyEngine::EventSystem
 {
     void KeyEventListener::dispatch(KeyEvent&& t_keyEvent)
     {

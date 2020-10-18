@@ -7,7 +7,7 @@
 #include <array>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::OpenGL
 {
     struct ShaderFile
     {

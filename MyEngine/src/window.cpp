@@ -19,13 +19,13 @@ namespace MyEngine
 
             if(t_key < 0 || t_action < 0 || t_mods < 0) return;
 
-            KeyEvent::KeyMods mods = static_cast<KeyEvent::KeyMods>(t_mods);
-            KeyEvent::Key key = static_cast<KeyEvent::Key>(t_key);
-            KeyEvent::KeyEventType keyEventType = static_cast<KeyEvent::KeyEventType>(t_action);
+            EventSystem::KeyEvent::KeyMods mods = static_cast<EventSystem::KeyEvent::KeyMods>(t_mods);
+            EventSystem::KeyEvent::Key key = static_cast<EventSystem::KeyEvent::Key>(t_key);
+            EventSystem::KeyEvent::KeyEventType keyEventType = static_cast<EventSystem::KeyEvent::KeyEventType>(t_action);
             
-            unsigned int keyCode = KeyEvent::getKeyCode(mods, key, keyEventType);
+            unsigned int keyCode = EventSystem::KeyEvent::getKeyCode(mods, key, keyEventType);
 
-            user->m_eventCallback(KeyEvent(keyCode));
+            user->m_eventCallback(EventSystem::KeyEvent(keyCode));
         };
 
         glfwSetKeyCallback(m_window, callback);
