@@ -4,8 +4,8 @@
 #include "entryPoint.hpp"
 #include "renderer.hpp"
 
-#include "drawables/object2D.hpp"
-#include "drawables/triangle2D.hpp"
+#include "object2D.hpp"
+#include "triangle2D.hpp"
 
 #include "keyEvent.hpp"
 #include "mouseKeyEvent.hpp"

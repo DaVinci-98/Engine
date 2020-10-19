@@ -9,7 +9,7 @@
 #include <string>
 #include <functional>
 
-namespace MyEngine
+namespace MyEngine::Glfw
 {
     struct WindowParams
     {

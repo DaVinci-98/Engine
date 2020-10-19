@@ -1,11 +1,11 @@
 #pragma once
 
-#include "drawables/object.hpp"
-#include "drawables/triangle2D.hpp"
+#include "object.hpp"
+#include "triangle2D.hpp"
 
 #include <memory>
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     // Arbitrary 2D object
     class Object2D : public Object

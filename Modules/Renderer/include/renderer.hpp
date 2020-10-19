@@ -1,9 +1,9 @@
 #pragma once
 
-#include "drawables/object.hpp"
+#include "object.hpp"
 #include <memory>
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     // Responsible for rendering.
     class Renderer

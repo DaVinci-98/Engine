@@ -1,7 +1,7 @@
 #pragma once
 
-#include "drawables/triangle.hpp"
-#include "drawables/triangle2D.hpp"
+#include "triangle.hpp"
+#include "triangle2D.hpp"
 #include "texture.hpp"
 #include "vertexArray.hpp"
 #include "indexBuffer.hpp"
@@ -12,7 +12,7 @@
 #include <array>
 #include <memory>
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     // Base class for an arbitrary displayable object
     class Object

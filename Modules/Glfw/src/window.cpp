@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::Glfw
 {
     void Window::listenForAllEvents() const
     {

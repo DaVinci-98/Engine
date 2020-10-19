@@ -1,8 +1,8 @@
 #pragma once
 
-#include "drawables/mesh.hpp"
+#include "mesh.hpp"
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     class Mesh2D: public Mesh
     {

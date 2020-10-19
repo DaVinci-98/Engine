@@ -40,7 +40,7 @@ namespace MyEngine
         int screenHeight() const { return m_window.screenHeight(); }
     private:
         void onEvent(EventSystem::Event&& event);
-        Window m_window;
+        Glfw::Window m_window;
         EventSystem::KeyEventListener m_keyEventListener;
     };
 

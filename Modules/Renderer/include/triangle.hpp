@@ -4,7 +4,7 @@
 #include <array>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     // Base class for a triangle.
     class Triangle

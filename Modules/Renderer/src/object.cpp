@@ -1,14 +1,14 @@
 #include "glad/glad.h"
 
 #include "glException.hpp"
-#include "drawables/object.hpp"
+#include "object.hpp"
 #include "vertexBuffer.hpp"
 #include "vertexBufferLayout.hpp"
 
 #include <algorithm>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     bool Object::toVAO()
     {   

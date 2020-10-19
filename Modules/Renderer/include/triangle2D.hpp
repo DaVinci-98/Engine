@@ -1,11 +1,11 @@
 #pragma once
 
-#include "drawables/triangle.hpp"
+#include "triangle.hpp"
 
 #include <array>
 #include <iostream>
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     // Represents a triangle in 2D object.
     class Triangle2D : public Triangle

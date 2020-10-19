@@ -2,9 +2,9 @@
 
 #include "renderer.hpp"
 #include "glException.hpp"
-#include "drawables/object.hpp"
+#include "object.hpp"
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     bool Renderer::clear() const
     {

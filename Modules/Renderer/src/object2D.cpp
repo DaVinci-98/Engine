@@ -1,9 +1,9 @@
-#include "drawables/object2D.hpp"
-#include "helpers/zip.hpp"
+#include "object2D.hpp"
+#include "zip.hpp"
 #include <iostream>
 #include <algorithm>
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     bool Object2D::pushTriangle(Triangle2D const& t_triangle)
     {
@@ -25,7 +25,7 @@ namespace MyEngine
         
         // Map texture on individual triangles
         // Version with zip
-        auto zip = std::move(Zip::Zip2(t_coordinates, m_triangles));
+        auto zip = std::move(Helpers::Zip::Zip2(t_coordinates, m_triangles));
         for(auto const& [coordinates, triangle] : zip)
         {
             float tex_a_x = coordinates.get().vertecies()[0];

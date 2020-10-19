@@ -1,6 +1,6 @@
-#include "drawables/triangle2D.hpp"
+#include "triangle2D.hpp"
 
-namespace MyEngine
+namespace MyEngine::Renderer
 {
     Triangle2D::Triangle2D(float t_ax, float t_bx, float t_cx,
                            float t_ay, float t_by, float t_cy)

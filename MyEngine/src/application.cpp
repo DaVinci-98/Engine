@@ -20,7 +20,7 @@ namespace MyEngine
 {
     Application::Application(std::string& t_title, int t_w, int t_h)
     {
-        WindowParams params;
+        Glfw::WindowParams params;
         params.m_title = t_title;
         params.m_screenWidth = t_w;
         params.m_screenHeight = t_h;
