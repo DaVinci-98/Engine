@@ -1,26 +1,21 @@
 #pragma once
 
+#include <typeinfo>
+
 namespace MyEngine::EventSystem
 {
+    template <class Derived>
     class Event
     {
     public:
-        enum EventType
-        {
-            keyEvent,
-            mouseMoveEvent,
-            mouseKeyEvent
-        };
+        inline void handle() { m_handled = true; }
+        inline bool isHandled() const { return m_handled; }
+        static inline auto type() { return typeid(Derived); }
 
-        Event(EventType t_eventType)
-            : m_eventType(t_eventType) { }
-            
-        EventType eventType() const { return m_eventType; }
-        void handle() { m_handled = true; }
-        bool isHandled() const { return m_handled; }
+    protected:
+        Event() { }
 
     private:
-        EventType m_eventType;
         bool m_handled;
     };
 }

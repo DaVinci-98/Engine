@@ -4,6 +4,7 @@
 #include "keyEvent.hpp"
 #include "mouseKeyEvent.hpp"
 #include "mouseMoveEvent.hpp"
+#include "keyEventEmitter.hpp"
 
 #include <GLFW/glfw3.h>
 #include <string>
@@ -17,7 +18,7 @@ namespace MyEngine::Glfw
         int m_screenWidth = 0;
         int m_screenHeight = 0;
 
-        std::function<void(EventSystem::Event&&)> m_eventCallback; 
+        KeyEventEmitter m_keyEventEmitter;
     };
     
 
@@ -32,7 +33,6 @@ namespace MyEngine::Glfw
         void draw() const;
         bool isActive() const;
 
-        void listenForAllEvents() const;
         void listenForKeyEvents() const;
         void listenForMouseKeyEvents() const;
         void listenForMouseMoveEvents() const;

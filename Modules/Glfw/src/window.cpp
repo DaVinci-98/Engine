@@ -4,13 +4,6 @@
 
 namespace MyEngine::Glfw
 {
-    void Window::listenForAllEvents() const
-    {
-        listenForKeyEvents();
-        listenForMouseKeyEvents();
-        listenForMouseMoveEvents();
-    }
-
     void Window::listenForKeyEvents() const
     {
         auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
@@ -19,13 +12,11 @@ namespace MyEngine::Glfw
 
             if(t_key < 0 || t_action < 0 || t_mods < 0) return;
 
-            EventSystem::KeyEvent::KeyMods mods = static_cast<EventSystem::KeyEvent::KeyMods>(t_mods);
-            EventSystem::KeyEvent::Key key = static_cast<EventSystem::KeyEvent::Key>(t_key);
-            EventSystem::KeyEvent::KeyEventType keyEventType = static_cast<EventSystem::KeyEvent::KeyEventType>(t_action);
+            KeyEvent::KeyMods mods = static_cast<KeyEvent::KeyMods>(t_mods);
+            KeyEvent::Key key = static_cast<KeyEvent::Key>(t_key);
+            KeyEvent::KeyEventType keyEventType = static_cast<KeyEvent::KeyEventType>(t_action);
             
-            unsigned int keyCode = EventSystem::KeyEvent::getKeyCode(mods, key, keyEventType);
-
-            user->m_eventCallback(EventSystem::KeyEvent(keyCode));
+            user -> m_keyEventEmitter.sendEvent(mods, key, keyEventType);
         };
 
         glfwSetKeyCallback(m_window, callback);
@@ -77,7 +68,7 @@ namespace MyEngine::Glfw
         m_params.m_title = t_params.m_title;
         m_params.m_screenWidth = t_params.m_screenWidth;
         m_params.m_screenHeight = t_params.m_screenHeight;
-        m_params.m_eventCallback = t_params.m_eventCallback;
+        m_params.m_keyEventEmitter = t_params.m_keyEventEmitter;
     }
 
     bool Window::initializeWindow()
@@ -101,8 +92,10 @@ namespace MyEngine::Glfw
 
         glfwSetWindowUserPointer(m_window, &m_params);
 
-        listenForAllEvents();
-
+        listenForKeyEvents();
+        listenForMouseKeyEvents();
+        listenForMouseMoveEvents();
+        
         glfwSetInputMode(m_window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
         
         return true;

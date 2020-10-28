@@ -1,6 +1,6 @@
 #include "keyEvent.hpp"
 
-namespace MyEngine::EventSystem
+namespace MyEngine::Glfw
 {
     unsigned int KeyEvent::getKeyCode(KeyMods& t_mods, Key& t_key, KeyEventType& t_keyEventType)
     {

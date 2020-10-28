@@ -2,9 +2,9 @@
 
 #include "event.hpp"
 
-namespace MyEngine::EventSystem
+namespace MyEngine::Glfw
 {
-    class KeyEvent: public Event
+    class KeyEvent: public EventSystem::Event<KeyEvent>
     {
     public:
         enum KeyEventType
@@ -153,9 +153,9 @@ namespace MyEngine::EventSystem
         };
 
         KeyEvent(int t_keyCode)
-            : m_keyCode(t_keyCode), Event(EventType::keyEvent) { }
+            : m_keyCode(t_keyCode) { }
         KeyEvent(KeyMods& t_mods, Key& t_key, KeyEventType& t_keyEventType)
-            : Event(EventType::keyEvent), m_keyCode(getKeyCode(t_mods, t_key, t_keyEventType)) { }
+            : m_keyCode(getKeyCode(t_mods, t_key, t_keyEventType)) { }
         
         bool checkKeyEventType(KeyEventType& t_keyEventType) const;
         bool ckeckKeyMod(KeyMods& t_keyMods) const;
