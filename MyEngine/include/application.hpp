@@ -1,9 +1,8 @@
 #pragma once
 
-#include "window.hpp"
-#include "event.hpp"
-#include "keyEventListener.hpp"
-#include "eventManager.hpp"
+#include "Glfw/window.hpp"
+#include "Glfw/keyEventListener.hpp"
+#include "EventSystem/event.hpp"
 
 #include <iostream>
 #include <memory>
@@ -31,16 +30,15 @@ namespace MyEngine
         virtual bool onLoop() = 0;
         // Called after main loop ends.
         virtual bool onLoopEnd() { return true; };
-
-        template<typename EventType>
-        void setListener(EventSystem::EventListener<EventType>&& t_listener);
         
-        std::string title() const { return m_window.title(); }
-        int screenWidth() const { return m_window.screenWidth(); }
-        int screenHeight() const { return m_window.screenHeight(); }
+        inline std::string title() const { return m_window.title(); }
+        inline int screenWidth() const { return m_window.screenWidth(); }
+        inline int screenHeight() const { return m_window.screenHeight(); }
+
+        inline Glfw::KeyEventListener& keyEventListener() { return m_keyEventListener; }
     private:
         Glfw::Window m_window;
-        EventSystem::EventManager<Glfw::KeyEvent> m_keyEventManager;
+        Glfw::KeyEventListener m_keyEventListener;
     };
 
     std::unique_ptr<Application> CreateApplication();

@@ -39,11 +39,7 @@ project "MyEngine"
         "%{prj.location}/include",
         "Vendor/stb/include",
         "Vendor/ImGui/include",
-        "Vendor/Glad/include",
-        "Modules/OpenGL/include",
-        "Modules/EventSystem/include",
-        "Modules/Glfw/include",
-        "Modules/Renderer/include",
+        "Vendor/Glad/include"
     }
 
     links{
@@ -51,120 +47,9 @@ project "MyEngine"
         "GL", 
         "Glad",
         "ImGui",
-        "stb",
-        "OpenGL",
-        "EventSystem",
-        "Glfw",
-        "Renderer",
-        "Helpers"
+        "stb"
     }
 
-project "OpenGL"
-    kind "StaticLib"
-    language "C++"
-    
-    location "Modules/%{prj.name}"
-    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
-    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
-
-    files {
-        "%{prj.location}/src/**.cpp",
-        "%{prj.location}/include/**.hpp"
-    }
-
-    includedirs{
-        "%{prj.location}/include",
-        "Vendor/Glad/include",
-        "Vendor/stb/include"
-    }
-
-    filter{"system:linux"}
-        buildoptions{"-fPIC"}
-
-project "Helpers"
-    kind "StaticLib"
-    language "C++"
-    
-    location "Modules/%{prj.name}"
-    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
-    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
-
-    files {
-        "%{prj.location}/src/**.cpp",
-        "%{prj.location}/include/**.hpp"
-    }
-
-    includedirs{
-        "%{prj.location}/include"
-    }
-
-    filter{"system:linux"}
-        buildoptions{"-fPIC"}
-
-project "Renderer"
-    kind "StaticLib"
-    language "C++"
-    
-    location "Modules/%{prj.name}"
-    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
-    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
-
-    files {
-        "%{prj.location}/src/**.cpp",
-        "%{prj.location}/include/**.hpp"
-    }
-
-    includedirs{
-        "%{prj.location}/include",
-        "Vendor/Glad/include",
-        "Modules/OpenGL/include",
-        "Modules/Helpers/include",
-    }
-
-    filter{"system:linux"}
-        buildoptions{"-fPIC"}
-
-project "Glfw"
-    kind "StaticLib"
-    language "C++"
-    
-    location "Modules/%{prj.name}"
-    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
-    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
-
-    files {
-        "%{prj.location}/src/**.cpp",
-        "%{prj.location}/include/**.hpp"
-    }
-
-    includedirs{
-        "%{prj.location}/include",
-        "Modules/EventSystem/include"
-    }
-
-    filter{"system:linux"}
-        buildoptions{"-fPIC"}
-
-project "EventSystem"
-    kind "StaticLib"
-    language "C++"
-    
-    location "Modules/%{prj.name}"
-    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
-    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
-
-    files {
-        "%{prj.location}/src/**.cpp",
-        "%{prj.location}/include/**.hpp"
-    }
-
-    includedirs{
-        "%{prj.location}/include",
-        "Vendor/Glad/include"
-    }
-
-    filter{"system:linux"}
-        buildoptions{"-fPIC"}
 
 project "ImGui"
     kind "StaticLib"
@@ -230,3 +115,4 @@ project "Glad"
         buildoptions{"-fPIC"}
 
     filter { }
+

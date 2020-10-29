@@ -1,12 +1,12 @@
 #include "glad/glad.h"
 
 #include "application.hpp"
-#include "indexBuffer.hpp"
-#include "vertexBuffer.hpp"
-#include "vertexArray.hpp"
-#include "shader.hpp"
-#include "glException.hpp"
-#include "renderer.hpp"
+#include "OpenGL/indexBuffer.hpp"
+#include "OpenGL/vertexBuffer.hpp"
+#include "OpenGL/vertexArray.hpp"
+#include "OpenGL/shader.hpp"
+#include "OpenGL/glException.hpp"
+#include "Renderer/renderer.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -25,15 +25,9 @@ namespace MyEngine
         params.m_screenWidth = t_w;
         params.m_screenHeight = t_h;
 
-        m_keyEventManager.registerEmitter(params.m_keyEventEmitter);
+        m_keyEventListener.registerEmitter(params.m_keyEventEmitter);
 
         m_window.setParams(std::move(params));
-    }
-
-    template<>
-    void Application::setListener<Glfw::KeyEvent>(EventSystem::EventListener<Glfw::KeyEvent>&& t_listener)
-    {
-        m_keyEventManager.registerListener(std::move(t_listener));
     }
 
     int Application::initialize()

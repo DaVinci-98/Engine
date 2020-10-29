@@ -2,14 +2,14 @@
 
 #include "application.hpp"
 #include "entryPoint.hpp"
-#include "renderer.hpp"
 
-#include "object2D.hpp"
-#include "triangle2D.hpp"
+#include "Renderer/renderer.hpp"
+#include "Renderer/object2D.hpp"
+#include "Renderer/triangle2D.hpp"
 
-#include "keyEvent.hpp"
-#include "mouseKeyEvent.hpp"
-#include "mouseMoveEvent.hpp"
+#include "Glfw/keyEvent.hpp"
+#include "Glfw/mouseKeyEvent.hpp"
+#include "Glfw/mouseMoveEvent.hpp"
 
 // In order to start using the engine:
 // - Make a class inheriting from  Appliaction
