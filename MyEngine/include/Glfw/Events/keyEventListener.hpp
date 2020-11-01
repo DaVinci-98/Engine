@@ -13,6 +13,7 @@ namespace MyEngine::Glfw::Events
     public:
         virtual void dispatch(KeyEvent&& t_keyEvent) override;
         void registerKeyCallback(std::function<void(KeyEvent&)>&& t_callback, unsigned int t_keycode);
-        void registerKeyCallback(std::function<void(KeyEvent&)>&& t_callback, KeyEvent::Key t_key, KeyEvent::KeyMods t_mods, KeyEvent::KeyEventType t_keyEventType);
+        void registerKeyCallback(std::function<void(KeyEvent&)>&& t_callback, 
+            KeyEvent::Key t_key, KeyEvent::KeyMods t_mods, KeyEvent::KeyEventType t_keyEventType);
     };
 } 

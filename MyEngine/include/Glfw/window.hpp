@@ -2,9 +2,11 @@
 
 #include "EventSystem/event.hpp"
 #include "Glfw/Events/keyEvent.hpp"
-#include "Glfw/Events/mouseKeyEvent.hpp"
-#include "Glfw/Events/mouseMoveEvent.hpp"
 #include "Glfw/Events/keyEventEmitter.hpp"
+#include "Glfw/Events/mouseKeyEvent.hpp"
+#include "Glfw/Events/mouseKeyEventEmitter.hpp"
+#include "Glfw/Events/mouseMoveEvent.hpp"
+#include "Glfw/Events/mouseMoveEventEmitter.hpp"
 
 #include <GLFW/glfw3.h>
 #include <string>
@@ -24,8 +26,8 @@ namespace MyEngine::Glfw
         bool isActive() const;
 
         Events::KeyEventEmitter& listenForKeyEvents();
-        // Events::MouseKeyEventEmitter& listenForMouseKeyEvents();
-        // Events::MouseMoveEventEmitter& listenForMouseMoveEvents();
+        Events::MouseKeyEventEmitter& listenForMouseKeyEvents();
+        Events::MouseMoveEventEmitter& listenForMouseMoveEvents();
 
         inline std::string title() const { return m_title; }
         inline int screenWidth() const { return m_screenWidth; }
@@ -40,5 +42,7 @@ namespace MyEngine::Glfw
         int m_screenHeight = 0;
 
         Events::KeyEventEmitter m_keyEventEmitter;
+        Events::MouseKeyEventEmitter m_mouseKeyEventEmitter;
+        Events::MouseMoveEventEmitter m_mouseMoveEventEmitter;
     };
 }

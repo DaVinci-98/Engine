@@ -2,6 +2,7 @@
 
 #include "Glfw/window.hpp"
 #include "Glfw/Events/keyEventListener.hpp"
+#include "Glfw/Events/mouseKeyEventListener.hpp"
 #include "EventSystem/event.hpp"
 
 #include <iostream>
@@ -39,6 +40,7 @@ namespace MyEngine
     private:
         Glfw::Window m_window;
         Glfw::Events::KeyEventListener m_keyEventListener;
+        Glfw::Events::MouseKeyEventListener m_mouseKeyEventListener;
     };
 
     std::unique_ptr<Application> CreateApplication();

@@ -21,7 +21,6 @@ namespace MyEngine
     Application::Application(std::string& t_title, int t_w, int t_h)
     {
         m_window.setParams(t_title, t_h, t_w);
-        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
     }
 
     int Application::initialize()
@@ -30,6 +29,10 @@ namespace MyEngine
         {
             return -1;
         }
+
+        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
+        m_mouseKeyEventListener.registerEmitter(m_window.listenForMouseKeyEvents());
+
 
         if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) 
         {

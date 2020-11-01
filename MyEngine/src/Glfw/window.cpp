@@ -24,29 +24,35 @@ namespace MyEngine::Glfw
         return m_keyEventEmitter;
     }
 
-    // void Window::listenForMouseKeyEvents()
-    // {
-    //     TODO
-    //     auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
-    //     {
-    //         WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
-    //         MouseKeyEvent event;
-    //         user->m_eventCallback(std::move(event));
-    //     };
-    //     glfwSetKeyCallback(m_window, callback);
-    // }
+    Events::MouseKeyEventEmitter&  Window::listenForMouseKeyEvents()
+    {
+        using Events::MouseKeyEvent;
+        auto callback = [](GLFWwindow* t_window, int t_button, int t_action, int t_mods) -> void
+        {
+            Window* user = (Window*)glfwGetWindowUserPointer(t_window);
 
-    // void Window::listenForMouseMoveEvents()
-    // {
-    //     TODO
-    //     auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
-    //     {
-    //         WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
-    //         MouseMoveEvent event;
-    //         user->m_eventCallback(std::move(event));
-    //     };
-    //     glfwSetKeyCallback(m_window, callback);
-    // }
+            if(t_button < 0 || t_action < 0 || t_mods < 0) return;
+
+            MouseKeyEvent::KeyMods mods = static_cast<MouseKeyEvent::KeyMods>(t_mods);
+            MouseKeyEvent::Key key = static_cast<MouseKeyEvent::Key>(t_button);
+            MouseKeyEvent::KeyEventType keyEventType = static_cast<MouseKeyEvent::KeyEventType>(t_action);
+
+            user->m_mouseKeyEventEmitter.sendEvent(mods, key, keyEventType);
+        };
+        glfwSetMouseButtonCallback(m_window, callback);
+        return m_mouseKeyEventEmitter;
+    }
+
+    Events::MouseMoveEventEmitter&  Window::listenForMouseMoveEvents()
+    {
+        auto callback = [](GLFWwindow* t_window, double t_xPos, double t_yPos) -> void
+        {
+            Window* user = (Window*)glfwGetWindowUserPointer(t_window);
+            user->m_mouseMoveEventEmitter.sendEvent(t_xPos, t_yPos);
+        };
+        glfwSetCursorPosCallback(m_window, callback);
+        return m_mouseMoveEventEmitter;
+    }
 
     void Window::pollEvents() const
     {

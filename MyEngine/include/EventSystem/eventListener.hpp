@@ -13,7 +13,14 @@ namespace MyEngine::EventSystem
     class EventListener
     {
     public:
-        virtual void dispatch(EventType&& t_event) = 0;
+        virtual void dispatch(EventType&& t_event)
+        {
+            for (auto& [t_key, t_callback] : m_callbackMap)
+            {
+                t_callback(t_event);
+                if(t_event.isHandled()) return;
+            }
+        }
         void registerCallback(unsigned int t_key, std::function<void(EventType&)>&& t_callback)
         {
             auto pair = std::pair<unsigned int, std::function<void(EventType&)>>(t_key, std::move(t_callback));

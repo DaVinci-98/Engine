@@ -1,7 +1,5 @@
 #include "Glfw/Events/keyEventListener.hpp"
 
-#include <iostream>
-
 namespace MyEngine::Glfw::Events
 {
     void KeyEventListener::dispatch(KeyEvent&& t_keyEvent)
