@@ -15,9 +15,6 @@ namespace MyEngine::EventSystem
         inline void sendEvent(EventType&& t_event)
             { m_dispatcher(std::move(t_event)); }
 
-    protected:
-        EventEmitter() { }
-
     private:
         std::function<void(EventType &&)> m_dispatcher;
     };
