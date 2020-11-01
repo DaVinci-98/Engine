@@ -2,7 +2,7 @@
 
 #include "EventSystem/event.hpp"
 
-namespace MyEngine::Glfw
+namespace MyEngine::Glfw::Events
 {
     class MouseKeyEvent: public EventSystem::Event<MouseKeyEvent>
     {

@@ -20,14 +20,8 @@ namespace MyEngine
 {
     Application::Application(std::string& t_title, int t_w, int t_h)
     {
-        Glfw::WindowParams params;
-        params.m_title = t_title;
-        params.m_screenWidth = t_w;
-        params.m_screenHeight = t_h;
-
-        m_keyEventListener.registerEmitter(params.m_keyEventEmitter);
-
-        m_window.setParams(std::move(params));
+        m_window.setParams(t_title, t_h, t_w);
+        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
     }
 
     int Application::initialize()

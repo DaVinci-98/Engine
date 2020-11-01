@@ -4,11 +4,12 @@
 
 namespace MyEngine::Glfw
 {
-    void Window::listenForKeyEvents() const
+    Events::KeyEventEmitter& Window::listenForKeyEvents()
     {
+        using Events::KeyEvent;
         auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
         {
-            WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
+            Window* user = (Window*)glfwGetWindowUserPointer(t_window);
 
             if(t_key < 0 || t_action < 0 || t_mods < 0) return;
 
@@ -20,31 +21,32 @@ namespace MyEngine::Glfw
         };
 
         glfwSetKeyCallback(m_window, callback);
+        return m_keyEventEmitter;
     }
 
-    void Window::listenForMouseKeyEvents() const
-    {
-        // TODO
-        // auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
-        // {
-        //     WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
-        //     MouseKeyEvent event;
-        //     user->m_eventCallback(std::move(event));
-        // };
-        // glfwSetKeyCallback(m_window, callback);
-    }
+    // void Window::listenForMouseKeyEvents()
+    // {
+    //     TODO
+    //     auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
+    //     {
+    //         WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
+    //         MouseKeyEvent event;
+    //         user->m_eventCallback(std::move(event));
+    //     };
+    //     glfwSetKeyCallback(m_window, callback);
+    // }
 
-    void Window::listenForMouseMoveEvents() const
-    {
-        // TODO
-        // auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
-        // {
-        //     WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
-        //     MouseMoveEvent event;
-        //     user->m_eventCallback(std::move(event));
-        // };
-        // glfwSetKeyCallback(m_window, callback);
-    }
+    // void Window::listenForMouseMoveEvents()
+    // {
+    //     TODO
+    //     auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
+    //     {
+    //         WindowParams* user = (WindowParams*)glfwGetWindowUserPointer(t_window);
+    //         MouseMoveEvent event;
+    //         user->m_eventCallback(std::move(event));
+    //     };
+    //     glfwSetKeyCallback(m_window, callback);
+    // }
 
     void Window::pollEvents() const
     {
@@ -56,19 +58,18 @@ namespace MyEngine::Glfw
         glfwSwapBuffers(m_window);
     }
 
+    void Window::setParams(std::string& t_title, unsigned int t_height, unsigned int t_width)
+    {
+        m_title = t_title;
+        m_screenHeight = t_height;
+        m_screenWidth = t_width;
+    }
+
     bool Window::isActive() const
     {
         bool active = true;
         active &= !glfwWindowShouldClose(m_window);
         return active;
-    }
-
-    void Window::setParams(WindowParams&& t_params)
-    {
-        m_params.m_title = t_params.m_title;
-        m_params.m_screenWidth = t_params.m_screenWidth;
-        m_params.m_screenHeight = t_params.m_screenHeight;
-        m_params.m_keyEventEmitter = t_params.m_keyEventEmitter;
     }
 
     bool Window::initializeWindow()
@@ -79,7 +80,7 @@ namespace MyEngine::Glfw
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        m_window = glfwCreateWindow(m_params.m_screenWidth, m_params.m_screenHeight, m_params.m_title.c_str(), NULL, NULL);
+        m_window = glfwCreateWindow(m_screenWidth, m_screenHeight, m_title.c_str(), NULL, NULL);
         if (!m_window)
         {
             glfwTerminate();
@@ -90,12 +91,8 @@ namespace MyEngine::Glfw
 
         glfwSwapInterval(1);
 
-        glfwSetWindowUserPointer(m_window, &m_params);
+        glfwSetWindowUserPointer(m_window, this);
 
-        listenForKeyEvents();
-        listenForMouseKeyEvents();
-        listenForMouseMoveEvents();
-        
         glfwSetInputMode(m_window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
         
         return true;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Glfw/window.hpp"
-#include "Glfw/keyEventListener.hpp"
+#include "Glfw/Events/keyEventListener.hpp"
 #include "EventSystem/event.hpp"
 
 #include <iostream>
@@ -35,10 +35,10 @@ namespace MyEngine
         inline int screenWidth() const { return m_window.screenWidth(); }
         inline int screenHeight() const { return m_window.screenHeight(); }
 
-        inline Glfw::KeyEventListener& keyEventListener() { return m_keyEventListener; }
+        inline Glfw::Events::KeyEventListener& keyEventListener() { return m_keyEventListener; }
     private:
         Glfw::Window m_window;
-        Glfw::KeyEventListener m_keyEventListener;
+        Glfw::Events::KeyEventListener m_keyEventListener;
     };
 
     std::unique_ptr<Application> CreateApplication();

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "EventSystem/event.hpp"
-#include "Glfw/keyEvent.hpp"
-#include "Glfw/mouseKeyEvent.hpp"
-#include "Glfw/mouseMoveEvent.hpp"
-#include "Glfw/keyEventEmitter.hpp"
+#include "Glfw/Events/keyEvent.hpp"
+#include "Glfw/Events/mouseKeyEvent.hpp"
+#include "Glfw/Events/mouseMoveEvent.hpp"
+#include "Glfw/Events/keyEventEmitter.hpp"
 
 #include <GLFW/glfw3.h>
 #include <string>
@@ -12,39 +12,33 @@
 
 namespace MyEngine::Glfw
 {
-    struct WindowParams
-    {
-        std::string m_title = "";
-        int m_screenWidth = 0;
-        int m_screenHeight = 0;
-
-        KeyEventEmitter m_keyEventEmitter;
-    };
-    
-
     class Window
     {
     public:
         ~Window();
 
-        void setParams(WindowParams&& t_params);
+        void setParams(std::string& t_title, unsigned int t_height, unsigned int t_width);
         bool initializeWindow();
         void pollEvents() const;
         void draw() const;
         bool isActive() const;
 
-        void listenForKeyEvents() const;
-        void listenForMouseKeyEvents() const;
-        void listenForMouseMoveEvents() const;
+        Events::KeyEventEmitter& listenForKeyEvents();
+        // Events::MouseKeyEventEmitter& listenForMouseKeyEvents();
+        // Events::MouseMoveEventEmitter& listenForMouseMoveEvents();
 
-        std::string title() const { return m_params.m_title; }
-        int screenWidth() const { return m_params.m_screenWidth; }
-        int screenHeight() const { return m_params.m_screenHeight; }
-        bool initialzed() const { return m_window != nullptr; }
+        inline std::string title() const { return m_title; }
+        inline int screenWidth() const { return m_screenWidth; }
+        inline int screenHeight() const { return m_screenHeight; }
+        inline bool initialzed() const { return m_window != nullptr; }
 
     private:
         GLFWwindow *m_window = nullptr;
 
-        WindowParams m_params;
+        std::string m_title = "";
+        int m_screenWidth = 0;
+        int m_screenHeight = 0;
+
+        Events::KeyEventEmitter m_keyEventEmitter;
     };
 }

@@ -1,6 +1,6 @@
-#include "Glfw/keyEvent.hpp"
+#include "Glfw/Events/keyEvent.hpp"
 
-namespace MyEngine::Glfw
+namespace MyEngine::Glfw::Events
 {
     unsigned int KeyEvent::getKeyCode(KeyMods& t_mods, Key& t_key, KeyEventType& t_keyEventType)
     {

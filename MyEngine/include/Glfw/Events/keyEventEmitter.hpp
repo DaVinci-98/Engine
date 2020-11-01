@@ -1,9 +1,9 @@
 #pragma once
 
 #include "EventSystem/eventEmitter.hpp"
-#include "Glfw/keyEvent.hpp"
+#include "Glfw/Events/keyEvent.hpp"
 
-namespace MyEngine::Glfw
+namespace MyEngine::Glfw::Events
 {
     class KeyEventEmitter : public EventSystem::EventEmitter<KeyEvent>
     {

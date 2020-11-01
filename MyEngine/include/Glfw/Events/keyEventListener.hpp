@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Glfw/keyEvent.hpp"
+#include "Glfw/Events/keyEvent.hpp"
 #include "EventSystem/eventListener.hpp"
 
 #include <unordered_map>
 #include <functional>
 
-namespace MyEngine::Glfw
+namespace MyEngine::Glfw::Events
 {
     class KeyEventListener: public EventSystem::EventListener<KeyEvent>
     {

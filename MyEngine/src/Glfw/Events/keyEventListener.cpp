@@ -1,8 +1,8 @@
-#include "Glfw/keyEventListener.hpp"
+#include "Glfw/Events/keyEventListener.hpp"
 
 #include <iostream>
 
-namespace MyEngine::Glfw
+namespace MyEngine::Glfw::Events
 {
     void KeyEventListener::dispatch(KeyEvent&& t_keyEvent)
     {
