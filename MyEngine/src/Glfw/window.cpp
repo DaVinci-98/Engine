@@ -37,7 +37,10 @@ namespace MyEngine::Glfw
             MouseKeyEvent::Key key = static_cast<MouseKeyEvent::Key>(t_button);
             MouseKeyEvent::KeyEventType keyEventType = static_cast<MouseKeyEvent::KeyEventType>(t_action);
 
-            user->m_mouseKeyEventEmitter.sendEvent(mods, key, keyEventType);
+            double xpos, ypos;
+            glfwGetCursorPos(user -> m_window, &xpos, &ypos);
+
+            user->m_mouseKeyEventEmitter.sendEvent(mods, key, keyEventType, xpos, ypos);
         };
         glfwSetMouseButtonCallback(m_window, callback);
         return m_mouseKeyEventEmitter;

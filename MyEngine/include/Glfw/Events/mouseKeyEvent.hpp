@@ -97,10 +97,10 @@ namespace MyEngine::Glfw::Events
             MOUSE_BUTTON_MIDDLE = MOUSE_BUTTON_3
         };
 
-        MouseKeyEvent(int t_keyCode)
-            : m_keyCode(t_keyCode) { }
-        MouseKeyEvent(KeyMods t_mods, Key t_key, KeyEventType t_keyEventType)
-            : m_keyCode(getKeyCode(t_mods, t_key, t_keyEventType)) { }
+        MouseKeyEvent(int t_keyCode, double t_xPos, double t_yPos)
+            : m_keyCode(t_keyCode), m_xPos(t_xPos), m_yPos(t_yPos) { }
+        MouseKeyEvent(KeyMods t_mods, Key t_key, KeyEventType t_keyEventType, double t_xPos, double t_yPos)
+            : m_keyCode(getKeyCode(t_mods, t_key, t_keyEventType)), m_xPos(t_xPos), m_yPos(t_yPos) { }
         
         bool checkKeyEventType(KeyEventType t_keyEventType) const;
         bool ckeckKeyMod(KeyMods t_keyMods) const;
@@ -110,5 +110,7 @@ namespace MyEngine::Glfw::Events
         
     private:
         unsigned int m_keyCode;
+        double m_xPos;
+        double m_yPos;
     };
 }
