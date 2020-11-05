@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EventSystem/event.hpp"
+#include <tuple>
 
 namespace MyEngine::Glfw::Events
 {
@@ -105,9 +106,10 @@ namespace MyEngine::Glfw::Events
         bool checkKeyEventType(KeyEventType t_keyEventType) const;
         bool ckeckKeyMod(KeyMods t_keyMods) const;
         bool checkKey(Key t_key) const;
-        unsigned int keyCode() const { return m_keyCode; }
+        inline unsigned int keyCode() const { return m_keyCode; }
         static unsigned int getKeyCode(KeyMods t_mods, Key t_key, KeyEventType t_keyEventType);
-        
+        inline std::tuple<double, double> pos() const { return std::make_tuple(m_xPos, m_yPos); }
+
     private:
         unsigned int m_keyCode;
         double m_xPos;
