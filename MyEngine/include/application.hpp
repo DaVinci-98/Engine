@@ -3,6 +3,7 @@
 #include "Glfw/window.hpp"
 #include "Glfw/Events/keyEventListener.hpp"
 #include "Glfw/Events/mouseKeyEventListener.hpp"
+#include "Glfw/Events/mouseMoveEventListener.hpp"
 #include "EventSystem/event.hpp"
 
 #include <iostream>
@@ -37,10 +38,13 @@ namespace MyEngine
         inline int screenHeight() const { return m_window.screenHeight(); }
 
         inline Glfw::Events::KeyEventListener& keyEventListener() { return m_keyEventListener; }
+        inline Glfw::Events::MouseKeyEventListener& mouseKeyEventListener() { return m_mouseKeyEventListener; }
+        inline Glfw::Events::MouseMoveEventListener& mouseMoveEventListener() { return m_mouseMoveEventListener; }
     private:
         Glfw::Window m_window;
         Glfw::Events::KeyEventListener m_keyEventListener;
         Glfw::Events::MouseKeyEventListener m_mouseKeyEventListener;
+        Glfw::Events::MouseMoveEventListener m_mouseMoveEventListener;
     };
 
     std::unique_ptr<Application> CreateApplication();

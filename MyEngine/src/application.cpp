@@ -32,6 +32,7 @@ namespace MyEngine
 
         m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
         m_mouseKeyEventListener.registerEmitter(m_window.listenForMouseKeyEvents());
+        m_mouseMoveEventListener.registerEmitter(m_window.listenForMouseMoveEvents());
 
 
         if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) 
