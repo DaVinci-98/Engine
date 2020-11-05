@@ -7,9 +7,9 @@
 #include "Renderer/object2D.hpp"
 #include "Renderer/triangle2D.hpp"
 
-#include "Glfw/keyEvent.hpp"
-#include "Glfw/mouseKeyEvent.hpp"
-#include "Glfw/mouseMoveEvent.hpp"
+#include "Glfw/Events/keyEvent.hpp"
+#include "Glfw/Events/mouseKeyEvent.hpp"
+#include "Glfw/Events/mouseMoveEvent.hpp"
 
 // In order to start using the engine:
 // - Make a class inheriting from  Appliaction
