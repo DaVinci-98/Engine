@@ -23,6 +23,8 @@ namespace MyEngine::OpenGL
         // Add t_count of values of type T to the layout
         template<typename T> void push(size_t t_count);
 
+        //! TODO: bool operator==();
+
         unsigned int stride() const { return m_stride; }
         unsigned int numElements() const { return m_elements.size(); }
         VertexBufferElement const& elementAt(unsigned int t_pos) const { return m_elements.at(t_pos); }

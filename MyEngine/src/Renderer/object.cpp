@@ -41,10 +41,10 @@ namespace MyEngine::Renderer
             m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indecies);
             
             // Load shaders
-            std::vector<OpenGL::ShaderFile> files 
+            std::vector<OpenGL::Shader::ShaderFile> files 
             {
-                OpenGL::ShaderFile {"Sandbox/res/shaders/basicVertex.shader", GL_VERTEX_SHADER },
-                OpenGL::ShaderFile {"Sandbox/res/shaders/basicFragment.shader", GL_FRAGMENT_SHADER }
+                OpenGL::Shader::ShaderFile {"Sandbox/res/shaders/basicVertex.shader", OpenGL::Shader::ShaderType::VERTEX },
+                OpenGL::Shader::ShaderFile {"Sandbox/res/shaders/basicFragment.shader", OpenGL::Shader::ShaderType::FRAGMENT }
             };
             m_shader = std::make_unique<OpenGL::Shader>(files);
         }

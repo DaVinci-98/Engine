@@ -9,19 +9,30 @@
 
 namespace MyEngine::OpenGL
 {
-    struct ShaderFile
-    {
-        std::string m_filepath;
-        unsigned int m_type;
-    };
-
     // Responsible for storing shaders and interaction with uniforms.
     class Shader
     {
-
     public:
+        enum ShaderType
+        {
+            FRAGMENT = 0x8B30,
+            VERTEX = 0x8B31
+        };
+
+        struct ShaderFile
+        {
+            std::string m_filepath;
+            ShaderType m_type;
+        };
+
+        struct ShaderText
+        {
+            std::string m_shaderText;
+            ShaderType m_type;
+        };
+
         Shader(std::vector<ShaderFile> const& t_files);
-        Shader() { };
+        Shader(std::vector<ShaderText> const& t_shaders);
         ~Shader();
 
         void bind();
@@ -38,7 +49,7 @@ namespace MyEngine::OpenGL
         template<int N> 
         void setUniform(std::string const& t_name, glm::mat<N,N,float> const& t_matrix);
     private:
-        unsigned int attachShader(ShaderFile const& t_file);
+        unsigned int attachShader(ShaderText const& t_shader);
         void detachShader(unsigned int t_id);
         unsigned int compileShader(std::string const& t_source, unsigned int t_type) const;        
         std::string readFile(std::string const& t_path) const;

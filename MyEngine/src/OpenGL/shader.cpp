@@ -9,13 +9,31 @@
 
 namespace MyEngine::OpenGL
 {
-    Shader::Shader(std::vector<ShaderFile> const& t_files)
+    Shader::Shader(std::vector<Shader::ShaderFile> const& t_files)
     {
         std::vector<unsigned int> idList;
         GL_CALL(m_rendererId = glCreateProgram());
 
         for(auto const& file : t_files) 
-            idList.push_back(attachShader(file)); 
+        {
+            ShaderText shader { readFile(file.m_filepath), file.m_type };
+            idList.push_back(attachShader(shader)); 
+        }
+
+        GL_CALL(glLinkProgram(m_rendererId));
+        GL_CALL(glValidateProgram(m_rendererId));
+
+        for(auto const& id : idList) 
+            detachShader(id);
+    }
+
+    Shader::Shader(std::vector<Shader::ShaderText> const& t_shaders)
+    {
+        std::vector<unsigned int> idList;
+        GL_CALL(m_rendererId = glCreateProgram());
+
+        for(auto const& shader : t_shaders) 
+            idList.push_back(attachShader(shader)); 
 
 
         GL_CALL(glLinkProgram(m_rendererId));
@@ -37,12 +55,11 @@ namespace MyEngine::OpenGL
         }      
     }
 
-    unsigned int Shader::attachShader(ShaderFile const& t_file)
+    unsigned int Shader::attachShader(Shader::ShaderText const& t_shader)
     {
-        std::string shader = readFile(t_file.m_filepath);
-        if(shader == "") throw std::exception();
+        if(t_shader.m_shaderText == "") throw std::exception();
 
-        unsigned int id = compileShader(shader, t_file.m_type);
+        unsigned int id = compileShader(t_shader.m_shaderText, t_shader.m_type);
         if(id == 0) throw std::exception();
 
         GL_CALL(glAttachShader(m_rendererId, id));
