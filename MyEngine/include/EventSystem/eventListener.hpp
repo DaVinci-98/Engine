@@ -32,7 +32,7 @@ namespace MyEngine::EventSystem
             t_emitter.registerDispatcher(std::move(dispatcher));
         }
         inline void registerNextListener(EventListener<EventType>& t_listner)
-            { m_nextDispatcher = [&t_listner](EventType&& t_event) -> void { t_listner->dispatch(std::move(t_event)); };}
+            { m_nextDispatcher = [&t_listner](EventType&& t_event) -> void { t_listner.dispatch(std::move(t_event)); };}
         inline void deleteCallback(unsigned int t_key)
             { m_callbackMap.erase(t_key); }
         inline void deleteNextListener()

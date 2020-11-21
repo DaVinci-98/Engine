@@ -3,6 +3,7 @@
 #include "Renderer/renderer.hpp"
 #include "Renderer/object.hpp"
 #include "OpenGL/glException.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace MyEngine::Renderer
 {
@@ -18,6 +19,17 @@ namespace MyEngine::Renderer
             e.printErrors();
             return false;
         }
+    }
+
+    void Renderer::resizeWindow(int t_width, int t_height)
+    { 
+        glViewport(0, 0, t_width, t_height); 
+        setOrtho2D(t_width, t_height);
+    }
+
+    void Renderer::setOrtho2D(int t_width, int t_height)
+    {
+        m_projection = glm::ortho<float>(0.0f, (float) t_width, 0.0f, (float) t_height, -1.0f, 1.0f);
     }
 
     bool Renderer::draw(Object& t_object, glm::mat4& t_MVP)

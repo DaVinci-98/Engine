@@ -57,6 +57,20 @@ namespace MyEngine::Glfw
         return m_mouseMoveEventEmitter;
     }
 
+    Events::WindowEventEmitter&  Window::listenForWindowResizeEvents()
+    {
+        auto callback = [](GLFWwindow* t_window, int t_width, int t_height) -> void
+        {
+            Window* user = (Window*)glfwGetWindowUserPointer(t_window);
+            user->m_windowEventEmitter.sendEvent(Events::WindowEvent::WindowEventType::RESIZE, 
+                user->m_params.m_width, user->m_params.m_height, t_width, t_height);
+            user->m_params.m_width = t_width;
+            user->m_params.m_height = t_height;
+        };
+        glfwSetFramebufferSizeCallback(m_window, callback);
+        return m_windowEventEmitter;
+    }
+
     void Window::pollEvents() const
     {
         glfwPollEvents();
@@ -65,13 +79,6 @@ namespace MyEngine::Glfw
     void Window::draw() const
     {
         glfwSwapBuffers(m_window);
-    }
-
-    void Window::setParams(std::string& t_title, unsigned int t_height, unsigned int t_width)
-    {
-        m_title = t_title;
-        m_screenHeight = t_height;
-        m_screenWidth = t_width;
     }
 
     bool Window::isActive() const
@@ -88,8 +95,10 @@ namespace MyEngine::Glfw
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        if(m_params.m_allowResize) glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+        else glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        m_window = glfwCreateWindow(m_screenWidth, m_screenHeight, m_title.c_str(), NULL, NULL);
+        m_window = glfwCreateWindow(m_params.m_width, m_params.m_height, m_params.m_title.c_str(), NULL, NULL);
         if (!m_window)
         {
             glfwTerminate();
@@ -98,7 +107,8 @@ namespace MyEngine::Glfw
 
         glfwMakeContextCurrent(m_window);
 
-        glfwSwapInterval(1);
+        if(m_params.m_vsync) glfwSwapInterval(1);
+        else glfwSwapInterval(0);
 
         glfwSetWindowUserPointer(m_window, this);
 

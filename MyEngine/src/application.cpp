@@ -18,27 +18,28 @@
 
 namespace MyEngine
 {
-    Application::Application(std::string& t_title, int t_w, int t_h)
+    Application::Application(std::string& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize)
     {
-        m_window.setParams(t_title, t_h, t_w);
+        Glfw::Window::WindowParams params 
+        { 
+            .m_title = t_title, 
+            .m_width = static_cast<unsigned int>(t_w), 
+            .m_height = static_cast<unsigned int>(t_h), 
+            .m_vsync = t_vsync, 
+            .m_allowResize = t_allowResize 
+        };
+        m_window.setParams(std::move(params));
     }
 
     int Application::initialize()
     {
-        if(!m_window.initializeWindow())
-        {
-            return -1;
-        }
+        if(!m_window.initializeWindow()) return -1;
 
-        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
-        m_mouseKeyEventListener.registerEmitter(m_window.listenForMouseKeyEvents());
-        m_mouseMoveEventListener.registerEmitter(m_window.listenForMouseMoveEvents());
+        registerGlfwListeners();
 
+        if(m_window.allowResize()) enableResize();
 
-        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) 
-        {
-            return -1;
-        }
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) return -1;
 
         GL_CALL(glEnable(GL_BLEND));
         GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
@@ -50,12 +51,6 @@ namespace MyEngine
 
     void Application::startLoop()
     {
-        bool start = onLoopStart();
-        if(!start)
-        {
-            onLoopEnd();
-            return;
-        }
         while (m_window.isActive())
         {
             bool frame = onLoop();
@@ -70,5 +65,25 @@ namespace MyEngine
         }
         bool end = onLoopEnd();
         return;
+    }
+
+    void Application::registerGlfwListeners()
+    {
+        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
+        m_mouseKeyEventListener.registerEmitter(m_window.listenForMouseKeyEvents());
+        m_mouseMoveEventListener.registerEmitter(m_window.listenForMouseMoveEvents());
+    }
+
+    void Application::enableResize()
+    {
+        m_resizeRendererListener.registerEmitter(m_window.listenForWindowResizeEvents());
+        m_resizeRendererListener.registerNextListener(m_windowEventListener);
+        
+        auto resizeCallback = [this](Glfw::Events::WindowEvent& t_event) -> void 
+            {
+                auto&& [width, height] = t_event.newWindowSize();
+                this->m_renderer.resizeWindow(width, height); 
+            };
+        m_resizeRendererListener.registerResizeCallback(resizeCallback);
     }
 }
