@@ -1,15 +1,5 @@
-#include "glad/glad.h"
-
 #include "application.hpp"
-#include "OpenGL/indexBuffer.hpp"
-#include "OpenGL/vertexBuffer.hpp"
-#include "OpenGL/vertexArray.hpp"
-#include "OpenGL/shader.hpp"
-#include "OpenGL/glException.hpp"
 #include "Renderer/renderer.hpp"
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -34,15 +24,10 @@ namespace MyEngine
     int Application::initialize()
     {
         if(!m_window.initializeWindow()) return -1;
-
+        if(m_window.allowResize()) enableResize();
         registerGlfwListeners();
 
-        if(m_window.allowResize()) enableResize();
-
-        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) return -1;
-
-        GL_CALL(glEnable(GL_BLEND));
-        GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        if(!m_renderer.initialize()) return -1;
 
         std::cout << "[VERSION] : " <<  glGetString(GL_VERSION) << std::endl;
 

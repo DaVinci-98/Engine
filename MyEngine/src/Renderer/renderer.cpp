@@ -3,10 +3,19 @@
 #include "Renderer/renderer.hpp"
 #include "Renderer/object.hpp"
 #include "OpenGL/glException.hpp"
+#include "Glfw/window.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace MyEngine::Renderer
 {
+    bool Renderer::initialize()
+    {
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) return false;
+        GL_CALL(glEnable(GL_BLEND));
+        GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        return true;
+    }
+
     bool Renderer::clear() const
     {
         try

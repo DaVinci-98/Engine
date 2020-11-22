@@ -12,10 +12,11 @@ namespace MyEngine::Renderer
     public:
         Renderer() { };
         ~Renderer() { };
-        // Clear the window.
+        bool initialize();
+
         bool clear() const;
-        // Draw a t_object usign Model-View-Projection matrix t_MVP.
         bool draw(Object& t_object, glm::mat4& t_MVP);
+
         void resizeWindow(int t_width, int t_height);
         void setOrtho2D(int t_widt, int t_height);
 
