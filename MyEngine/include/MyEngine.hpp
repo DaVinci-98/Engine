@@ -4,8 +4,10 @@
 #include "entryPoint.hpp"
 
 #include "Renderer/renderer.hpp"
-#include "Renderer/object2D.hpp"
 #include "Renderer/triangle2D.hpp"
+#include "Renderer/mesh2D.hpp"
+#include "Renderer/material.hpp"
+#include "Renderer/shader.hpp"
 
 #include "Glfw/Events/keyEvent.hpp"
 #include "Glfw/Events/mouseKeyEvent.hpp"

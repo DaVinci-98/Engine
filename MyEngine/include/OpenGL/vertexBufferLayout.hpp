@@ -5,7 +5,7 @@
 
 namespace MyEngine::OpenGL
 {
-    // Layout of vertecies in vertex buffer
+    // Layout of vertices in vertex buffer
     struct VertexBufferElement
     {
         unsigned int count;

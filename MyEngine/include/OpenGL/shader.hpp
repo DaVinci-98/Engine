@@ -37,7 +37,6 @@ namespace MyEngine::OpenGL
 
         void bind();
         void unbind();
-        bool bound() const { return m_bound; } 
 
         // set uniform value
         template<typename T>
@@ -57,6 +56,5 @@ namespace MyEngine::OpenGL
 
         std::unordered_map<std::string, int> m_locations;
         unsigned int m_rendererId = 0;
-        bool m_bound = false;
     };
 }

@@ -3,6 +3,8 @@
 #include "OpenGL/vertexBuffer.hpp"
 #include "OpenGL/vertexBufferLayout.hpp"
 
+#include <memory>
+
 namespace MyEngine::OpenGL
 {
     // Abstraction for openGL buffer object.
@@ -15,16 +17,14 @@ namespace MyEngine::OpenGL
 
         void bind();
         void unbind();
-        bool bound() const { return m_bound; } 
 
         // Assign buffer with specified layout
-        void addBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout);
+        unsigned int setBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout, unsigned int t_firstPos = 0);
     private:
         void addAttrib(VertexBufferElement const& t_element, 
-            unsigned int& t_pos, unsigned int& t_offset, 
+            unsigned int t_pos, unsigned int t_offset, 
             unsigned int t_stride) const;
 
         unsigned int m_rendererId = 0;
-        bool m_bound = false;
     };
 }

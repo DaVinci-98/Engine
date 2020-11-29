@@ -20,4 +20,19 @@ namespace MyEngine::ShaderGenerator
             return "";
         }
     }
+
+    int Block::getTypeSize(FieldType t_type)
+    {
+        switch (t_type)
+        {
+        case VEC2:
+            return 2;
+        case VEC3:
+            return 3;
+        case VEC4:
+            return 4;
+        default:
+            return -1;
+        }
+    }
 }
