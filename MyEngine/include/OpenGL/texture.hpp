@@ -14,6 +14,8 @@ namespace MyEngine::OpenGL
         void unbind();
         int width() const { return m_width; } 
         int height() const { return m_height; } 
+        inline unsigned int id() const
+            { return m_rendererId; }
     private:
         unsigned int m_rendererId = 0;
         std::string m_filePath;

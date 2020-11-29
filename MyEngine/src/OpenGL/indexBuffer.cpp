@@ -16,6 +16,7 @@ namespace MyEngine::OpenGL
         GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(unsigned int), t_data.data(), GL_STATIC_DRAW));
         unbind();
     }
+
     IndexBuffer::~IndexBuffer()
     {
         try

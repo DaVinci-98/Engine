@@ -6,7 +6,7 @@
 namespace MyEngine::OpenGL
 {
     // Abstraction for openGL buffer object.
-    // Identifies which vertecies belong to a triangle,
+    // Identifies which vertices belong to a triangle,
     // by their indexes in vertex buffer.
     class IndexBuffer
     {
