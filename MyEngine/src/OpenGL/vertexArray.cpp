@@ -27,25 +27,21 @@ namespace MyEngine::OpenGL
 
     void VertexArray::bind()
     {
-        if(m_bound) return;
         GL_CALL(glBindVertexArray(m_rendererId));
-        m_bound = true;
     }
 
     void VertexArray::unbind()
     {
-        if(!m_bound) return;
         GL_CALL(glBindVertexArray(0));
-        m_bound = false;
     }
     
-    void VertexArray::setBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout)
+    unsigned int VertexArray::setBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout, unsigned int t_firstPos)
     {
         t_buffer.bind();
         this -> bind();
 
         unsigned int offset = 0;
-        unsigned int pos = 0;
+        unsigned int pos = t_firstPos;
 
         for(auto const& element : t_layout.elements()) 
         {
@@ -56,34 +52,7 @@ namespace MyEngine::OpenGL
 
         t_buffer.unbind();
         this -> unbind();
-    }
-
-    void VertexArray::addBuffer(VertexBuffer& t_buffer, unsigned int t_vertexSizeOffset, unsigned int t_vertexSize, VertexBufferLayout const& t_layout)   
-    {
-        t_buffer.bind();
-        this -> bind();
-
-        unsigned int offset = 0;
-        unsigned int pos = 0;
-        unsigned int vertexSize = 0;
-        unsigned int vertexSizeOffset = 0;
-
-        for(auto const& element : t_layout.elements())
-        {
-            if(vertexSizeOffset >= t_vertexSizeOffset)
-            {
-                addAttrib(element, pos, offset, t_layout.stride());
-            }
-            if(vertexSizeOffset == t_vertexSizeOffset + t_vertexSize)
-            {
-                t_buffer.unbind();
-                this -> unbind();
-                return;
-            }
-            vertexSizeOffset += element.count;
-            offset += element.count * element.typeSize;
-            pos++;
-        }
+        return pos;
     }
 
     void VertexArray::addAttrib(VertexBufferElement const& t_element, 

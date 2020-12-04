@@ -28,6 +28,8 @@ namespace MyEngine::Renderer
             { return m_stride; }
         inline unsigned int vertexCount() const
             { return m_indecies.size(); }    
+        inline OpenGL::VertexBufferLayout& layout()
+            { return *m_layout; }
 
         void bind();
         void unbind();
@@ -43,6 +45,7 @@ namespace MyEngine::Renderer
 
         std::unique_ptr<OpenGL::VertexBuffer> m_vertexBuffer;
         std::unique_ptr<OpenGL::IndexBuffer> m_indexBuffer;
+        std::unique_ptr<OpenGL::VertexBufferLayout> m_layout;
 
         unsigned int m_stride = 0;
         bool m_bound = false;

@@ -38,15 +38,11 @@ namespace MyEngine::OpenGL
 
     void VertexBuffer::bind()
     {
-        if(m_bound) return;
         GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_rendererId));
-        m_bound = true;
     }
 
     void VertexBuffer::unbind()
     {
-        if(!m_bound) return;
         GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
-        m_bound = false;
     }
 }

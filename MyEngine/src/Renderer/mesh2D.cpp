@@ -1,6 +1,7 @@
 #include "Renderer/mesh2D.hpp"
 
 #include <algorithm>
+#include <iostream>
 
 namespace MyEngine::Renderer
 {
@@ -14,6 +15,9 @@ namespace MyEngine::Renderer
 
         m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indecies);
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
+        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
+
+        m_layout -> push<float>(m_stride);
     }
 
     void Mesh2D::setTriangles(std::vector<Triangle2D> && t_triangles)
@@ -24,6 +28,9 @@ namespace MyEngine::Renderer
 
         m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indecies);
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
+        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
+
+        m_layout -> push<float>(m_stride);
     }
 
     void Mesh2D::insertTriangles(std::vector<Triangle2D>&& t_triangles)
@@ -94,6 +101,7 @@ namespace MyEngine::Renderer
 
         m_vertexBuffer.release();
         m_indexBuffer.release();
+        m_layout.release();
 
         m_vertices.clear();
         m_indecies.clear();

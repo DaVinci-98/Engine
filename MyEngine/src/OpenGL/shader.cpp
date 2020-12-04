@@ -128,16 +128,12 @@ namespace MyEngine::OpenGL
 
     void Shader::bind()
     {
-        if(m_bound) return;
         GL_CALL(glUseProgram(m_rendererId));
-        m_bound = true;
     }
 
     void Shader::unbind()
     {
-        if(!m_bound) return;
         GL_CALL(glUseProgram(0));
-        m_bound = false;
     }
 
     int Shader::getUniformLocation(std::string const& t_name)

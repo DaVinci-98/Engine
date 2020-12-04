@@ -19,9 +19,9 @@ namespace MyEngine::Renderer
             m_shader(t_shader) { }
 
         void setColourBuffer(std::vector<float> && t_vertices, unsigned int t_stride);
-        void setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string& t_path, unsigned int t_stride);
+        void setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string t_path, unsigned int t_stride);
         void setColour(std::vector<Triangle2D> && t_triangles);
-        void setTexture(std::vector<Triangle2D> && t_triangles, std::string& t_path);
+        void setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path);
 
         inline void setTextureBuffer(std::vector<float> const& t_vertices, std::vector<unsigned int> const& t_indecies, std::string& t_path, unsigned int t_stride)
             { setTextureBuffer(std::vector<float>(t_vertices), std::vector<unsigned int>(t_indecies), t_path, t_stride); }
@@ -39,7 +39,7 @@ namespace MyEngine::Renderer
         inline OpenGL::VertexBuffer& buffer()
             {return *m_vertexBuffer; }
         inline OpenGL::VertexBufferLayout& layout()
-            { return m_shader->layout(); }
+            { return *m_layout; }
         inline unsigned int vertexSize() const
             { return m_stride; } 
         inline bool isTexture() const
@@ -64,6 +64,7 @@ namespace MyEngine::Renderer
 
         std::unique_ptr<OpenGL::Texture> m_texture;
         std::unique_ptr<OpenGL::VertexBuffer> m_vertexBuffer;
+        std::unique_ptr<OpenGL::VertexBufferLayout> m_layout;
 
         std::shared_ptr<Shader> m_shader;
     };

@@ -31,15 +31,11 @@ namespace MyEngine::OpenGL
 
     void IndexBuffer::bind()
     {
-        if(m_bound) return;
         GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererId));
-        m_bound = true;
     }
 
     void IndexBuffer::unbind()
     {
-        if(!m_bound) return;
         GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-        m_bound = false;
     }
 }

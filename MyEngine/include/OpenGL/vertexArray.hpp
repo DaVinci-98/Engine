@@ -17,19 +17,14 @@ namespace MyEngine::OpenGL
 
         void bind();
         void unbind();
-        bool bound() const { return m_bound; } 
 
         // Assign buffer with specified layout
-        void setBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout);
-        void addBuffer(VertexBuffer& t_buffer, unsigned int t_offset, unsigned int t_vertexSize, VertexBufferLayout const& t_layout);
-
-        void setBuffers(std::vector<std::pair<VertexBuffer, VertexBufferLayout>> t_buffers);
+        unsigned int setBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout, unsigned int t_firstPos = 0);
     private:
         void addAttrib(VertexBufferElement const& t_element, 
             unsigned int t_pos, unsigned int t_offset, 
             unsigned int t_stride) const;
 
         unsigned int m_rendererId = 0;
-        bool m_bound = false;
     };
 }

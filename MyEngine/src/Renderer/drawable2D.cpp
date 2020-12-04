@@ -2,6 +2,8 @@
 #include "Renderer/shader.hpp"
 
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <iostream>
 
 namespace MyEngine::Renderer
 {
@@ -15,11 +17,9 @@ namespace MyEngine::Renderer
                 m_vertexArray -> unbind();
                 m_vertexArray.reset();
             }
-            m_material = t_material;
-            makeArray();
         }
-        else
-            m_material = t_material;
+        m_material = t_material;
+        makeArray();
     }
 
     void Drawable2D::setMesh(std::shared_ptr<Mesh2D>& t_mesh)
@@ -32,43 +32,32 @@ namespace MyEngine::Renderer
                 m_vertexArray -> unbind();
                 m_vertexArray.reset();
             }
-            m_mesh = t_mesh;
-            makeArray();
         }
-        else
-            m_mesh = t_mesh;
+        m_mesh = t_mesh;
+        makeArray();
     }
 
     void Drawable2D::makeArray()
     {
+        if(!m_material || !m_mesh) return;
         m_vertexArray = std::make_unique<OpenGL::VertexArray>();
 
-        m_material -> buffer().bind();
-        m_vertexArray -> addBuffer(m_material -> buffer(), 0, m_material->vertexSize(), m_material->layout());
-        m_material -> buffer().unbind();
-
-        m_mesh -> buffer().bind();
-        m_vertexArray -> addBuffer(m_mesh -> buffer(), m_material->vertexSize(), m_mesh->vertexSize(), m_material->layout());
-        m_mesh -> buffer().unbind();
+        unsigned int offset = m_vertexArray -> setBuffer(m_mesh -> buffer(), m_mesh->layout());
+        m_vertexArray -> setBuffer(m_material -> buffer(), m_material->layout(), offset);
     }
 
     void Drawable2D::bind()
     {
-        if(m_bound) return;
-        m_bound = true;
-
-        m_mesh -> bind();
         m_material -> bind();
-        m_vertexArray -> bind();
+        m_material -> shader() -> setMat4Uniform(Shader::MODEL_UNIFORM, m_model, true);
 
-        m_material -> shader() -> setMat4Uniform(Shader::MODEL_UNIFORM, m_model);
+        m_mesh -> unbind();
+        m_vertexArray -> bind();
+        m_mesh -> bind();
     }
 
     void Drawable2D::unbind()
     {
-        if(!m_bound) return;
-        m_bound = false;
-
         m_mesh -> unbind();
         m_material -> unbind();
         m_vertexArray -> unbind();    

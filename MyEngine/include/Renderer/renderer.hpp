@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Renderer/object.hpp"
 #include "Renderer/drawable2D.hpp"
 
 #include <memory>
@@ -26,6 +25,8 @@ namespace MyEngine::Renderer
 
         std::string colourShader();
         std::string textureShader();
+        inline std::shared_ptr<Shader>& shader(std::string& t_name)
+            { return m_activeShaders[t_name]; }
 
         inline glm::mat4& projection() 
             { return m_projection; }
@@ -34,5 +35,6 @@ namespace MyEngine::Renderer
 
         std::unordered_map<std::string, std::shared_ptr<Shader>> m_activeShaders;
         glm::mat4 m_projection = glm::mat4(1);
+        glm::mat4 m_view = glm::mat4(1);
     };
 }

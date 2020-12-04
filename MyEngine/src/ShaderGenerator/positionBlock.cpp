@@ -9,6 +9,6 @@ namespace MyEngine::ShaderGenerator
         addVertexUniform(t_viewUniformName, FieldType::MAT4);
         addVertexUniform(t_projectionUniformName, FieldType::MAT4);
         addVertexCodeLine("mat4 MVP = " + t_projectionUniformName + " * " + t_viewUniformName  + " * "  + t_modelUniformName + ";");
-        addVertexCodeLine("gl_Position = u_MVP * position;");
+        addVertexCodeLine("gl_Position = MVP * position;");
     }
 }

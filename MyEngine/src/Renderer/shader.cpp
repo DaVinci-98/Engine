@@ -4,6 +4,7 @@
 #include "ShaderGenerator/positionBlock.hpp"
 #include "ShaderGenerator/colourBlock.hpp"
 #include "ShaderGenerator/textureBlock.hpp"
+#include "OpenGL/glException.hpp"
 
 #include <algorithm>
 
@@ -16,7 +17,7 @@ namespace MyEngine::Renderer
 
     std::shared_ptr<Shader> Shader::createColourShader()
     {
-        std::shared_ptr<Shader> shader;
+        std::shared_ptr<Shader> shader = std::make_shared<Shader>();
         shader -> m_shader = shader -> makeShader(ShaderGenerator::ColourBlock());
         shader -> m_isColour = true;
 
@@ -25,7 +26,7 @@ namespace MyEngine::Renderer
 
     std::shared_ptr<Shader> Shader::createTextureShader()
     {
-        std::shared_ptr<Shader> shader;
+        std::shared_ptr<Shader> shader = std::make_shared<Shader>();
         shader -> m_shader = shader -> makeShader(ShaderGenerator::TextureBlock(TEXTURE_UNIFORM));
         shader -> m_isTexture = true;
 
@@ -51,37 +52,48 @@ namespace MyEngine::Renderer
 
     void Shader::setAllUniforms()
     {
-        for(auto& [name, value] : m_textureUniforms)
-            m_shader -> setUniform(name, value);
-        for(auto& [name, value] : m_vec2Uniforms)
-            m_shader -> setUniform(name, value);
-        for(auto& [name, value] : m_vec4Uniforms)
-            m_shader -> setUniform(name, value);
-        for(auto& [name, value] : m_mat4Uniforms)
-            m_shader -> setUniform(name, value);
+        try
+        {
+            for(auto& [name, value] : m_textureUniforms)
+                m_shader -> setUniform(name, value);
+            for(auto& [name, value] : m_vec2Uniforms)
+                m_shader -> setUniform(name, value);
+            for(auto& [name, value] : m_vec4Uniforms)
+                m_shader -> setUniform(name, value);
+            for(auto& [name, value] : m_mat4Uniforms)
+                m_shader -> setUniform(name, value);
+        }
+        catch(OpenGL::GlException& e)
+        {
+            e.printErrors();
+        }
     }
 
-    void Shader::setTextureUniform(std::string t_name, unsigned int t_id)
+    void Shader::setTextureUniform(std::string t_name, int t_id, bool t_noCache)
     {
-        m_textureUniforms[t_name] = t_id;
+        if(!t_noCache)
+            m_textureUniforms[t_name] = t_id;
         if(m_bound)
             m_shader -> setUniform(t_name, t_id);
     }
-    void Shader::setVec2Uniform(std::string t_name, glm::vec2 const& t_value)
-    { 
-        m_vec2Uniforms[t_name] = t_value;
+    void Shader::setVec2Uniform(std::string t_name, glm::vec2 const& t_value, bool t_noCache)
+    {
+        if(!t_noCache) 
+            m_vec2Uniforms[t_name] = t_value;
         if(m_bound)
             m_shader -> setUniform(t_name, t_value);
     }
-    void Shader::setVec4Uniform(std::string t_name, glm::vec4 const& t_value)
+    void Shader::setVec4Uniform(std::string t_name, glm::vec4 const& t_value, bool t_noCache)
     { 
-        m_vec4Uniforms[t_name] = t_value;
+        if(!t_noCache)
+            m_vec4Uniforms[t_name] = t_value;
         if(m_bound)
             m_shader -> setUniform(t_name, t_value);
     }
-    void Shader::setMat4Uniform(std::string t_name, glm::mat4 const& t_value)
-    { 
-        m_mat4Uniforms[t_name] = t_value;
+    void Shader::setMat4Uniform(std::string t_name, glm::mat4 const& t_value, bool t_noCache)
+    {
+        if(!t_noCache) 
+            m_mat4Uniforms[t_name] = t_value;
         if(m_bound)
             m_shader -> setUniform(t_name, t_value);
     }
@@ -103,8 +115,6 @@ namespace MyEngine::Renderer
         };
 
         makeUniforms(generator);
-        makeLayout(generator);
-
         return std::make_unique<OpenGL::Shader>(shaders);
     }
 
@@ -115,24 +125,18 @@ namespace MyEngine::Renderer
             switch(uniform.m_type)
             {
             case(ShaderGenerator::Block::FieldType::SAMPLER2D):
-                m_textureUniforms.insert(std::make_pair(uniform.m_name, 0));
+                m_textureUniforms.insert(std::pair<std::string, unsigned int>(uniform.m_name, 0));
                 break;
             case(ShaderGenerator::Block::FieldType::VEC2):
-                m_vec2Uniforms.insert(std::make_pair(uniform.m_name, glm::vec2(1)));
+                m_vec2Uniforms.insert(std::pair<std::string, glm::vec2>(uniform.m_name, glm::vec2(1)));
                 break;
             case(ShaderGenerator::Block::FieldType::VEC4):
-                m_vec4Uniforms.insert(std::make_pair(uniform.m_name, glm::vec4(1)));
+                m_vec4Uniforms.insert(std::pair<std::string, glm::vec4>(uniform.m_name, glm::vec4(1)));
                 break;
             case(ShaderGenerator::Block::FieldType::MAT4):
-                m_mat4Uniforms.insert(std::make_pair(uniform.m_name, glm::mat4(1)));
+                m_mat4Uniforms.insert(std::pair<std::string, glm::mat4>(uniform.m_name, glm::mat4(1)));
                 break;
             }
         }
-    }
-
-    void Shader::makeLayout(ShaderGenerator::ShaderGen& t_shaderGen)
-    {
-        for(auto& item : t_shaderGen.vertexLayout())
-            m_layout.push<float>(item.m_count);
     }
 }

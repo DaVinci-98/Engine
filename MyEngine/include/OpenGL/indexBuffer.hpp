@@ -19,10 +19,8 @@ namespace MyEngine::OpenGL
         void unbind();
 
         unsigned int count() const { return m_count; } 
-        bool bound() const { return m_bound; } 
     private:
         unsigned int m_rendererId = 0;
         unsigned int m_count = 0;
-        bool m_bound = false;
     };
 }

@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <iostream>
 
 namespace MyEngine::Renderer
 {
@@ -23,9 +24,12 @@ namespace MyEngine::Renderer
         m_vertices = std::move(t_vertices);
 
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
+        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
+
+        m_layout -> push<float>(m_stride);
     }
 
-    void Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string& t_path, unsigned int t_stride)
+    void Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string t_path, unsigned int t_stride)
     {
         if(!m_shader->usesTexture()) return;
         if(m_stride != 0) clear();
@@ -36,6 +40,9 @@ namespace MyEngine::Renderer
 
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
         m_texture = std::make_unique<OpenGL::Texture>(t_path);
+        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
+
+        m_layout -> push<float>(m_stride);
     }
 
     void Material::setColour(std::vector<Triangle2D> && t_triangles)
@@ -46,9 +53,12 @@ namespace MyEngine::Renderer
         insertTriangles(std::move(t_triangles), false);
 
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
+        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
+
+        m_layout -> push<float>(m_stride);
     }
 
-    void Material::setTexture(std::vector<Triangle2D> && t_triangles, std::string& t_path)
+    void Material::setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path)
     {
         if(!m_shader->usesTexture()) return;
         if(m_stride != 0) clear();
@@ -57,6 +67,9 @@ namespace MyEngine::Renderer
 
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
         m_texture = std::make_unique<OpenGL::Texture>(t_path);
+        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
+
+        m_layout -> push<float>(m_stride);
     }
 
     void Material::insertTriangles(std::vector<Triangle2D>&& t_triangles, bool t_useIndecies)
@@ -110,10 +123,13 @@ namespace MyEngine::Renderer
         if(m_bound) return;
         m_bound = true;
 
-        m_shader -> bind();
         if(m_shader->usesTexture())
-            m_texture -> bind();
-            m_shader -> setTextureUniform(Shader::TEXTURE_UNIFORM, m_texture -> id());
+            m_shader -> setTextureUniform(Shader::TEXTURE_UNIFORM, 1);
+
+        m_shader -> bind();
+        
+        if(m_shader->usesTexture())
+            m_texture -> bind(1);
     }
 
     void Material::unbind()
@@ -134,6 +150,7 @@ namespace MyEngine::Renderer
         unbind();
 
         m_vertexBuffer.release();
+        m_layout.release();
         if(m_shader->usesTexture())
             m_texture.release();
 

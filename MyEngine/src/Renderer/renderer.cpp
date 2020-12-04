@@ -1,10 +1,11 @@
 #include "glad/glad.h"
 
 #include "Renderer/renderer.hpp"
-#include "Renderer/object.hpp"
 #include "OpenGL/glException.hpp"
 #include "Glfw/window.hpp"
+
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 namespace MyEngine::Renderer
 {
@@ -77,7 +78,7 @@ namespace MyEngine::Renderer
 
         auto shader = Shader::createColourShader();
         shader -> setMat4Uniform(Shader::PROJECTION_UNIFORM, m_projection);
-        shader -> setMat4Uniform(Shader::VIEW_UNIFORM, glm::mat4(1));
+        shader -> setMat4Uniform(Shader::VIEW_UNIFORM, m_view);
         m_activeShaders.insert(std::make_pair(name, shader));
 
         return name;
@@ -88,10 +89,9 @@ namespace MyEngine::Renderer
         std::string name = "TextureShader";
         if(m_activeShaders.find(name) != m_activeShaders.end())
             return name;
-
         auto shader = Shader::createTextureShader();
         shader -> setMat4Uniform(Shader::PROJECTION_UNIFORM, m_projection);
-        shader -> setMat4Uniform(Shader::VIEW_UNIFORM, glm::mat4(1));
+        shader -> setMat4Uniform(Shader::VIEW_UNIFORM, m_view);
         m_activeShaders.insert(std::make_pair(name, shader));
 
         return name;
