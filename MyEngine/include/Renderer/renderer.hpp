@@ -18,7 +18,6 @@ namespace MyEngine::Renderer
 
         bool clear() const;
         static bool draw(Drawable2D& t_drawable);
-        static bool draw(std::vector<Drawable2D>& t_drawables);
 
         void resizeWindow(int t_width, int t_height);
         void setOrtho2D(int t_widt, int t_height);

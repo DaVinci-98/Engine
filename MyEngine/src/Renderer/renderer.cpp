@@ -48,14 +48,6 @@ namespace MyEngine::Renderer
         return draw(t_drawable.vertexCount());
     }
 
-    bool Renderer::draw(std::vector<Drawable2D>& t_drawables)
-    {
-        for(auto& drawable : t_drawables)
-            if(!draw(drawable)) 
-                return false;
-        return true;
-    }
-
     bool Renderer::draw(unsigned int t_count)
     {
         try

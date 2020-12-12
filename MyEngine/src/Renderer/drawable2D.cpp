@@ -43,7 +43,7 @@ namespace MyEngine::Renderer
         m_vertexArray = std::make_unique<OpenGL::VertexArray>();
 
         unsigned int offset = m_vertexArray -> setBuffer(m_mesh -> buffer(), m_mesh->layout());
-        m_vertexArray -> setBuffer(m_material -> buffer(), m_material->layout(), offset);
+        if(m_material -> isTexture()) m_vertexArray -> setBuffer(m_material -> buffer(), m_material->layout(), offset);
     }
 
     void Drawable2D::bind()

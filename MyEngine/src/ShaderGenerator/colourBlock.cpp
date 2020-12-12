@@ -4,9 +4,9 @@ namespace MyEngine::ShaderGenerator
 {
     ColourBlock::ColourBlock()
     {
-        addVertexLocation("vertexColour", FieldType::VEC4);
+        addVertexUniform("u_colour", FieldType::VEC4);
         addVertexOut("v_colour", FieldType::VEC4);
-        addVertexCodeLine("v_colour = vertexColour;");
+        addVertexCodeLine("v_colour = u_colour;");
 
         addFragmentLocation("color", FieldType::VEC4);
         addFragmentIn("v_colour", FieldType::VEC4);

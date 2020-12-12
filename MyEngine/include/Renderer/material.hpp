@@ -18,17 +18,14 @@ namespace MyEngine::Renderer
         Material(std::shared_ptr<Shader>& t_shader):
             m_shader(t_shader) { }
 
-        void setColourBuffer(std::vector<float> && t_vertices, unsigned int t_stride);
         void setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string t_path, unsigned int t_stride);
-        void setColour(std::vector<Triangle2D> && t_triangles);
+        void setColour(glm::vec4&& t_colour);
         void setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path);
 
         inline void setTextureBuffer(std::vector<float> const& t_vertices, std::vector<unsigned int> const& t_indecies, std::string& t_path, unsigned int t_stride)
             { setTextureBuffer(std::vector<float>(t_vertices), std::vector<unsigned int>(t_indecies), t_path, t_stride); }
-        inline void setColourBuffer(std::vector<float> const& t_vertices, unsigned int t_stride)
-            { setColourBuffer(std::vector<float>(t_vertices), t_stride); }
-        inline void setColour(std::vector<Triangle2D> const& t_triangles)
-            { setColour(std::vector<Triangle2D>(t_triangles)); }
+        inline void setColour(glm::vec4 const& t_colour)
+            { setColour(glm::vec4(t_colour)); }
         inline void setTexture(std::vector<Triangle2D> const& t_triangles, std::string& t_path)
             { setTexture(std::vector<Triangle2D>(t_triangles), t_path); }
 

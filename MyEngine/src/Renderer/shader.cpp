@@ -14,6 +14,7 @@ namespace MyEngine::Renderer
     const std::string Shader::MODEL_UNIFORM = "u_model";
     const std::string Shader::PROJECTION_UNIFORM = "u_projection";
     const std::string Shader::TEXTURE_UNIFORM = "u_texture";
+    const std::string Shader::COLOUR_UNIFORM = "u_colour";
 
     std::shared_ptr<Shader> Shader::createColourShader()
     {

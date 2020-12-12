@@ -32,6 +32,7 @@ namespace MyEngine::Renderer
         static const std::string MODEL_UNIFORM;
         static const std::string PROJECTION_UNIFORM;
         static const std::string TEXTURE_UNIFORM;
+        static const std::string COLOUR_UNIFORM;
     private:
         std::unique_ptr<OpenGL::Shader> makeShader(ShaderGenerator::Block&& t_materialBlock);
         void makeUniforms(ShaderGenerator::ShaderGen& t_shaderGen);

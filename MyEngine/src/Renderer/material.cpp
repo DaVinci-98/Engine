@@ -15,20 +15,6 @@ namespace MyEngine::Renderer
     static std::string c_projectionUniform = "u_projection";
     static std::string c_textureUniform = "u_texture";
 
-    void Material::setColourBuffer(std::vector<float> && t_vertices, unsigned int t_stride)
-    {
-        if(m_shader->usesTexture()) return;
-        if(m_stride != 0) clear();
-        m_stride = t_stride;
-
-        m_vertices = std::move(t_vertices);
-
-        m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
-        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
-
-        m_layout -> push<float>(m_stride);
-    }
-
     void Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string t_path, unsigned int t_stride)
     {
         if(!m_shader->usesTexture()) return;
@@ -45,17 +31,11 @@ namespace MyEngine::Renderer
         m_layout -> push<float>(m_stride);
     }
 
-    void Material::setColour(std::vector<Triangle2D> && t_triangles)
+    void Material::setColour(glm::vec4&& t_colour)
     {
         if(m_shader->usesTexture()) return;
-        if(m_stride != 0) clear();
 
-        insertTriangles(std::move(t_triangles), false);
-
-        m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
-        m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
-
-        m_layout -> push<float>(m_stride);
+        m_shader -> setVec4Uniform(Shader::COLOUR_UNIFORM, t_colour, true);
     }
 
     void Material::setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path)
@@ -138,9 +118,11 @@ namespace MyEngine::Renderer
         m_bound = false;
 
         m_shader -> unbind();
-        m_vertexBuffer -> unbind();
         if(m_shader->usesTexture())
+        {
+            m_vertexBuffer -> unbind();
             m_texture -> unbind();
+        }
     }
 
     void Material::clear()
