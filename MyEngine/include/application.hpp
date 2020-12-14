@@ -7,6 +7,7 @@
 #include "Glfw/Events/windowEventListener.hpp"
 #include "EventSystem/event.hpp"
 #include "Renderer/renderer.hpp"
+#include "Physics/physicsManager.hpp"
 
 #include <iostream>
 #include <memory>
@@ -27,25 +28,40 @@ namespace MyEngine
 
         // Functions for overriding:
         // Called after window was created.
-        virtual bool onWindowCreate() { return true; };
+        virtual bool onWindowCreate() 
+            { return true; };
         // Called inside the main loop.
         virtual bool onLoop() = 0;
         // Called after main loop ends.
-        virtual bool onLoopEnd() { return true; };
+        virtual bool onLoopEnd() 
+            { return true; };
         
-        inline std::string title() const { return m_window.title(); }
-        inline int screenWidth() const { return m_window.screenWidth(); }
-        inline int screenHeight() const { return m_window.screenHeight(); }
-        inline Renderer::Renderer& renderer() { return m_renderer; }
+        inline std::string title() const 
+            { return m_window.title(); }
+        inline int screenWidth() const 
+            { return m_window.screenWidth(); }
+        inline int screenHeight() const 
+            { return m_window.screenHeight(); }
+        inline Renderer::Renderer& renderer() 
+            { return m_renderer; }
 
-        inline Glfw::Events::KeyEventListener& keyEventListener() { return m_keyEventListener; }
-        inline Glfw::Events::MouseKeyEventListener& mouseKeyEventListener() { return m_mouseKeyEventListener; }
-        inline Glfw::Events::MouseMoveEventListener& mouseMoveEventListener() { return m_mouseMoveEventListener; }
-        inline Glfw::Events::WindowEventListener& windowEventListener() { return m_windowEventListener; }
+        inline Glfw::Events::KeyEventListener& keyEventListener() 
+            { return m_keyEventListener; }
+        inline Glfw::Events::MouseKeyEventListener& mouseKeyEventListener() 
+            { return m_mouseKeyEventListener; }
+        inline Glfw::Events::MouseMoveEventListener& mouseMoveEventListener() 
+            { return m_mouseMoveEventListener; }
+        inline Glfw::Events::WindowEventListener& windowEventListener() 
+            { return m_windowEventListener; }
+
+        inline Physics::PhysicsManager& physicsManager()
+            {return m_physicsManager; }
+                
     private:
         void registerGlfwListeners();
         void enableResize();
 
+        Physics::PhysicsManager m_physicsManager;
         Renderer::Renderer m_renderer;
         Glfw::Window m_window;
         Glfw::Events::KeyEventListener m_keyEventListener;
