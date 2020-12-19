@@ -64,6 +64,7 @@ namespace MyEngine
         Physics::PhysicsManager m_physicsManager;
         Renderer::Renderer m_renderer;
         Glfw::Window m_window;
+        
         Glfw::Events::KeyEventListener m_keyEventListener;
         Glfw::Events::MouseKeyEventListener m_mouseKeyEventListener;
         Glfw::Events::MouseMoveEventListener m_mouseMoveEventListener;

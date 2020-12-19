@@ -15,9 +15,6 @@ workspace "Engine"
     filter "system:linux"
         defines { "LINUX" }
 
-    filter "system:windows"
-        defines { "WINDOWS" }
-
     filter { }
 
 outputDir = "%{cfg.buildcfg}.%{cfg.system}.%{cfg.architecture}"
@@ -39,7 +36,8 @@ project "MyEngine"
         "%{prj.location}/include",
         "Vendor/stb/include",
         "Vendor/ImGui/include",
-        "Vendor/Glad/include"
+        "Vendor/Glad/include",
+        "Vendor/spdlog/include",
     }
 
     links{
@@ -47,7 +45,8 @@ project "MyEngine"
         "GL", 
         "Glad",
         "ImGui",
-        "stb"
+        "stb",
+        "spdlog"
     }
 
 
@@ -116,3 +115,25 @@ project "Glad"
 
     filter { }
 
+project "spdlog"
+    kind "StaticLib"
+    language "C++"
+    location "Vendor/%{prj.name}"
+    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
+    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
+    defines { "SPDLOG_COMPILED_LIB" }
+
+    files { 
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/src/**.c",
+        "%{prj.location}/include/**.h"
+    }
+
+    includedirs{
+        "%{prj.location}/include"
+    }
+
+    filter{"system:linux"}
+        buildoptions{"-fPIC"}
+
+    filter { }

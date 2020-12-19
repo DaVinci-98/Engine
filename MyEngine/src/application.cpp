@@ -1,6 +1,8 @@
 #include "application.hpp"
 #include "Renderer/renderer.hpp"
 
+#include "spdlog/spdlog.h"
+
 #include <iostream>
 #include <stdexcept>
 #include <exception>
@@ -29,7 +31,10 @@ namespace MyEngine
 
         if(!m_renderer.initialize()) return -1;
 
-        std::cout << "[VERSION] : " <<  glGetString(GL_VERSION) << std::endl;
+        // Bad casting, but static_cast doesn't understand OpenGL's typedefs
+        std::string version = (const char*)(glGetString(GL_VERSION));
+        // std::cout << "[VERSION] : " <<  glGetString(GL_VERSION) << std::endl;
+        spdlog::info("[VERSION] : " + version);
 
         return 0;
     }
