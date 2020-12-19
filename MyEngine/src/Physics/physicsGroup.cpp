@@ -17,15 +17,15 @@ namespace MyEngine::Physics
         {
             for(auto& bodyB : m_bodies)
             {
-                if(bodyA -> isDynamic())
+                if(bodyA -> isDynamic() && bodyA != bodyB)
                 {
                     CollisionInfo info = runDetectionPipeline(*bodyA, *bodyB);
-                    m_emitter.sendEvent(m_name, info, bodyA, bodyB);
+                    if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyA, bodyB);
                 }
-                else if(bodyB -> isDynamic())
+                else if(bodyB -> isDynamic() && bodyA != bodyB)
                 {
                     CollisionInfo info = runDetectionPipeline(*bodyB, *bodyA);
-                    m_emitter.sendEvent(m_name, info, bodyB, bodyA);
+                    if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyB, bodyA);
                 }
             }
         }
@@ -36,10 +36,10 @@ namespace MyEngine::Physics
         for(auto& collisionLevel : m_collisionDetectionPipeline)
         {
             auto info = t_dynamicBody.checkCollision(t_body, collisionLevel);
-            if(info.m_detected == true) return info;
+            if(info.m_detected == false) return info;
         }
 
-        return CollisionInfo { false };
+        return CollisionInfo { true };
     }
 
     void PhysicsGroup::takeMovementStep(float t_time)

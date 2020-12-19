@@ -8,7 +8,7 @@ namespace MyEngine::Physics
     enum CollisionLevel
     {
         CIRCLE_BOUND,
-        AXIS_ALLIGNED_RECTANGLE_BOUND,
+        AXIS_ALLIGNED_BOUNDING_BOX,
         // EDGE_INFLUENCE_ZONE,
         EDGE_COLLISION
     };

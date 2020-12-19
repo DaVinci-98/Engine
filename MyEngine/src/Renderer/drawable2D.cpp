@@ -49,7 +49,7 @@ namespace MyEngine::Renderer
     void Drawable2D::bind()
     {
         m_material -> bind();
-        m_material -> shader() -> setMat4Uniform(Shader::MODEL_UNIFORM, m_model, true);
+        m_material -> shader() -> setMat4Uniform(Shader::MODEL_UNIFORM, *m_model, true);
 
         m_mesh -> unbind();
         m_vertexArray -> bind();

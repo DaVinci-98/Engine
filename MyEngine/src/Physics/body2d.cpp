@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 namespace MyEngine::Physics
 {
@@ -85,6 +86,11 @@ namespace MyEngine::Physics
         
         m_center += t_translation;
 
+        m_lowerBound += t_translation.y;
+        m_upperBound += t_translation.y;
+        m_leftBound  += t_translation.x;
+        m_rightBound += t_translation.x;
+
         if(m_model)
             *m_model = glm::translate(*m_model, glm::vec3(t_translation, 0));
     }
@@ -96,7 +102,7 @@ namespace MyEngine::Physics
         case CIRCLE_BOUND:
             return checkBC(t_body);
             break;
-        case AXIS_ALLIGNED_RECTANGLE_BOUND:
+        case AXIS_ALLIGNED_BOUNDING_BOX:
             return checkAABB(t_body);
             break;
         case EDGE_COLLISION:
@@ -171,12 +177,17 @@ namespace MyEngine::Physics
 
     CollisionInfo Body2D::checkAABB(Body2D& t_body)
     {
-        bool yOverlap = (m_lowerBound < t_body.m_upperBound && m_upperBound >= t_body.m_upperBound) ||
-                        (m_upperBound > t_body.m_lowerBound && m_lowerBound <= t_body.m_lowerBound);
-        bool xOverlap = (m_leftBound < t_body.m_rightBound && m_rightBound >= t_body.m_rightBound) ||
-                        (m_rightBound > t_body.m_leftBound && m_leftBound <= t_body.m_leftBound);
+        bool yOverlap = (m_lowerBound <= t_body.m_upperBound && m_lowerBound >= t_body.m_lowerBound && m_upperBound >= t_body.m_upperBound) ||
+                        (m_upperBound >= t_body.m_lowerBound && m_upperBound <= t_body.m_upperBound && m_lowerBound <= t_body.m_lowerBound);
 
-        return CollisionInfo { xOverlap && yOverlap };        
+        bool xOverlap = (m_leftBound <= t_body.m_rightBound && m_leftBound >= t_body.m_leftBound && m_rightBound >= t_body.m_rightBound) ||
+                        (m_rightBound >= t_body.m_leftBound && m_rightBound <= t_body.m_rightBound && m_leftBound <= t_body.m_leftBound);
+
+        if((m_lowerBound >= t_body.m_lowerBound && m_upperBound <= t_body.m_upperBound) ||
+           (m_leftBound >= t_body.m_leftBound && m_rightBound <= t_body.m_rightBound))
+            return CollisionInfo { xOverlap || yOverlap };
+        else
+            return CollisionInfo { xOverlap && yOverlap };
     }
 
     CollisionInfo Body2D::checkDetailed(Body2D& t_body)

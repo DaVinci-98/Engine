@@ -22,17 +22,17 @@ namespace MyEngine::Renderer
         void setMesh(std::shared_ptr<Mesh2D>& t_mesh);
 
         inline void translate(glm::vec2&& t_vec)
-            { m_model = glm::translate(m_model, glm::vec3(t_vec, 0));
+            { *m_model = glm::translate(*m_model, glm::vec3(t_vec, 0));
               m_modelChanged = true; }
         inline void translate(glm::vec2 const& t_vec)
-            { m_model = glm::translate(m_model, glm::vec3(t_vec, 0));
+            { *m_model = glm::translate(*m_model, glm::vec3(t_vec, 0));
               m_modelChanged = true; }
         inline void scale(float t_x, float t_y)
-            { m_model = glm::scale(m_model, glm::vec3(t_x, t_y, 1));
+            { *m_model = glm::scale(*m_model, glm::vec3(t_x, t_y, 1));
               m_modelChanged = true; }
         inline unsigned int vertexCount() const
             { return m_mesh -> vertexCount(); }
-        inline glm::mat4& modelMatrix()
+        inline std::shared_ptr<glm::mat4>& modelMatrix()
             { return m_model; }
         
         void bind();
@@ -40,7 +40,7 @@ namespace MyEngine::Renderer
     private:
         void makeArray();
 
-        glm::mat4 m_model = glm::mat4(1);
+        std::shared_ptr<glm::mat4> m_model = std::make_shared<glm::mat4>(1);
         bool m_modelChanged = false;
 
         std::unique_ptr<OpenGL::VertexArray> m_vertexArray;

@@ -11,10 +11,13 @@ namespace MyEngine::Physics
 {
     class PhysicsManager
     {
+    public:
         inline void update(float t_time = 1)
             { for(auto& [_, group] : m_groups) group.update(t_time); }
 
-        inline void registerPhysicsGroup(std::string&& t_name);
+        void registerPhysicsGroup(std::string&& t_name);
+        inline void registerPhysicsGroup(std::string const& t_name)
+            { registerPhysicsGroup(std::string(t_name)); }
         inline void unregisterPhysicsGroup(std::string&& t_name)
             { m_groups.erase(std::move(t_name)); }
         inline void registerCollisionCallback(std::string& t_name,
