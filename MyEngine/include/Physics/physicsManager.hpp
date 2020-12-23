@@ -22,7 +22,7 @@ namespace MyEngine::Physics
             { m_groups.erase(std::move(t_name)); }
         inline void registerCollisionCallback(std::string& t_name,
             std::function<void(CollisionEvent&)>&& t_callback,
-            std::shared_ptr<Body2D>& t_body)
+            std::shared_ptr<Body2D> t_body)
             { m_listners[t_name].registerCollisionCallback(std::move(t_callback), t_body); }
         
         inline PhysicsGroup& getGroup(std::string const& t_name)

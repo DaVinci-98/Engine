@@ -13,7 +13,7 @@ namespace MyEngine::Physics
         virtual void dispatch(CollisionEvent&& t_collisionEvent) override;
         void registerCollisionCallback(
             std::function<void(CollisionEvent&)>&& t_callback,
-            std::shared_ptr<Body2D>& t_body);
+            std::shared_ptr<Body2D> t_body);
     
     private:
         unsigned int m_lastRegistered = 0;

@@ -1,4 +1,8 @@
 #include "Glfw/window.hpp"
+#include "Glfw/Events/mouseMoveEvent.hpp"
+#include "Glfw/Events/windowEvent.hpp"
+#include "Helpers/logger.hpp"
+#include "Helpers/type.hpp"
 
 #include <iostream>
 
@@ -21,6 +25,9 @@ namespace MyEngine::Glfw
         };
 
         glfwSetKeyCallback(m_window, callback);
+
+        Helpers::Logger::log<Window>() -> info("[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::KeyEvent>());
+
         return m_keyEventEmitter;
     }
 
@@ -43,6 +50,9 @@ namespace MyEngine::Glfw
             user->m_mouseKeyEventEmitter.sendEvent(mods, key, keyEventType, xpos, ypos);
         };
         glfwSetMouseButtonCallback(m_window, callback);
+
+        Helpers::Logger::log<Window>() -> info("[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::MouseKeyEvent>());
+
         return m_mouseKeyEventEmitter;
     }
 
@@ -54,6 +64,9 @@ namespace MyEngine::Glfw
             user->m_mouseMoveEventEmitter.sendEvent(t_xPos, t_yPos);
         };
         glfwSetCursorPosCallback(m_window, callback);
+
+        Helpers::Logger::log<Window>() -> info("[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::MouseMoveEvent>());
+
         return m_mouseMoveEventEmitter;
     }
 
@@ -68,6 +81,9 @@ namespace MyEngine::Glfw
             user->m_params.m_height = t_height;
         };
         glfwSetFramebufferSizeCallback(m_window, callback);
+
+        Helpers::Logger::log<Window>() -> info("[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::WindowEvent>());
+
         return m_windowEventEmitter;
     }
 
@@ -88,6 +104,19 @@ namespace MyEngine::Glfw
         return active;
     }
 
+    void Window::setParams(WindowParams&& t_params)
+    { 
+        m_params = t_params;
+        Helpers::Logger::log<Window>() -> info(
+            "[Set] [Window] [Params]:\n"
+            "\t[Title]:   {0}\n"
+            "\t[Width]:   {1}\n"
+            "\t[Height]:  {2}\n"
+            "\t[V-sync]:  {3}\n"
+            "\t[Rescale]: {4}",  
+            t_params.m_title, t_params.m_width, t_params.m_height, t_params.m_vsync, t_params.m_allowResize);
+    }
+
     bool Window::initializeWindow()
     {
         if (!glfwInit()) return false;
@@ -95,6 +124,12 @@ namespace MyEngine::Glfw
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        Helpers::Logger::log<Window>() -> info(
+            "[Set] [Glfw] [Params]:\n" 
+            "\t[Version]: 4.6\n" 
+            "\t[Profile]: core");
+
         if(m_params.m_allowResize) glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         else glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
@@ -113,6 +148,8 @@ namespace MyEngine::Glfw
         glfwSetWindowUserPointer(m_window, this);
 
         glfwSetInputMode(m_window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
+
+        Helpers::Logger::log<Window>() -> info("[Init]: Done");
         
         return true;
     }
@@ -124,6 +161,7 @@ namespace MyEngine::Glfw
             glfwDestroyWindow(m_window);
             glfwTerminate();
         }
-    }
 
+        Helpers::Logger::log<Window>() -> info("[Destroy]: Done");
+    }
 }

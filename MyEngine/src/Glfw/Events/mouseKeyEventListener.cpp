@@ -2,17 +2,18 @@
 
 namespace MyEngine::Glfw::Events
 {
-    void MouseKeyEventListener::dispatch(MouseKeyEvent&& t_keyEvent)
+    void MouseKeyEventListener::dispatch(MouseKeyEvent&& t_event)
     {
-        unsigned int keyCode = t_keyEvent.keyCode();
+        unsigned int keyCode = t_event.keyCode();
         if(callback(keyCode))
         {
-            callback(keyCode)(t_keyEvent);
+            t_event.setDispatched();
+            callback(keyCode)(t_event);
         }
 
-        if(!t_keyEvent.isHandled() && nextDispatcher())
+        if(!t_event.isHandled() && nextDispatcher())
         {
-            nextDispatcher()(std::move(t_keyEvent));
+            nextDispatcher()(std::move(t_event));
         }
     }
 

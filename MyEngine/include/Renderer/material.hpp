@@ -15,7 +15,7 @@ namespace MyEngine::Renderer
     class Material
     {
     public:
-        Material(std::shared_ptr<Shader>& t_shader):
+        Material(std::shared_ptr<Shader> t_shader):
             m_shader(t_shader) { }
 
         void setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string t_path, unsigned int t_stride);
@@ -29,7 +29,7 @@ namespace MyEngine::Renderer
         inline void setTexture(std::vector<Triangle2D> const& t_triangles, std::string& t_path)
             { setTexture(std::vector<Triangle2D>(t_triangles), t_path); }
 
-        inline std::shared_ptr<Shader>& shader()
+        inline std::shared_ptr<Shader> shader()
             { return m_shader; }
         inline std::vector<unsigned int>& indecies()
             { return m_indecies; }

@@ -7,7 +7,7 @@
 
 namespace MyEngine::Renderer
 {
-    void Drawable2D::setMaterial(std::shared_ptr<Material>& t_material)
+    void Drawable2D::setMaterial(std::shared_ptr<Material> t_material)
     {
         if(m_mesh)
         {
@@ -22,7 +22,7 @@ namespace MyEngine::Renderer
         makeArray();
     }
 
-    void Drawable2D::setMesh(std::shared_ptr<Mesh2D>& t_mesh)
+    void Drawable2D::setMesh(std::shared_ptr<Mesh2D> t_mesh)
     {
         if(m_material)
         {

@@ -10,14 +10,14 @@ namespace Helpers
     class SmartVector
     {
     public:
-        inline std::vector<std::shared_ptr<T>>& vector()
+        inline std::vector<std::shared_ptr<T>> vector()
             { return m_vector; }
         
         inline auto begin()
             { return std::begin(m_vector); }
         inline auto end()
             { return std::end(m_vector); }
-        inline void pushBack(std::shared_ptr<T>& t_ptr)
+        inline void pushBack(std::shared_ptr<T> t_ptr)
             { m_vector.push_back(t_ptr); }
 
         void removeLooseReferences()

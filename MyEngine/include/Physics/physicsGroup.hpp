@@ -25,7 +25,7 @@ namespace MyEngine::Physics
             { m_ambientVelocity = t_velocity; }
         inline void setAmbientAcceleration(glm::vec2&& t_acceleration)
             { m_ambientAcceleration = t_acceleration; }
-        inline void addBody(std::shared_ptr<Body2D>& t_body)
+        inline void addBody(std::shared_ptr<Body2D> t_body)
             { m_bodies.pushBack(t_body); }
 
         inline CollisionEventEmitter& eventEmitter()

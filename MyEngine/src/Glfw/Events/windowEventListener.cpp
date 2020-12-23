@@ -7,6 +7,7 @@ namespace MyEngine::Glfw::Events
         WindowEvent::WindowEventType type = t_event.evntType();
         if(callback(type))
         {
+            t_event.setDispatched();
             callback(type)(t_event);
         }
 

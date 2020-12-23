@@ -1,7 +1,7 @@
 #include "application.hpp"
 #include "Renderer/renderer.hpp"
 
-#include "spdlog/spdlog.h"
+#include "Helpers/logger.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -10,6 +10,12 @@
 
 namespace MyEngine
 {
+
+    Application::~Application()
+    {
+        Helpers::Logger::log(Helpers::getTypeName<Application>()) -> info("[Destroy]: Done");
+    }
+
     Application::Application(std::string& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize)
     {
         Glfw::Window::WindowParams params 
@@ -31,22 +37,22 @@ namespace MyEngine
 
         if(!m_renderer.initialize()) return -1;
 
-        // Bad casting, but static_cast doesn't understand OpenGL's typedefs
-        std::string version = (const char*)(glGetString(GL_VERSION));
-        // std::cout << "[VERSION] : " <<  glGetString(GL_VERSION) << std::endl;
-        spdlog::info("[VERSION] : " + version);
-
+        Helpers::Logger::log<Application>() -> info("[Version]: {}", glGetString(GL_VERSION));
+        Helpers::Logger::log<Application>() -> info("[Init]: Done");
+        
         return 0;
     }
 
     void Application::startLoop()
     {
+        Helpers::Logger::log<Application>() -> info("[Start] [Game loop]");
         while (m_window.isActive())
         {
             bool frame = onLoop();
             if(!frame)
             {
                 onLoopEnd();
+                Helpers::Logger::log<Application>() -> info("[End] [Game loop]");
                 return;
             }
 
@@ -54,6 +60,7 @@ namespace MyEngine
             m_window.pollEvents();
         }
         bool end = onLoopEnd();
+        Helpers::Logger::log<Application>() -> info("[End] [Game loop]");
         return;
     }
 

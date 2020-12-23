@@ -15,11 +15,11 @@ namespace MyEngine::Renderer
     {
     public:
         Drawable2D() { }
-        Drawable2D(std::shared_ptr<Material>& t_material, std::shared_ptr<Mesh2D>& t_mesh)
+        Drawable2D(std::shared_ptr<Material>& t_material, std::shared_ptr<Mesh2D> t_mesh)
             { setMaterial(t_material); 
               setMesh(t_mesh); }
-        void setMaterial(std::shared_ptr<Material>& t_material);
-        void setMesh(std::shared_ptr<Mesh2D>& t_mesh);
+        void setMaterial(std::shared_ptr<Material> t_material);
+        void setMesh(std::shared_ptr<Mesh2D> t_mesh);
 
         inline void translate(glm::vec2&& t_vec)
             { *m_model = glm::translate(*m_model, glm::vec3(t_vec, 0));
@@ -32,7 +32,7 @@ namespace MyEngine::Renderer
               m_modelChanged = true; }
         inline unsigned int vertexCount() const
             { return m_mesh -> vertexCount(); }
-        inline std::shared_ptr<glm::mat4>& modelMatrix()
+        inline std::shared_ptr<glm::mat4> modelMatrix()
             { return m_model; }
         
         void bind();

@@ -3,6 +3,8 @@
 #include "Renderer/renderer.hpp"
 #include "OpenGL/glException.hpp"
 #include "Glfw/window.hpp"
+#include "Helpers/logger.hpp"
+#include "Helpers/type.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
@@ -14,6 +16,9 @@ namespace MyEngine::Renderer
         if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) return false;
         GL_CALL(glEnable(GL_BLEND));
         GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
+        Helpers::Logger::log(Helpers::getTypeName<Renderer>()) -> info("[Init]: Done"); 
+
         return true;
     }
 

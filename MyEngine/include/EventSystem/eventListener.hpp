@@ -17,6 +17,7 @@ namespace MyEngine::EventSystem
         {
             for (auto& [t_key, t_callback] : m_callbackMap)
             {
+                t_event.setDispatched();
                 t_callback(t_event);
                 if(t_event.isHandled()) return;
             }

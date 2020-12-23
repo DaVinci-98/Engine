@@ -23,7 +23,7 @@ namespace MyEngine::Physics
         glm::vec2 getMovementDirection()
             { return m_velocity + m_acceleration * 0.5f; }
 
-        inline void setAssociatedModel(std::shared_ptr<glm::mat4>& t_model)
+        inline void setAssociatedModel(std::shared_ptr<glm::mat4> t_model)
             { m_model = t_model; }
         inline glm::vec2& acceleration()
             { return m_acceleration; }

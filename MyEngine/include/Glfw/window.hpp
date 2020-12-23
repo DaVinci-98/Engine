@@ -30,8 +30,7 @@ namespace MyEngine::Glfw
 
         ~Window();
 
-        inline void setParams(WindowParams&& t_params)
-            { m_params = t_params; }
+        void setParams(WindowParams&& t_params);
         bool initializeWindow();
         void pollEvents() const;
         void draw() const;

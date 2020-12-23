@@ -20,6 +20,7 @@ namespace MyEngine
     {
     public:
         Application(std::string& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize);
+        ~Application();
 
         // Set up window.
         int initialize();
