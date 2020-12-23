@@ -77,10 +77,11 @@ namespace MyEngine
         m_resizeRendererListener.registerNextListener(m_windowEventListener);
         
         auto resizeCallback = [this](Glfw::Events::WindowEvent& t_event) -> void 
-            {
-                auto&& [width, height] = t_event.newWindowSize();
-                this->m_renderer.resizeWindow(width, height); 
-            };
+        {
+            auto&& [width, height] = t_event.newWindowSize();
+            this->m_renderer.resizeWindow(width, height); 
+            t_event.handle();
+        };
         m_resizeRendererListener.registerResizeCallback(resizeCallback);
     }
 }
