@@ -30,6 +30,11 @@ namespace MyEngine::Renderer
         inline void scale(float t_x, float t_y)
             { *m_model = glm::scale(*m_model, glm::vec3(t_x, t_y, 1));
               m_modelChanged = true; }
+
+        inline std::shared_ptr<Material> material()
+            { return m_material; }
+        inline std::shared_ptr<Mesh2D> mesh()
+            { return m_mesh; }
         inline unsigned int vertexCount() const
             { return m_mesh -> vertexCount(); }
         inline std::shared_ptr<glm::mat4> modelMatrix()

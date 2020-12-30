@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <iostream>
 
 namespace Helpers
 {
@@ -19,22 +20,25 @@ namespace Helpers
             { return std::end(m_vector); }
         inline void pushBack(std::shared_ptr<T> t_ptr)
             { m_vector.push_back(t_ptr); }
+        inline unsigned int& useCount()
+            { return m_useCount; }
 
         void removeLooseReferences()
         {
+            auto useCount = m_useCount;
             while(true)
             {
-                auto lastFind = std::find_if(begin(), end(), SmartVector::isLooseReference);
+                auto lastFind = std::find_if(begin(), end(), 
+                    [useCount](std::shared_ptr<T> t_ptr)
+                        { return t_ptr.use_count() <= useCount; });
 
                 if(lastFind == end()) return;
                 else m_vector.erase(lastFind);
             }
         }
 
-        static inline bool isLooseReference(std::shared_ptr<T> t_ptr)
-            { return t_ptr.use_count() == 1; }
-
     private:
+        unsigned int m_useCount = 1;
         std::vector<std::shared_ptr<T>> m_vector;
     };
 }

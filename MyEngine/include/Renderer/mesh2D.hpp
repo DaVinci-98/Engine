@@ -22,6 +22,8 @@ namespace MyEngine::Renderer
 
         inline std::vector<unsigned int>& indecies()
             { return m_indecies; }
+        inline std::vector<float>& vertices()
+            { return m_vertices; }
         inline OpenGL::VertexBuffer& buffer()
             {return *m_vertexBuffer;}
         inline unsigned int vertexSize() const

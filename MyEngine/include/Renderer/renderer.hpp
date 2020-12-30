@@ -24,7 +24,9 @@ namespace MyEngine::Renderer
 
         std::string colourShader();
         std::string textureShader();
-        inline std::shared_ptr<Shader> shader(std::string& t_name)
+        inline std::shared_ptr<Shader> shader(std::string const& t_name)
+            { return m_activeShaders[t_name]; }
+        inline std::shared_ptr<Shader> shader(std::string && t_name)
             { return m_activeShaders[t_name]; }
 
         inline glm::mat4& projection() 
