@@ -8,6 +8,19 @@
 
 namespace MyEngine::Physics
 {
+    Body2D::Body2D(std::vector<float> const& t_vertecies, bool t_isDynamic)
+    {
+        std::vector<glm::vec2> vertecies;
+        for(int i = 0; i < t_vertecies.size(); i+=2)
+            vertecies.push_back(glm::vec2(t_vertecies[i], t_vertecies[i+1]));
+
+        m_vertecies = vertecies;
+        m_dynamic = t_isDynamic;
+
+        calculateBindingCircle();
+        calculateAABBB();
+    }
+
     Body2D::Body2D(std::vector<glm::vec2> const& t_vertecies, bool t_isDynamic)
     {
         m_vertecies = t_vertecies;
@@ -68,19 +81,24 @@ namespace MyEngine::Physics
         else m_axisAlligned = false;
     }
 
-    void Body2D::applyMovementStep(glm::vec2&& t_ambientVelocity, glm::vec2&& t_ambientAcceleartion, float t_time)
+    void Body2D::applyMovementStep(float t_time)
     {
-        glm::vec2 acceleration = m_acceleration + t_ambientAcceleartion;
-        glm::vec2 startVelocity = m_velocity + t_ambientAcceleartion;
-        glm::vec2 translation = startVelocity * t_time + acceleration * t_time * t_time * 0.5f;
+        glm::vec2 acceleration = m_acceleration + m_groupAcceleration;
+        glm::vec2 startVelocity = m_velocity + m_groupVelocity;
+        glm::vec2 translation = startVelocity * t_time + acceleration * t_time * t_time / 2.0f;
 
         applyTranslation(std::move(translation));
 
         m_velocity += acceleration * t_time;
+
+        m_groupAcceleration = glm::vec2(0);
+        m_groupVelocity = glm::vec2(0);
     }
 
     void Body2D::applyTranslation(glm::vec2&& t_translation)
     {
+        m_lastTranslation = t_translation;
+        
         for(auto& vertex : m_vertecies)
             vertex += t_translation;
         
@@ -95,6 +113,16 @@ namespace MyEngine::Physics
             *m_model = glm::translate(*m_model, glm::vec3(t_translation, 0));
     }
 
+    void Body2D::undoLastTranslation(float t_bounce)
+    { 
+        float len = glm::length(m_lastTranslation);
+        if(len == 0) return;
+
+        float scale = t_bounce * (len + 1.0f) / len;
+        applyTranslation(- scale * m_lastTranslation);
+        m_lastTranslation = glm::vec2(0);
+    }
+
     CollisionInfo Body2D::checkCollision(Body2D& t_body, CollisionLevel t_collisionLevel)
     {
         switch (t_collisionLevel)
@@ -106,12 +134,47 @@ namespace MyEngine::Physics
             return checkAABB(t_body);
             break;
         case EDGE_COLLISION:
-            return checkDetailed(t_body);
+            return checkEdges(t_body);
+            break;
+        case OUT_OF_BOUNDS:
+            return checkOutOfBounds(t_body);
             break;
         default:
             return CollisionInfo { false };
             break;
         }
+    }
+
+    CollisionInfo Body2D::checkOutOfBounds(Body2D& t_body)
+    {
+        CollisionInfo info;
+        info.m_detected = false;
+        info.m_penetration = glm::vec2(0);
+        if (m_upperBound > t_body.m_upperBound)
+        {
+            info.m_detected = true;
+            info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body.m_upperBound));
+            info.m_penetration += info.m_collisionPoints.back();
+        }
+        if (m_lowerBound < t_body.m_lowerBound)
+        {
+            info.m_detected = true;
+            info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body.m_lowerBound));
+            info.m_penetration += info.m_collisionPoints.back();
+        }
+        if (m_rightBound > t_body.m_rightBound)
+        {
+            info.m_detected = true;
+            info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body.m_rightBound, 0));
+            info.m_penetration += info.m_collisionPoints.back();
+        }
+        if (m_leftBound  < t_body.m_leftBound )
+        {
+            info.m_detected = true;
+            info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body.m_leftBound,   0));
+            info.m_penetration += info.m_collisionPoints.back();
+        }
+        return info;
     }
 
     CollisionInfo Body2D::checkEdge(glm::vec2& t_a, glm::vec2& t_b)
@@ -177,20 +240,55 @@ namespace MyEngine::Physics
 
     CollisionInfo Body2D::checkAABB(Body2D& t_body)
     {
-        bool yOverlap = (m_lowerBound <= t_body.m_upperBound && m_lowerBound >= t_body.m_lowerBound && m_upperBound >= t_body.m_upperBound) ||
-                        (m_upperBound >= t_body.m_lowerBound && m_upperBound <= t_body.m_upperBound && m_lowerBound <= t_body.m_lowerBound);
 
-        bool xOverlap = (m_leftBound <= t_body.m_rightBound && m_leftBound >= t_body.m_leftBound && m_rightBound >= t_body.m_rightBound) ||
-                        (m_rightBound >= t_body.m_leftBound && m_rightBound <= t_body.m_rightBound && m_leftBound <= t_body.m_leftBound);
+        CollisionInfo info;
+        info.m_detected = false;
+        info.m_penetration = glm::vec2(0);
 
-        if((m_lowerBound >= t_body.m_lowerBound && m_upperBound <= t_body.m_upperBound) ||
-           (m_leftBound >= t_body.m_leftBound && m_rightBound <= t_body.m_rightBound))
-            return CollisionInfo { xOverlap || yOverlap };
-        else
-            return CollisionInfo { xOverlap && yOverlap };
+        if(m_leftBound  < t_body.m_rightBound &&
+           m_rightBound > t_body.m_leftBound)
+        {
+            if(m_lowerBound < t_body.m_upperBound && 
+               m_lowerBound > t_body.m_lowerBound && 
+               m_upperBound > t_body.m_upperBound)
+            {
+                info.m_detected = true;
+                info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body.m_upperBound));
+                info.m_penetration += info.m_collisionPoints.back();
+            }
+            if(m_upperBound > t_body.m_lowerBound && 
+               m_upperBound < t_body.m_upperBound && 
+               m_lowerBound < t_body.m_lowerBound)
+            {
+                info.m_detected = true;
+                info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body.m_lowerBound));
+                info.m_penetration += info.m_collisionPoints.back();
+            }
+        }
+        if(m_lowerBound < t_body.m_upperBound &&
+           m_upperBound > t_body.m_lowerBound)
+        {
+            if(m_leftBound  < t_body.m_rightBound && 
+               m_leftBound  > t_body.m_leftBound  && 
+               m_rightBound > t_body.m_rightBound)
+            {
+                info.m_detected = true;
+                info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body.m_rightBound,  0));
+                info.m_penetration += info.m_collisionPoints.back();
+            }
+            if(m_rightBound > t_body.m_leftBound  && 
+               m_rightBound < t_body.m_rightBound && 
+               m_leftBound  < t_body.m_leftBound) 
+            {
+                info.m_detected = true;
+                info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body.m_leftBound,  0));
+                info.m_penetration += info.m_collisionPoints.back();
+            }   
+        }
+        return info;
     }
 
-    CollisionInfo Body2D::checkDetailed(Body2D& t_body)
+    CollisionInfo Body2D::checkEdges(Body2D& t_body)
     {
         if(t_body.m_axisAlligned && m_axisAlligned) return checkAABB(t_body);
 

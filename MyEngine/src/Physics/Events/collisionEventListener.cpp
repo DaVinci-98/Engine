@@ -4,17 +4,10 @@ namespace MyEngine::Physics
 {
     void CollisionEventListener::dispatch(CollisionEvent&& t_collisionEvent)
     {
-        if(m_bodyIds.count(t_collisionEvent.dynamicBody()) == 1)
+        if(m_bodyIds.count(t_collisionEvent.callingBody()) == 1)
         {
             t_collisionEvent.setDispatched();
-            auto id = m_bodyIds[t_collisionEvent.dynamicBody()];
-            callback(id)(t_collisionEvent);
-        }
-
-        if(m_bodyIds.count(t_collisionEvent.staticBody()) == 1)
-        {
-            t_collisionEvent.setDispatched();
-            auto id = m_bodyIds[t_collisionEvent.staticBody()];
+            auto id = m_bodyIds[t_collisionEvent.callingBody()];
             callback(id)(t_collisionEvent);
         }
 

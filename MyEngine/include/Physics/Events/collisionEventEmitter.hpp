@@ -8,8 +8,8 @@ namespace MyEngine::Physics
     class CollisionEventEmitter : public EventSystem::EventEmitter<CollisionEvent>
     {
     public:
-        inline void sendEvent(std::string& t_group, CollisionInfo t_info,
-            std::shared_ptr<Body2D> t_dynamic, std::shared_ptr<Body2D> t_static)
-            { EventSystem::EventEmitter<CollisionEvent>::sendEvent(CollisionEvent(t_group, t_info, t_dynamic, t_static)); }
+        inline void sendEvent(std::string& t_group, CollisionInfo& t_info,
+            std::shared_ptr<Body2D> t_calling, std::shared_ptr<Body2D> t_second)
+            { EventSystem::EventEmitter<CollisionEvent>::sendEvent(CollisionEvent(t_group, t_info, t_calling, t_second)); }
     };
 }

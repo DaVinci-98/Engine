@@ -3,12 +3,13 @@
 
 namespace MyEngine::Physics
 {
-    void PhysicsGroup::update(float t_time)
+    void PhysicsGroup::updateSpeed()
     {
-        m_bodies.removeLooseReferences();
-
-        takeMovementStep(t_time);
-        checkForCollisions();
+        for(auto& body : m_bodies)
+        {
+            body -> addGroupAcceleartion(m_ambientAcceleration);
+            body -> addGroupVelocity(m_ambientVelocity);
+        }
     }
 
     void PhysicsGroup::checkForCollisions()
@@ -17,15 +18,31 @@ namespace MyEngine::Physics
         {
             for(auto& bodyB : m_bodies)
             {
-                if(bodyA -> isDynamic() && bodyA != bodyB)
+                if(m_isStatic)
                 {
-                    CollisionInfo info = runDetectionPipeline(*bodyA, *bodyB);
-                    if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyA, bodyB);
+                    if(bodyA -> isDynamic() && bodyB -> isStatic() && bodyA != bodyB)
+                    {
+                        CollisionInfo info = runDetectionPipeline(*bodyA, *bodyB);
+                        if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyA, bodyB);
+                    }
+                    else if(bodyB -> isDynamic() && bodyA ->isStatic() && bodyA != bodyB)
+                    {
+                        CollisionInfo info = runDetectionPipeline(*bodyB, *bodyA);
+                        if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyB, bodyA);
+                    }
                 }
-                else if(bodyB -> isDynamic() && bodyA != bodyB)
+                else
                 {
-                    CollisionInfo info = runDetectionPipeline(*bodyB, *bodyA);
-                    if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyB, bodyA);
+                    if(bodyA -> isDynamic() && bodyA != bodyB)
+                    {
+                        CollisionInfo info = runDetectionPipeline(*bodyA, *bodyB);
+                        if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyA, bodyB);
+                    }
+                    else if(bodyB -> isDynamic() && bodyA != bodyB)
+                    {
+                        CollisionInfo info = runDetectionPipeline(*bodyB, *bodyA);
+                        if(info.m_detected) m_emitter.sendEvent(m_name, info, bodyB, bodyA);
+                    }
                 }
             }
         }
@@ -33,18 +50,13 @@ namespace MyEngine::Physics
 
     CollisionInfo PhysicsGroup::runDetectionPipeline(Body2D& t_dynamicBody, Body2D& t_body)
     {
+        CollisionInfo info;
         for(auto& collisionLevel : m_collisionDetectionPipeline)
         {
-            auto info = t_dynamicBody.checkCollision(t_body, collisionLevel);
+            info = t_dynamicBody.checkCollision(t_body, collisionLevel);
             if(info.m_detected == false) return info;
         }
 
-        return CollisionInfo { true };
-    }
-
-    void PhysicsGroup::takeMovementStep(float t_time)
-    {
-        for(auto& body : m_bodies)
-            body -> applyMovementStep(m_ambientVelocity, m_ambientAcceleration, t_time);
+        return info;
     }
 }
