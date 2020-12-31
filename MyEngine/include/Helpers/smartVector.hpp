@@ -22,6 +22,19 @@ namespace Helpers
             { m_vector.push_back(t_ptr); }
         inline unsigned int& useCount()
             { return m_useCount; }
+        
+        void remove(std::shared_ptr<T> t_ptr)
+        {
+            auto iterator = std::find(m_vector.begin(), m_vector.end(), t_ptr); 
+            if(iterator != m_vector.end())
+                m_vector.erase(iterator);
+        }
+
+        void pushBackUnique(std::shared_ptr<T> t_ptr)
+        {
+            if(std::find(m_vector.begin(), m_vector.end(), t_ptr) == m_vector.end()) 
+                m_vector.push_back(t_ptr); 
+        }
 
         void removeLooseReferences()
         {
@@ -33,7 +46,11 @@ namespace Helpers
                         { return t_ptr.use_count() <= useCount; });
 
                 if(lastFind == end()) return;
-                else m_vector.erase(lastFind);
+                else 
+                {
+                    m_vector.erase(lastFind);
+                    std::cout<<"removing"<<std::endl;
+                }
             }
         }
 

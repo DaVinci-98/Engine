@@ -16,6 +16,7 @@ namespace MyEngine::Physics
         void registerPhysicsGroup(std::string&& t_name, bool t_isStatic);
         void unregisterPhysicsGroup(std::string&& t_name);
         void addBody(std::string& t_group, std::shared_ptr<Body2D> t_body);
+        void removeBody(std::shared_ptr<Body2D> t_body);
 
         inline void registerPhysicsGroup(std::string const& t_name, bool t_isStatic)
             { registerPhysicsGroup(std::string(t_name), t_isStatic); }

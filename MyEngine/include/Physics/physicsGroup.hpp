@@ -24,6 +24,7 @@ namespace MyEngine::Physics
             { m_collisionDetectionPipeline = t_pipeline; }
         inline void addBody(std::shared_ptr<Body2D> t_body)
             { m_bodies.push_back(t_body); }
+        void removeBody(std::shared_ptr<Body2D> t_body);
 
         inline glm::vec2& ambientVelocity()
             { return m_ambientVelocity; }

@@ -4,7 +4,7 @@ namespace MyEngine::Physics
 {
     void PhysicsManager::update(float t_time)
     { 
-        m_bodies.removeLooseReferences();
+        // m_bodies.removeLooseReferences();
 
         for(auto& [_, group] : m_groups)
             group.updateSpeed();
@@ -34,7 +34,14 @@ namespace MyEngine::Physics
 
     void PhysicsManager::addBody(std::string& t_group, std::shared_ptr<Body2D> t_body)
     { 
-        m_bodies.pushBack(t_body);
+        m_bodies.pushBackUnique(t_body);
         getGroup(t_group).addBody(t_body);
+    }
+
+    void PhysicsManager::removeBody(std::shared_ptr<Body2D> t_body)
+    {
+        m_bodies.remove(t_body);
+        for(auto& [_, group] : m_groups)
+            group.removeBody(t_body);
     }
 }

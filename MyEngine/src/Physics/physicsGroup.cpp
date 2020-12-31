@@ -12,6 +12,13 @@ namespace MyEngine::Physics
         }
     }
 
+    void PhysicsGroup::removeBody(std::shared_ptr<Body2D> t_body)
+    { 
+        auto iterator = std::find(m_bodies.begin(), m_bodies.end(), t_body); 
+        if(iterator != m_bodies.end())
+            m_bodies.erase(iterator);
+    }
+
     void PhysicsGroup::checkForCollisions()
     {
         for(auto& bodyA : m_bodies)

@@ -12,6 +12,7 @@
 #include <iostream>
 #include <memory>
 #include <unordered_map>
+#include <chrono>
 
 namespace MyEngine
 {
@@ -19,7 +20,7 @@ namespace MyEngine
     class Application
     {
     public:
-        Application(std::string& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize);
+        Application(std::string& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize, float t_updateRate = 1.0f/60.0f);
         ~Application();
 
         // Set up window.
@@ -32,7 +33,10 @@ namespace MyEngine
         virtual bool onWindowCreate() 
             { return true; };
         // Called inside the main loop.
-        virtual bool onLoop() = 0;
+        virtual bool onUpdate(float t_deltaTime)
+            { return true; }
+        virtual bool onRender()
+            { return true; }
         // Called after main loop ends.
         virtual bool onLoopEnd() 
             { return true; };
@@ -61,6 +65,8 @@ namespace MyEngine
     private:
         void registerGlfwListeners();
         void enableResize();
+
+        float m_updateRate = 1.0f / 60.0f;
 
         Physics::PhysicsManager m_physicsManager;
         Renderer::Renderer m_renderer;
