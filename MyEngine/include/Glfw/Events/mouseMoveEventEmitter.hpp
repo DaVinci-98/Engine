@@ -5,9 +5,19 @@
 
 namespace MyEngine::Glfw::Events
 {
+    /**
+     * @brief Emits MouseMoveEvent objects.
+     * 
+     */
     class MouseMoveEventEmitter: public EventSystem::EventEmitter<MouseMoveEvent>
     {
     public:
+        /**
+         * @brief Send a MouseMoveEvent with provided:
+         * 
+         * @param t_posX current x coordinate
+         * @param t_posY current y coordniate
+         */
         void sendEvent(double t_posX, double t_posY);
     private:
         double m_lastX = 0;

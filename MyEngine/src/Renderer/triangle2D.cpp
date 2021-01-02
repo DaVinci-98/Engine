@@ -1,4 +1,5 @@
 #include "Renderer/triangle2D.hpp"
+#include "Helpers/logger.hpp"
 
 namespace MyEngine::Renderer
 {
@@ -23,7 +24,11 @@ namespace MyEngine::Renderer
     {
         // Check if the length of added parameters is equal
         if(t_params_a.size() != t_params_b.size() ||
-           t_params_a.size() != t_params_c.size()) return false;
+           t_params_a.size() != t_params_c.size())
+        {
+            Helpers::Logger::log<Triangle2D>() -> error("[addParam()]: Lenghts of parameters don't match.");
+            return false;
+        }
 
         unsigned int oldVertexParamCount = m_vertices.size() / 3;
         size_t size = t_params_a.size();

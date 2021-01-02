@@ -4,9 +4,17 @@
 
 namespace MyEngine::Glfw::Events
 {
+    /**
+     * @brief Event for sending information about keyboard input.
+     * 
+     */
     class KeyEvent: public EventSystem::Event<KeyEvent>
     {
     public:
+        /**
+         * @brief Action which caused KeyEvent to be emitted.
+         * 
+         */
         enum KeyEventType
         {
             PRESSED = 1, 
@@ -14,6 +22,10 @@ namespace MyEngine::Glfw::Events
             REPEAT = 2
         };
 
+        /**
+         * @brief Modificators which were present when KeyEvent was emitted.
+         * 
+         */
         enum KeyMods
         {
             NONE = 0,
@@ -82,6 +94,10 @@ namespace MyEngine::Glfw::Events
             NUM_LOCK_CAPS_LOCK_SUPER_ALT_CONTROL_SHIFT, 
         };
 
+        /**
+         * @brief Key which caused KeyEvent to be emitted.
+         * 
+         */
         enum Key
         {
             /* Printable keys */
@@ -214,10 +230,50 @@ namespace MyEngine::Glfw::Events
         KeyEvent(KeyMods t_mods, Key t_key, KeyEventType t_keyEventType)
             : m_keyCode(getKeyCode(t_mods, t_key, t_keyEventType)) { }
         
+        /**
+         * @brief Check if provided KeyEventType matches the on in keycode for this KeyEvent.
+         * @sa keyCode()
+         * 
+         * @param t_keyEventType - KeyEventType to check against keyCode.
+         * 
+         * @return true if KeyEventType matches.
+         */
         bool checkKeyEventType(KeyEventType t_keyEventType) const;
+        /**
+         * @brief Check if provided KeyMods matchs the ones in keycode for this KeyEvent.
+         * @sa keyCode()
+         * 
+         * @param t_keyMod - KeyMods to check against keyCode.
+         * 
+         * @return true if KeyMods match.
+         */
         bool ckeckKeyMod(KeyMods t_keyMod) const;
+        /**
+         * @brief Check if provided Key matches the on in keycode for this KeyEvent.
+         * @sa keyCode()
+         * 
+         * @param t_key - Key to check against keyCode.
+         * 
+         * @return true if Key matches.
+         */
         bool checkKey(Key t_key) const;
+
+        /**
+         * @brief Get keyCode associated with this event.
+         * KeyCode is an unsigned int containing information about 
+         * key, keymods and keyEventType that caused this event.
+         * 
+         */
         unsigned int keyCode() const { return m_keyCode; }
+        /**
+         * @brief Get keyCode from provided KeyEvent info.
+         * @sa keyCode()
+         * 
+         * @param t_mods - modificators present when the key was pressed.
+         * @param t_key - key pressed.
+         * @param t_keyEventType - was it a press/release/repeat action.
+         * @return unsigned int - keyCode
+         */
         static unsigned int getKeyCode(KeyMods t_mods, Key t_key, KeyEventType t_keyEventType);
         
     private:

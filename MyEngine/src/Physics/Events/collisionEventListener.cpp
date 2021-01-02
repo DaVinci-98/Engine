@@ -1,4 +1,6 @@
 #include "Physics/Events/collisionEventListener.hpp"
+#include "Helpers/logger.hpp"
+#include "EventSystem/event.hpp"
 
 namespace MyEngine::Physics
 {
@@ -6,7 +8,7 @@ namespace MyEngine::Physics
     {
         if(m_bodyIds.count(t_collisionEvent.callingBody()) == 1)
         {
-            t_collisionEvent.setDispatched();
+            t_collisionEvent.dispatched();
             auto id = m_bodyIds[t_collisionEvent.callingBody()];
             callback(id)(t_collisionEvent);
         }
@@ -14,6 +16,11 @@ namespace MyEngine::Physics
         if(!t_collisionEvent.isHandled() && nextDispatcher())
         {
             nextDispatcher()(std::move(t_collisionEvent));
+        }
+
+        if(!t_collisionEvent.isHandled() && t_collisionEvent.isDispatched())
+        {
+            Helpers::Logger::log<EventSystem::Event<CollisionEvent>>() -> warn("[Unhandled]"); 
         }
     }
 

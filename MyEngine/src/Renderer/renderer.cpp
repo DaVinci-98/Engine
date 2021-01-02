@@ -13,7 +13,11 @@ namespace MyEngine::Renderer
 {
     bool Renderer::initialize()
     {
-        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) return false;
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+        {
+            Helpers::Logger::log(Helpers::getTypeName<Renderer>()) -> error("[Init]: GL loader couldn't be loaded."); 
+            return false;
+        }
         GL_CALL(glEnable(GL_BLEND));
         GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 

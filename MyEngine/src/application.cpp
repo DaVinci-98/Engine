@@ -30,19 +30,27 @@ namespace MyEngine
         m_window.setParams(std::move(params));
     }
 
-    int Application::initialize()
+    bool Application::initialize()
     {
-        if(!m_window.initializeWindow()) return -1;
+        if(!m_window.initializeWindow())
+        {
+            Helpers::Logger::log<Application>() -> error("[Init]: Couldn't initialize Glfw window.");
+            return false;
+        }
         if(m_window.allowResize()) enableResize();
         registerGlfwListeners();
 
-        if(!m_renderer.initialize()) return -1;
+        if(!m_renderer.initialize())
+        {
+            Helpers::Logger::log<Application>() -> error("[Init]: Couldn't initialize renderer.");
+            return false;
+        }
         renderer().setOrtho2D(screenWidth(), screenHeight());
 
         Helpers::Logger::log<Application>() -> info("[Version]: {}", glGetString(GL_VERSION));
         Helpers::Logger::log<Application>() -> info("[Init]: Done");
         
-        return 0;
+        return true;
     }
 
     void Application::startLoop()

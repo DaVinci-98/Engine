@@ -1,19 +1,26 @@
 #include "Glfw/Events/windowEventListener.hpp"
+#include "Helpers/logger.hpp"
+#include "EventSystem/event.hpp"
 
 namespace MyEngine::Glfw::Events
 {
-    void WindowEventListener::dispatch(WindowEvent&& t_event)
+    void WindowEventListener::dispatch(WindowEvent&& t_windowEvent)
     {
-        WindowEvent::WindowEventType type = t_event.evntType();
+        WindowEvent::WindowEventType type = t_windowEvent.evntType();
         if(callback(type))
         {
-            t_event.setDispatched();
-            callback(type)(t_event);
+            t_windowEvent.dispatched();
+            callback(type)(t_windowEvent);
         }
 
-        if(!t_event.isHandled() && nextDispatcher())
+        if(!t_windowEvent.isHandled() && nextDispatcher())
         {
-            nextDispatcher()(std::move(t_event));
+            nextDispatcher()(std::move(t_windowEvent));
+        }
+
+        if(!t_windowEvent.isHandled() && t_windowEvent.isDispatched())
+        {
+            Helpers::Logger::log<EventSystem::Event<WindowEvent>>() -> warn("[Unhandled]"); 
         }
     }
 

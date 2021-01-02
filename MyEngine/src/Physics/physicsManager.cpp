@@ -23,13 +23,13 @@ namespace MyEngine::Physics
 
         m_listners[t_name].registerEmitter(getGroup(t_name).eventEmitter());
 
-        m_bodies.useCount()++;
+        // m_bodies.useCount()++;
     }
 
     void PhysicsManager::unregisterPhysicsGroup(std::string&& t_name)
     { 
         m_groups.erase(std::move(t_name));
-        m_bodies.useCount()--;
+        // m_bodies.useCount()--;
     }
 
     void PhysicsManager::addBody(std::string& t_group, std::shared_ptr<Body2D> t_body)

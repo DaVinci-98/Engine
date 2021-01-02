@@ -9,9 +9,23 @@
 
 namespace Helpers
 {
+    /**
+     * @brief Sends logs to terminal using spdlog library.
+     * 
+     * @see https://github.com/gabime/spdlog
+     * 
+     */
     class Logger
     {
     public:
+        /**
+         * @brief Get logger with provided name and if it doesn't exist create one.
+         * 
+         * @param t_name name of the logger (as rvalue).
+         * 
+         * @return std::shared_ptr to spdlog::logger
+         *  
+         */
         static std::shared_ptr<spdlog::logger> log(std::string&& t_name)
         {
             auto logger = spdlog::get(t_name);
@@ -22,6 +36,14 @@ namespace Helpers
                 return spdlog::stdout_color_mt(t_name);
         }
 
+        /**
+         * @brief Get logger with name of provided type.
+         * 
+         * @tparam T type for the logger
+         * 
+         * @return std::shared_ptr to spdlog::logger
+         * 
+         */
         template<typename T>
         static std::shared_ptr<spdlog::logger> log()
         {
@@ -29,6 +51,14 @@ namespace Helpers
         }
 
 
+        /**
+         * @brief Get logger with provided name and if it doesn't exist create one.
+         * 
+         * @param t_name name of the logger (as lvalue).
+         * 
+         * @return std::shared_ptr to spdlog::logger
+         *  
+         */
         static std::shared_ptr<spdlog::logger> log(std::string const& t_name)
         { 
             return log(std::string(t_name)); 

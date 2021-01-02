@@ -99,9 +99,9 @@ namespace MyEngine::Renderer
         m_vertexBuffer -> unbind();
         m_indexBuffer -> unbind();
 
-        m_vertexBuffer.release();
-        m_indexBuffer.release();
-        m_layout.release();
+        m_vertexBuffer.reset();
+        m_indexBuffer.reset();
+        m_layout.reset();
 
         m_vertices.clear();
         m_indecies.clear();

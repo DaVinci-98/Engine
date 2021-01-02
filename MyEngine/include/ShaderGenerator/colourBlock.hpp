@@ -4,9 +4,17 @@
 
 namespace MyEngine::ShaderGenerator
 {
+    /**
+     * @brief Block describing rendering of a coloured triangle.
+     * 
+     */
     class ColourBlock : public Block
     {
     public:
+        /**
+         * @brief Construct a new ColourBlock object.
+         * 
+         */
         ColourBlock();
     };
 }

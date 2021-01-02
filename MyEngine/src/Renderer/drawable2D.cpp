@@ -1,5 +1,6 @@
 #include "Renderer/drawable2D.hpp"
 #include "Renderer/shader.hpp"
+#include "Helpers/logger.hpp"
 
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -19,7 +20,7 @@ namespace MyEngine::Renderer
             }
         }
         m_material = t_material;
-        makeArray();
+        if(m_material && m_mesh) makeArray();
     }
 
     void Drawable2D::setMesh(std::shared_ptr<Mesh2D> t_mesh)
@@ -34,12 +35,16 @@ namespace MyEngine::Renderer
             }
         }
         m_mesh = t_mesh;
-        makeArray();
+        if(m_material && m_mesh) makeArray();
     }
 
     void Drawable2D::makeArray()
     {
-        if(!m_material || !m_mesh) return;
+        if(!m_material || !m_mesh)
+        {
+            Helpers::Logger::log<Drawable2D>() -> error("[makeArray()]: Drawable has to have both Material and Mesh2D set in order to create a VAO");
+            return;
+        }
         m_vertexArray = std::make_unique<OpenGL::VertexArray>();
 
         unsigned int offset = m_vertexArray -> setBuffer(m_mesh -> buffer(), m_mesh->layout());

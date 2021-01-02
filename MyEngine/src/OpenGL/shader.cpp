@@ -2,6 +2,7 @@
 
 #include "OpenGL/shader.hpp"
 #include "OpenGL/glException.hpp"
+#include "Helpers/logger.hpp"
 
 #include <exception>
 #include <iostream>
@@ -18,6 +19,7 @@ namespace MyEngine::OpenGL
         {
             ShaderText shader { readFile(file.m_filepath), file.m_type };
             idList.push_back(attachShader(shader)); 
+            Helpers::Logger::log<Shader>() -> info("[Load] [" + file.m_filepath + "]: Done");
         }
 
         GL_CALL(glLinkProgram(m_rendererId));
@@ -25,6 +27,8 @@ namespace MyEngine::OpenGL
 
         for(auto const& id : idList) 
             detachShader(id);
+
+        Helpers::Logger::log<Shader>() -> info("[Load] [" + std::to_string(m_rendererId)  + "]: Done");
     }
 
     Shader::Shader(std::vector<Shader::ShaderText> const& t_shaders)
@@ -41,6 +45,8 @@ namespace MyEngine::OpenGL
 
         for(auto const& id : idList) 
             detachShader(id);
+
+        Helpers::Logger::log<Shader>() -> info("[Load] [" + std::to_string(m_rendererId)  + "]: Done");
     }
 
     Shader::~Shader()
@@ -48,6 +54,7 @@ namespace MyEngine::OpenGL
         try
         {
             GL_CALL(glDeleteProgram(m_rendererId));
+            Helpers::Logger::log<Shader>() -> info("[Destroy] [" + std::to_string(m_rendererId) + "]: Done");
         }
         catch(GlException const& e)
         {

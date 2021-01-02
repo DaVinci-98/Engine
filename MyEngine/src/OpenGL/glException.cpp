@@ -1,9 +1,11 @@
 #include "OpenGL/glException.hpp"
 #include "glad/glad.h"
+#include "Helpers/logger.hpp"
 
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <string>
 
 namespace MyEngine::OpenGL
 {
@@ -14,10 +16,11 @@ namespace MyEngine::OpenGL
 
     void GlException::printError(ErrorMessage const& t_error) const
     {
-        std::cout << "[ERROR (" << t_error.code << ")]" << std::endl;
-        std::cout << "- message  : " << codeToString(t_error.code) << std::endl;
-        std::cout << "- function : " << t_error.function << std::endl;
-        std::cout << "- location : " << t_error.file << " => " << t_error.line << std::endl;
+        Helpers::Logger::log<GlException>() -> error(
+        "[ERROR (" + std::to_string(t_error.code) + ")]\n"
+        "\t- message  : " + codeToString(t_error.code) + "\n"
+        "\t- function : " + t_error.function + "\n"
+        "\t- location : " + t_error.file + " => " + std::to_string(t_error.line) + "\n");
     }
 
     void GlException::push(ErrorMessage& t_error)

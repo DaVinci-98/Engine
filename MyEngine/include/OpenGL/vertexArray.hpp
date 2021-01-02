@@ -7,18 +7,48 @@
 
 namespace MyEngine::OpenGL
 {
-    // Abstraction for openGL buffer object.
-    // Vertex data with applied layout
+
+    /**
+     * @brief Abstraction for openGL Vertex Array Object.
+     * 
+     */
     class VertexArray
     {
     public:
+        /**
+         * @brief Construct a new Vertex Array object.
+         * Creates a openGL vertex array object.
+         * 
+         */
         VertexArray();
+        /**
+         * @brief Destroy the Vertex Array object.
+         * Destroys an openGL vertex array object (with stored id).
+         * 
+         */
         ~VertexArray();
 
+        /**
+         * @brief Binds vertex array  (with stored id) in the GPU.
+         * 
+         */
         void bind();
+        /**
+         * @brief Unbinds vertex array (binds vertex array with id 0) in the GPU.
+         * 
+         */
         void unbind();
 
-        // Assign buffer with specified layout
+        /**
+         * @brief Assign buffer with specified layout
+         * 
+         * @param t_buffer buffer to be attached to this vertex array
+         * @param t_layout layout of the attached buffer
+         * @param t_firstPos position at which buffer starts
+         * @return unsigned int next unused position in buffer
+         * 
+         * @example if layout was [3 float][4 floats] then the next position returned will be 2
+         */
         unsigned int setBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout, unsigned int t_firstPos = 0);
     private:
         void addAttrib(VertexBufferElement const& t_element, 

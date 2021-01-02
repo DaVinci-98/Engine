@@ -156,7 +156,7 @@ namespace MyEngine::Physics
             info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body.m_upperBound));
             info.m_penetration += info.m_collisionPoints.back();
         }
-        if (m_lowerBound < t_body.m_lowerBound)
+        else if (m_lowerBound < t_body.m_lowerBound)
         {
             info.m_detected = true;
             info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body.m_lowerBound));
@@ -168,7 +168,7 @@ namespace MyEngine::Physics
             info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body.m_rightBound, 0));
             info.m_penetration += info.m_collisionPoints.back();
         }
-        if (m_leftBound  < t_body.m_leftBound )
+        else if (m_leftBound  < t_body.m_leftBound )
         {
             info.m_detected = true;
             info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body.m_leftBound,   0));
@@ -235,7 +235,7 @@ namespace MyEngine::Physics
         float distance = glm::distance(m_center, t_body.m_center);
         float allowedDistance = m_radius + t_body.m_radius;
 
-        return CollisionInfo { distance < allowedDistance };
+        return CollisionInfo { .m_detected = distance < allowedDistance };
     }
 
     CollisionInfo Body2D::checkAABB(Body2D& t_body)
@@ -256,9 +256,9 @@ namespace MyEngine::Physics
                 info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body.m_upperBound));
                 info.m_penetration += info.m_collisionPoints.back();
             }
-            if(m_upperBound > t_body.m_lowerBound && 
-               m_upperBound < t_body.m_upperBound && 
-               m_lowerBound < t_body.m_lowerBound)
+            else if(m_upperBound > t_body.m_lowerBound && 
+                    m_upperBound < t_body.m_upperBound && 
+                    m_lowerBound < t_body.m_lowerBound)
             {
                 info.m_detected = true;
                 info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body.m_lowerBound));
@@ -276,9 +276,9 @@ namespace MyEngine::Physics
                 info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body.m_rightBound,  0));
                 info.m_penetration += info.m_collisionPoints.back();
             }
-            if(m_rightBound > t_body.m_leftBound  && 
-               m_rightBound < t_body.m_rightBound && 
-               m_leftBound  < t_body.m_leftBound) 
+            else if(m_rightBound > t_body.m_leftBound  && 
+                    m_rightBound < t_body.m_rightBound && 
+                    m_leftBound  < t_body.m_leftBound) 
             {
                 info.m_detected = true;
                 info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body.m_leftBound,  0));

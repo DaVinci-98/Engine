@@ -3,6 +3,7 @@
 #include "OpenGL/texture.hpp"
 #include "OpenGL/glException.hpp"
 #include "stb_image.h"
+#include "Helpers/logger.hpp"
 
 #include <iostream>
 
@@ -30,6 +31,8 @@ namespace MyEngine::OpenGL
             stbi_image_free(m_localBuffer);
             m_localBuffer = nullptr;
         }
+
+        Helpers::Logger::log<Texture>() -> info("[Load] [" + t_filePath + "] [" + std::to_string(m_rendererId) + "]: Done");
     }
 
     Texture::~Texture()
@@ -38,6 +41,7 @@ namespace MyEngine::OpenGL
         {
             if(m_localBuffer != nullptr) stbi_image_free(m_localBuffer);
             if(m_rendererId != 0) GL_CALL(glDeleteTextures(1, &m_rendererId));
+            Helpers::Logger::log<Texture>() -> info("[Destroy] [" + std::to_string(m_rendererId) + "]: Done");
         }
         catch(GlException const& e)
         {

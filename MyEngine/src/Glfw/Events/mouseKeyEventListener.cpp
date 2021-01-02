@@ -1,4 +1,6 @@
 #include "Glfw/Events/mouseKeyEventListener.hpp"
+#include "Helpers/logger.hpp"
+#include "EventSystem/event.hpp"
 
 namespace MyEngine::Glfw::Events
 {
@@ -7,13 +9,18 @@ namespace MyEngine::Glfw::Events
         unsigned int keyCode = t_event.keyCode();
         if(callback(keyCode))
         {
-            t_event.setDispatched();
+            t_event.dispatched();
             callback(keyCode)(t_event);
         }
 
         if(!t_event.isHandled() && nextDispatcher())
         {
             nextDispatcher()(std::move(t_event));
+        }
+
+        if(!t_event.isHandled() && t_event.isDispatched())
+        {
+            Helpers::Logger::log<EventSystem::Event<MouseKeyEvent>>() -> warn("[Unhandled]"); 
         }
     }
 
