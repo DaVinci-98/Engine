@@ -25,8 +25,12 @@ namespace MyEngine::Renderer
          * @brief Construct a new Material object which uses a provided shader.
          * 
          */
-        Material(std::shared_ptr<Shader> t_shader):
-            m_shader(t_shader) { }
+        Material(std::shared_ptr<Shader> t_shader);
+        /**
+         * @brief Destroy the Material object.
+         * 
+         */
+        ~Material();
 
         /**
          * @brief Create a texture for this material.
@@ -84,22 +88,6 @@ namespace MyEngine::Renderer
          */
         inline unsigned int setTexture(std::vector<Triangle2D> const& t_triangles, std::string& t_path)
             { return setTexture(std::vector<Triangle2D>(t_triangles), t_path); }
-
-        /**
-         * @brief Adds a texture to this material.
-         * 
-         * @param t_path Path to the texture.
-         * @return unsigned int - slot under which it will be bound.
-         */
-        unsigned int addTexture(std::string const& t_path);
-
-        /**
-         * @brief Set slot which will be used to render next triangles.
-         * 
-         * @param t_id number of a slot.
-         */
-        inline void setTextureId(unsigned int t_id)
-            { m_currentTextureId = t_id; }   
 
         /**
          * @brief Get a shared pointer to underlying Renderer::Shader object.
@@ -163,17 +151,15 @@ namespace MyEngine::Renderer
         void clear();
         void insertVertex(std::vector<float>&& t_vertex, bool t_useIndecies);
         void insertTriangles(std::vector<Triangle2D>&& t_trinagles, bool t_useIndecies);
-        int findVertex(std::vector<float>& t_vertex);
+        int  findVertex(std::vector<float>& t_vertex);
 
         unsigned int m_stride = 0;
         bool m_bound = false;
-        unsigned int m_currentTextureId = 1;
-        unsigned int m_highestTextureId = 1;
 
         std::vector<float> m_vertices;
         std::vector<unsigned int> m_indecies;
 
-        std::map<unsigned int, OpenGL::Texture> m_textures;
+        std::unique_ptr<OpenGL::Texture> m_texture;
         std::unique_ptr<OpenGL::VertexBuffer> m_vertexBuffer;
         std::unique_ptr<OpenGL::VertexBufferLayout> m_layout;
 

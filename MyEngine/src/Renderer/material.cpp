@@ -11,6 +11,23 @@
 
 namespace MyEngine::Renderer
 {
+    Material:: Material(std::shared_ptr<Shader> t_shader):
+        m_shader(t_shader) 
+    { 
+        if(isColour())
+            Helpers::Logger::log<Material>() -> info("[Colour] [Init]: Done");
+        else
+            Helpers::Logger::log<Material>() -> info("[Texture] [Init]: Done");
+    }
+
+    Material::~Material()
+    {
+        if(isColour())
+            Helpers::Logger::log<Material>() -> info("[Colour] [Destroy]: Done");
+        else
+            Helpers::Logger::log<Material>() -> info("[Texture] [Destroy]: Done");
+    }
+
     unsigned int Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string t_path, unsigned int t_stride)
     {
         if(!m_shader->usesTexture())
@@ -29,16 +46,8 @@ namespace MyEngine::Renderer
 
         m_layout -> push<float>(m_stride);
 
-        unsigned int id = addTexture(t_path);
-        setTextureId(id);
-        return id;
-    }
-
-    unsigned int Material::addTexture(std::string const& t_path)
-    {
-        unsigned int id = m_highestTextureId++;
-        m_textures.insert(std::pair<unsigned int, OpenGL::Texture>(id, OpenGL::Texture(t_path)));
-        return id;
+        m_texture = std::make_unique<OpenGL::Texture>(t_path);
+        return 0;
     }
 
     void Material::setColour(glm::vec4&& t_colour)
@@ -68,9 +77,8 @@ namespace MyEngine::Renderer
 
         m_layout -> push<float>(m_stride);
 
-         unsigned int id = addTexture(t_path);
-        setTextureId(id);
-        return id;
+        m_texture = std::make_unique<OpenGL::Texture>(t_path);
+        return 0;
     }
 
     void Material::insertTriangles(std::vector<Triangle2D>&& t_triangles, bool t_useIndecies)
@@ -125,13 +133,12 @@ namespace MyEngine::Renderer
         m_bound = true;
 
         if(m_shader->usesTexture())
-            m_shader -> setTextureUniform(Shader::TEXTURE_UNIFORM, m_currentTextureId);
+            m_shader -> setTextureUniform(Shader::TEXTURE_UNIFORM, 0);
 
         m_shader -> bind();
         
         if(m_shader->usesTexture())
-            for(auto& [id, texture] : m_textures)
-                texture.bind(id);
+            m_texture -> bind(0);
     }
 
     void Material::unbind()
@@ -143,8 +150,7 @@ namespace MyEngine::Renderer
         if(m_shader->usesTexture())
         {
             m_vertexBuffer -> unbind();
-            for(auto& [id, texture] : m_textures)
-                texture.unbind();
+            m_texture -> unbind();
         }
     }
 
@@ -157,7 +163,7 @@ namespace MyEngine::Renderer
         m_vertexBuffer.reset();
         m_layout.reset();
         if(m_shader->usesTexture())
-            m_textures.clear();
+            m_texture.reset();
 
         m_vertices.clear();
         m_indecies.clear();
