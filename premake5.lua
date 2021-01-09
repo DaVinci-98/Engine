@@ -35,7 +35,6 @@ project "MyEngine"
     includedirs{
         "%{prj.location}/include",
         "Vendor/stb/include",
-        "Vendor/ImGui/include",
         "Vendor/Glad/include",
         "Vendor/spdlog/include",
     }
@@ -44,33 +43,9 @@ project "MyEngine"
         "glfw",
         "GL", 
         "Glad",
-        "ImGui",
         "stb",
         "spdlog"
     }
-
-
-project "ImGui"
-    kind "StaticLib"
-    language "C++"
-    location "Vendor/%{prj.name}"
-    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
-    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
-
-    files { 
-        "%{prj.location}/src/**.cpp",
-        "%{prj.location}/include/**.h"
-    }
-
-    includedirs{
-        "%{prj.location}/include",
-        "Vendor/Glad/include"
-    }
-
-    filter{"system:linux"}
-        buildoptions{"-fPIC"}
-
-    filter { }
 
 project "stb"
     kind "StaticLib"
