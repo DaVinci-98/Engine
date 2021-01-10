@@ -11,7 +11,7 @@
 extern std::unique_ptr<MyEngine::Application> MyEngine::CreateApplication();
 
 /**
- * @brief Starting point for the apllication.
+ * @brief Starting point for the application.
  * 
  */
 int main(int argc, char**argv)

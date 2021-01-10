@@ -28,18 +28,18 @@ namespace MyEngine::Renderer
             Helpers::Logger::log<Material>() -> info("[Texture] [Destroy]: Done");
     }
 
-    unsigned int Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, std::string t_path, unsigned int t_stride)
+    unsigned int Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indicies, std::string t_path, unsigned int t_stride)
     {
         if(!m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error("[setTextureBuffer()]: Material deosn't render triangles with textures.");
+            Helpers::Logger::log<Material>() -> error("[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }
         if(m_stride != 0) clear();
         m_stride = t_stride;
 
         m_vertices = std::move(t_vertices);
-        m_indecies = std::move(t_indecies);
+        m_indicies = std::move(t_indicies);
 
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
         m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
@@ -54,7 +54,7 @@ namespace MyEngine::Renderer
     {
         if(m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error("[setColour()]: Material deosn't render triangles with flat colour.");
+            Helpers::Logger::log<Material>() -> error("[setColour()]: Material doesn't render triangles with flat colour.");
             return;
         }
 
@@ -65,7 +65,7 @@ namespace MyEngine::Renderer
     {
         if(!m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error("[setTextureBuffer()]: Material deosn't render triangles with textures.");
+            Helpers::Logger::log<Material>() -> error("[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }
         if(m_stride != 0) clear();
@@ -81,36 +81,36 @@ namespace MyEngine::Renderer
         return 0;
     }
 
-    void Material::insertTriangles(std::vector<Triangle2D>&& t_triangles, bool t_useIndecies)
+    void Material::insertTriangles(std::vector<Triangle2D>&& t_triangles, bool t_useIndicies)
     {
         m_stride = static_cast<unsigned int>(t_triangles[0].vertices().size() / 3);
 
         for(auto& triangle : t_triangles)
         {
-            insertVertex(std::vector<float>(triangle.vertices().begin(),              triangle.vertices().begin() +   m_stride), t_useIndecies);
-            insertVertex(std::vector<float>(triangle.vertices().begin() +   m_stride, triangle.vertices().begin() + 2*m_stride), t_useIndecies);
-            insertVertex(std::vector<float>(triangle.vertices().begin() + 2*m_stride, triangle.vertices().begin() + 3*m_stride), t_useIndecies);
+            insertVertex(std::vector<float>(triangle.vertices().begin(),              triangle.vertices().begin() +   m_stride), t_useIndicies);
+            insertVertex(std::vector<float>(triangle.vertices().begin() +   m_stride, triangle.vertices().begin() + 2*m_stride), t_useIndicies);
+            insertVertex(std::vector<float>(triangle.vertices().begin() + 2*m_stride, triangle.vertices().begin() + 3*m_stride), t_useIndicies);
         }
     }
 
-    void Material::insertVertex(std::vector<float>&& t_vertex, bool t_useIndecies)
+    void Material::insertVertex(std::vector<float>&& t_vertex, bool t_useIndicies)
     {
         int index = -1;
-        if(t_useIndecies) index = findVertex(t_vertex);
+        if(t_useIndicies) index = findVertex(t_vertex);
 
         if(index < 0)
         {
             m_vertices.insert(m_vertices.end(),
                 std::make_move_iterator(t_vertex.begin()),
                 std::make_move_iterator(t_vertex.end()));
-            if(t_useIndecies)
+            if(t_useIndicies)
             {
                 unsigned int new_index = static_cast<unsigned int>(m_vertices.size() / m_stride) - 1;
-                m_indecies.push_back(new_index);
+                m_indicies.push_back(new_index);
             }
         }
-        else if(t_useIndecies)
-            m_indecies.push_back(index);        
+        else if(t_useIndicies)
+            m_indicies.push_back(index);        
     }
 
     int Material::findVertex(std::vector<float>& t_vertex)
@@ -166,6 +166,6 @@ namespace MyEngine::Renderer
             m_texture.reset();
 
         m_vertices.clear();
-        m_indecies.clear();
+        m_indicies.clear();
     }
 }

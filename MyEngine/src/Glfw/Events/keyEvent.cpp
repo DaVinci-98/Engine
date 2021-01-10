@@ -23,7 +23,7 @@ namespace MyEngine::Glfw::Events
         return KeyEventType(keyEventType) == t_keyEventType;
     }
 
-    bool KeyEvent::ckeckKeyMod(KeyMods t_keyMod) const
+    bool KeyEvent::checkKeyMod(KeyMods t_keyMod) const
     {
         unsigned int mods = (m_keyCode & 0x0000ff00) >> 8;
         return (KeyMods(mods) & t_keyMod) != 0;

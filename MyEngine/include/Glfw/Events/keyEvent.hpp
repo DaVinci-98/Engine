@@ -247,7 +247,7 @@ namespace MyEngine::Glfw::Events
          * 
          * @return true if KeyMods match.
          */
-        bool ckeckKeyMod(KeyMods t_keyMod) const;
+        bool checkKeyMod(KeyMods t_keyMod) const;
         /**
          * @brief Check if provided Key matches the on in keycode for this KeyEvent.
          * @sa keyCode()

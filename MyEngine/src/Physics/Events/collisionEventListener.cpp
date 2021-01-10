@@ -2,7 +2,7 @@
 #include "Helpers/logger.hpp"
 #include "EventSystem/event.hpp"
 
-namespace MyEngine::Physics
+namespace MyEngine::Physics::Events
 {
     void CollisionEventListener::dispatch(CollisionEvent&& t_collisionEvent)
     {

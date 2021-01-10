@@ -12,7 +12,7 @@ namespace MyEngine::Renderer
     {
         if(m_mesh)
         {
-            if(t_material -> isTexture() && m_mesh->indecies() != t_material->indecies()) return;
+            if(t_material -> isTexture() && m_mesh->indicies() != t_material->indicies()) return;
             if(m_material)
             {
                 m_vertexArray -> unbind();
@@ -27,7 +27,7 @@ namespace MyEngine::Renderer
     {
         if(m_material)
         {
-            if(m_material -> isTexture() && m_material->indecies() != t_mesh->indecies()) return;
+            if(m_material -> isTexture() && m_material->indicies() != t_mesh->indicies()) return;
             if(m_mesh)
             {
                 m_vertexArray -> unbind();

@@ -6,7 +6,7 @@
 namespace MyEngine::Glfw::Events
 {
     /**
-     * @brief Listens for MouseKeyEvent obejcts through registered emitter.
+     * @brief Listens for MouseKeyEvent objects through registered emitter.
      * 
      */
     class MouseKeyEventListener: public EventSystem::EventListener<MouseKeyEvent>

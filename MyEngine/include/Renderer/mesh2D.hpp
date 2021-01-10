@@ -21,7 +21,7 @@ namespace MyEngine::Renderer
          * with their indexes.
          * 
          * @param t_vertices vertices squashed into vector of floats.
-         * @param t_indecies indexes of vertices
+         * @param t_indicies indexes of vertices
          * @param t_stride number of floats in buffer used by one vertex
          * 
          * @example mesh is drawn using indexes of vertices. 
@@ -30,7 +30,7 @@ namespace MyEngine::Renderer
          * the second one by vertices on indexes 2,3,0 in buffer. 
          * 
          */
-        void setBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, unsigned int t_stride);
+        void setBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indicies, unsigned int t_stride);
         /**
          * @brief Set Triangle2D objects used in buffer.
          * 
@@ -42,7 +42,7 @@ namespace MyEngine::Renderer
          * with their indexes.
          * 
          * @param t_vertices vertices squashed into vector of floats.
-         * @param t_indecies indexes of vertices
+         * @param t_indicies indexes of vertices
          * @param t_stride number of floats in buffer used by one vertex
          * 
          * @example mesh is drawn using indexes of vertices. 
@@ -51,8 +51,8 @@ namespace MyEngine::Renderer
          * the second one by vertices on indexes 2,3,0 in buffer. 
          * 
          */
-        inline void setBuffer(std::vector<float> const& t_vertices, std::vector<unsigned int> const& t_indecies, unsigned int t_stride)
-            { setBuffer(std::vector<float>(t_vertices), std::vector<unsigned int>(t_indecies), t_stride); }
+        inline void setBuffer(std::vector<float> const& t_vertices, std::vector<unsigned int> const& t_indicies, unsigned int t_stride)
+            { setBuffer(std::vector<float>(t_vertices), std::vector<unsigned int>(t_indicies), t_stride); }
         /**
          * @brief Set Triangle2D objects used in buffer.
          * 
@@ -61,11 +61,11 @@ namespace MyEngine::Renderer
             { setTriangles(std::vector<Triangle2D>(t_triangles)); }
 
         /**
-         * @brief Returns a reference to vector of indecies in this mesh. 
+         * @brief Returns a reference to vector of indicies in this mesh. 
          * 
          */
-        inline std::vector<unsigned int>& indecies()
-            { return m_indecies; }
+        inline std::vector<unsigned int>& indicies()
+            { return m_indicies; }
         /**
          * @brief Returns a reference to vector of vertices in this mesh. 
          * 
@@ -90,7 +90,7 @@ namespace MyEngine::Renderer
          * 
          */
         inline unsigned int vertexCount() const
-            { return m_indecies.size(); }    
+            { return m_indicies.size(); }    
         /**
          * @brief Returns a reference to underlying OpenGL::VertexBufferLayout for this mesh.
          * 
@@ -116,7 +116,7 @@ namespace MyEngine::Renderer
         int findVertex(std::vector<float>& t_vertex);
 
         std::vector<float> m_vertices;
-        std::vector<unsigned int> m_indecies;
+        std::vector<unsigned int> m_indicies;
 
         std::unique_ptr<OpenGL::VertexBuffer> m_vertexBuffer;
         std::unique_ptr<OpenGL::IndexBuffer> m_indexBuffer;

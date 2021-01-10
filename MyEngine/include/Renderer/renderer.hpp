@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Renderer/drawable2D.hpp"
+#include "Renderer/Events/drawableAddEventListener.hpp"
+#include "Renderer/Events/drawableAddEventEmitter.hpp"
 
 #include <memory>
 #include <queue>
@@ -39,6 +41,13 @@ namespace MyEngine::Renderer
         static bool draw(Drawable2D& t_drawable);
 
         /**
+         * @brief Draw Drawables provided through DrawableAddEvents.
+         * 
+         * @return true if operation was successful
+         */
+        bool drawFromQueue();
+
+        /**
          * @brief Resize the glfw window.
          * 
          * @param t_width width of the new window
@@ -49,7 +58,7 @@ namespace MyEngine::Renderer
          * @brief Set the projection martix to orthographic projection with provided height and width.
          * 
          */
-        void setOrtho2D(int t_widt, int t_height);
+        void setOrtho2D(int t_width, int t_height);
 
         /**
          * @brief Initialize a colour shader and return a string for accessing it from renderer.
@@ -60,7 +69,7 @@ namespace MyEngine::Renderer
         std::string colourShader();
         /**
          * @brief Initialize a colour shader and return a string for accessing it from renderer.
-         * Texture shader renders meshes with bound teture.
+         * Texture shader renders meshes with bound texture.
          * (Accessing shaders from within renderer makes binding projection matrices easier)
          * 
          */
@@ -90,10 +99,19 @@ namespace MyEngine::Renderer
          */
         inline glm::mat4& projection() 
             { return m_projection; }
+
+        /**
+         * @brief Register emitter for DrawableAddEvents.
+         * 
+         */
+        inline void registerDrawableAddEventEmitter(Events::DrawableAddEventEmitter& t_eventEmitter)
+            { m_drawableAddEventListener.registerEmitter(t_eventEmitter); }
+
     private:
         static bool draw(unsigned int t_count);
 
         std::unordered_map<std::string, std::shared_ptr<Shader>> m_activeShaders;
+        Events::DrawableAddEventListener m_drawableAddEventListener;
         glm::mat4 m_projection = glm::mat4(1);
         glm::mat4 m_view = glm::mat4(1);
     };

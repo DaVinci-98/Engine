@@ -16,7 +16,7 @@ namespace MyEngine::Glfw::Events
          * @brief Send a MouseMoveEvent with provided:
          * 
          * @param t_posX current x coordinate
-         * @param t_posY current y coordniate
+         * @param t_posY current y coordinate
          */
         void sendEvent(double t_posX, double t_posY);
     private:

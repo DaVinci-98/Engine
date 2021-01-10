@@ -9,7 +9,7 @@
 namespace MyEngine::Glfw::Events
 {
     /**
-     * @brief Listens for KeyEvent obejcts through registered emitter.
+     * @brief Listens for KeyEvent objects through registered emitter.
      * 
      */
     class KeyEventListener: public EventSystem::EventListener<KeyEvent>
@@ -29,7 +29,7 @@ namespace MyEngine::Glfw::Events
          */
         void registerKeyCallback(std::function<void(KeyEvent&)>&& t_callback, unsigned int t_keycode);
         /**
-         * @brief Registere a callback for KeyEvent.
+         * @brief Register a callback for KeyEvent.
          * 
          * @param t_callback callback function, takes a reference to the KeyEvent
          * @param t_mods modificators present when the key was pressed.

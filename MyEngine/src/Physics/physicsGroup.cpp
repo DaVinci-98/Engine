@@ -7,7 +7,7 @@ namespace MyEngine::Physics
     {
         for(auto& body : m_bodies)
         {
-            body -> addGroupAcceleartion(m_ambientAcceleration);
+            body -> addGroupAcceleration(m_ambientAcceleration);
             body -> addGroupVelocity(m_ambientVelocity);
         }
     }

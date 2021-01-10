@@ -45,6 +45,7 @@ namespace MyEngine
             Helpers::Logger::log<Application>() -> error("[Init]: Couldn't initialize renderer.");
             return false;
         }
+        renderer().registerDrawableAddEventEmitter(m_drawableAddEventEmitter);
         renderer().setOrtho2D(screenWidth(), screenHeight());
 
         Helpers::Logger::log<Application>() -> info("[Version]: {}", glGetString(GL_VERSION));
@@ -78,6 +79,8 @@ namespace MyEngine
             {
                 m_renderer.clear();
                 frame = onRender();
+                if(frame) 
+                    frame = m_renderer.drawFromQueue();
             }
             if(!frame)
             {

@@ -18,34 +18,34 @@ namespace MyEngine::Physics
         /**
          * @brief Construct a new Body2D object.
          * 
-         * @param t_vertecies body's vertices in [x,y] format
+         * @param t_vertices body's vertices in [x,y] format
          * @param t_isDynamic is body moving 
          * (collisions between 2 static bodies are not checked,
          * in static groups collisions between 2 dynamic bodies are also not checked)
          * 
          */
-        Body2D(std::vector<glm::vec2> const& t_vertecies, bool t_isDynamic);
+        Body2D(std::vector<glm::vec2> const& t_vertices, bool t_isDynamic);
         /**
          * @brief Construct a new Body2D object.
          * 
-         * @param t_vertecies body's vertices but in one vector format,
-         * useful for coping vertecies from mesh.
+         * @param t_vertices body's vertices but in one vector format,
+         * useful for coping vertices from mesh.
          * @param t_isDynamic is body moving 
          * (collisions between 2 static bodies are not checked,
          * in static groups collisions between 2 dynamic bodies are also not checked)
          * 
          */
-        Body2D(std::vector<float> const& t_vertecies, bool t_isDynamic);
+        Body2D(std::vector<float> const& t_vertices, bool t_isDynamic);
         /**
          * @brief Construct a new Body2D object.
          * 
-         * @param t_vertecies body's vertices in [x,y] format
+         * @param t_vertices body's vertices in [x,y] format
          * @param t_isDynamic is body moving 
          * (collisions between 2 static bodies are not checked,
          * in static groups collisions between 2 dynamic bodies are also not checked)
          * 
          */
-        Body2D(std::vector<glm::vec2> && t_vertecies, bool t_isDynamic);
+        Body2D(std::vector<glm::vec2> && t_vertices, bool t_isDynamic);
 
         /**
          * @brief Move body according to it's velocity and acceleration provided number of seconds forward in time.
@@ -56,7 +56,7 @@ namespace MyEngine::Physics
         void applyMovementStep(float t_time = 1);
         /**
          * @brief Translate a body.
-         * (and asscoaited model if it was attached in setAssociatedModel() function)
+         * (and associated model if it was attached in setAssociatedModel() function)
          * 
          * @param t_translation vector by which body will be moved.
          */
@@ -66,7 +66,7 @@ namespace MyEngine::Physics
          * Not reliable for bodies moving with too high/low speed,
          * or bodies that can hit mulitple other bodies, 
          * or bodies that can get stuck inside other collision targets.
-         * Insted set obejcts velocity to -0.5 of previous value and make sure to apply 
+         * Insted set objects velocity to -0.5 of previous value and make sure to apply 
          * some ambient acceleration like gravity, body will be constantly shaking,
          * but with update framerate low enough the movement won't bee visible.
          * 
@@ -84,7 +84,7 @@ namespace MyEngine::Physics
          * @brief Used by the PhysicsManager to apply group's ambient acceleration.
          * 
          */
-        inline void addGroupAcceleartion(glm::vec2& t_groupAcceleration)
+        inline void addGroupAcceleration(glm::vec2& t_groupAcceleration)
             { m_groupAcceleration += t_groupAcceleration; }
         /**
          * @brief Set a model matrix for mesh assciated with this body.
@@ -159,8 +159,8 @@ namespace MyEngine::Physics
         CollisionInfo checkBC(Body2D& t_body);
         /**
          * @brief Check collision between this and provided body.
-         * (Uses axis alligned bounding boxes calculated during creation of bodies)
-         * Works really well when bodies themselves are axis-alligned boxes,
+         * (Uses axis aligned bounding boxes calculated during creation of bodies)
+         * Works really well when bodies themselves are axis-aligned boxes,
          * since it allows for fast checking for collisions.
          * 
          * @param t_body body with which collision is supposed to be detected.
@@ -169,7 +169,7 @@ namespace MyEngine::Physics
         CollisionInfo checkAABB(Body2D& t_body);
         /**
          * @brief Check if the body went out bounds represented by provided body.
-         * (Assumes the bodies are axis-alligned boxes)
+         * (Assumes the bodies are axis-aligned boxes)
          * 
          * @param t_body body with which collision is supposed to be detected.
          * @return CollisionInfo object, fills in fields: detected, collisionPoints and penetration.
@@ -207,7 +207,7 @@ namespace MyEngine::Physics
         glm::vec2 m_groupAcceleration = glm::vec2(0);
         glm::vec2 m_groupVelocity = glm::vec2(0);
 
-        bool m_axisAlligned;
+        bool m_axisAligned;
         bool m_dynamic;
 
         float m_upperBound;
@@ -218,7 +218,7 @@ namespace MyEngine::Physics
         glm::vec2 m_center;
         float m_radius;
 
-        std::vector<glm::vec2> m_vertecies;
+        std::vector<glm::vec2> m_vertices;
         // std::vector<glm::mat2> m_edgeInfluenceBases;
         // std::vector<float> m_edgeInfluenceLengths;
     };

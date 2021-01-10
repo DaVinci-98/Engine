@@ -16,7 +16,7 @@ namespace MyEngine::OpenGL
         /**
          * @brief Construct a new Index Buffer object. And creates an openGL buffer.
          * 
-         * @param t_data vector of uints reprsenting indexes of vertices.
+         * @param t_data vector of uints representing indexes of vertices.
          */
         IndexBuffer(std::vector<unsigned int> const& t_data);
         /**

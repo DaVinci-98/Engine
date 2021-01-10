@@ -38,7 +38,7 @@ namespace MyEngine::Glfw::Events
          * @brief Type of the WindowEvent.
          * 
          */
-        inline WindowEventType evntType() const 
+        inline WindowEventType eventType() const 
             { return m_type; }
         /**
          * @brief New size of the window.

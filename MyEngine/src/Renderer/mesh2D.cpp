@@ -5,15 +5,15 @@
 
 namespace MyEngine::Renderer
 {
-    void Mesh2D::setBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indecies, unsigned int t_stride)
+    void Mesh2D::setBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indicies, unsigned int t_stride)
     {
         if(m_stride != 0) clear();
         m_stride = t_stride;
 
         m_vertices = std::move(t_vertices);
-        m_indecies = std::move(t_indecies);
+        m_indicies = std::move(t_indicies);
 
-        m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indecies);
+        m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indicies);
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
         m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
 
@@ -26,7 +26,7 @@ namespace MyEngine::Renderer
 
         insertTriangles(std::move(t_triangles));
 
-        m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indecies);
+        m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indicies);
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
         m_layout = std::make_unique<OpenGL::VertexBufferLayout>();
 
@@ -54,10 +54,10 @@ namespace MyEngine::Renderer
                 std::make_move_iterator(t_vertex.begin()),
                 std::make_move_iterator(t_vertex.end()));
             unsigned int new_index = static_cast<unsigned int>(m_vertices.size() / m_stride) - 1;
-            m_indecies.push_back(new_index);
+            m_indicies.push_back(new_index);
         }
         else
-            m_indecies.push_back(index);
+            m_indicies.push_back(index);
     }
 
     int Mesh2D::findVertex(std::vector<float>& t_vertex)
@@ -104,6 +104,6 @@ namespace MyEngine::Renderer
         m_layout.reset();
 
         m_vertices.clear();
-        m_indecies.clear();
+        m_indicies.clear();
     }
 }

@@ -136,7 +136,7 @@ namespace MyEngine::Glfw::Events
          * 
          * @return true if KeyMods match.
          */
-        bool ckeckKeyMod(KeyMods t_keyMods) const;
+        bool checkKeyMod(KeyMods t_keyMods) const;
         /**
          * @brief Check if provided Key matches the on in keycode for this MouseKeyEvent.
          * @sa keyCode()

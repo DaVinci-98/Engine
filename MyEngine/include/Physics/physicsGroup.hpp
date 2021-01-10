@@ -13,7 +13,7 @@ namespace MyEngine::Physics
 {
     /**
      * @brief Groups physics object that are supposed to interact with each other, 
-     * or shoudl have a common acceleration/velocity applied to them.
+     * or should have a common acceleration/velocity applied to them.
      * 
      */
     class PhysicsGroup
@@ -82,7 +82,7 @@ namespace MyEngine::Physics
          * 
          * @return Reference to internal CollisionEventEmitter.
          */
-        inline CollisionEventEmitter& eventEmitter()
+        inline Events::CollisionEventEmitter& eventEmitter()
             { return m_emitter; }
 
     private:
@@ -91,7 +91,7 @@ namespace MyEngine::Physics
 
         std::string m_name;
         bool m_isStatic;
-        CollisionEventEmitter m_emitter;
+        Events::CollisionEventEmitter m_emitter;
         glm::vec2 m_ambientVelocity = glm::vec2(0);
         glm::vec2 m_ambientAcceleration = glm::vec2(0);
         std::vector<CollisionLevel> m_collisionDetectionPipeline;

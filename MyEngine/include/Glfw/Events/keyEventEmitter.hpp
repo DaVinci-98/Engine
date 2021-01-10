@@ -6,7 +6,7 @@
 namespace MyEngine::Glfw::Events
 {
     /**
-     * @brief Emits KeyEvent obejcts.
+     * @brief Emits KeyEvent objects.
      * 
      */
     class KeyEventEmitter : public EventSystem::EventEmitter<KeyEvent>

@@ -3,10 +3,10 @@
 #include "EventSystem/eventEmitter.hpp"
 #include "Physics/Events/collisionEvent.hpp"
 
-namespace MyEngine::Physics
+namespace MyEngine::Physics::Events
 {
     /**
-     * @brief Emits CollisionEvent obejcts.
+     * @brief Emits CollisionEvent objects.
      * 
      */
     class CollisionEventEmitter : public EventSystem::EventEmitter<CollisionEvent>
@@ -18,7 +18,7 @@ namespace MyEngine::Physics
          * @param t_group physics group in which collision was detected.
          * @param t_info CollisionInfo object storing variety of information about the collision.
          * @param t_calling body which was registered for collision detection.
-         * @param t_second body which colided with the calling body.
+         * @param t_second body which collided with the calling body.
          */
         inline void sendEvent(std::string& t_group, CollisionInfo& t_info,
             std::shared_ptr<Body2D> t_calling, std::shared_ptr<Body2D> t_second)

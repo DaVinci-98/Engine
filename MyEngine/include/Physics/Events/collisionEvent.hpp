@@ -7,7 +7,7 @@
 #include <tuple>
 #include <glm/glm.hpp>
 
-namespace MyEngine::Physics
+namespace MyEngine::Physics::Events
 {
     /**
      * @brief Event for sending information about detected collisions.
@@ -22,7 +22,7 @@ namespace MyEngine::Physics
          * @param t_group physics group in which collision was detected.
          * @param t_info CollisionInfo object storing variety of information about the collision.
          * @param t_calling body which was registered for collision detection.
-         * @param t_second body which colided with the calling body.
+         * @param t_second body which collided with the calling body.
          */
         CollisionEvent(std::string& t_group, CollisionInfo& t_info,
             std::shared_ptr<Body2D> t_calling, std::shared_ptr<Body2D> t_second) :
@@ -41,7 +41,7 @@ namespace MyEngine::Physics
         inline std::shared_ptr<Body2D> callingBody()
             { return m_callingBody; }
         /**
-         * @brief Get body which colided with the calling body.
+         * @brief Get body which collided with the calling body.
          * 
          */
         inline std::shared_ptr<Body2D> secondBody()

@@ -5,10 +5,10 @@
 
 #include <map>
 
-namespace MyEngine::Physics
+namespace MyEngine::Physics::Events
 {
     /**
-     * @brief Listens for CollisionEvent obejcts through registered emitter.
+     * @brief Listens for CollisionEvent objects through registered emitter.
      * 
      */
     class CollisionEventListener : public EventSystem::EventListener<CollisionEvent>

@@ -51,7 +51,7 @@ namespace MyEngine::OpenGL
         unsigned int numElements() const 
             { return m_elements.size(); }
         /**
-         * @brief Returns a refrence to layout element at given position.
+         * @brief Returns a reference to layout element at given position.
          * 
          */
         VertexBufferElement const& elementAt(unsigned int t_pos) const 

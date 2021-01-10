@@ -6,7 +6,7 @@
 namespace MyEngine::Glfw::Events
 {
     /**
-     * @brief Emits WindowEvent obejcts.
+     * @brief Emits WindowEvent objects.
      * 
      */
     class WindowEventEmitter: public EventSystem::EventEmitter<WindowEvent>

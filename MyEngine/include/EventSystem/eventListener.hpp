@@ -56,7 +56,7 @@ namespace MyEngine::EventSystem
             t_emitter.registerDispatcher(std::move(dispatcher));
         }
         /**
-         * @brief Register listener to handle unhadled events.
+         * @brief Register listener to handle unhandled events.
          * If flag handled of an Event is not set, it will be sent to next listener.
          * 
          * @param t_listner next listener in line.
@@ -79,14 +79,14 @@ namespace MyEngine::EventSystem
          * @brief Get a refernce to a callback with provided key.
          * 
          * @param t_key key of the callback.
-         * @return std::function with void return type, taking reference to Event with type EvntType.
+         * @return std::function with void return type, taking reference to Event with type EventType.
          */
         inline std::function<void(EventType&)>& callback(unsigned int t_key)
             { return m_callbackMap[t_key]; }
         /**
          * @brief Return a reference to the dispatch() function of next listener.
          * 
-         * @return std::function with void return type, taking rvalue reference to Event with type EvntType.
+         * @return std::function with void return type, taking rvalue reference to Event with type EventType.
          */
         inline std::function<void(EventType&&)>& nextDispatcher()
             { return m_nextDispatcher;}

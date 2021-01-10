@@ -6,7 +6,7 @@
 namespace MyEngine::Glfw::Events
 {
     /**
-     * @brief Emits MouseKeyEvent obejcts.
+     * @brief Emits MouseKeyEvent objects.
      * 
      */
     class MouseKeyEventEmitter: public EventSystem::EventEmitter<MouseKeyEvent>

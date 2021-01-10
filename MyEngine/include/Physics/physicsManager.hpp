@@ -67,9 +67,9 @@ namespace MyEngine::Physics
          * 
          */
         inline void registerCollisionCallback(std::string& t_name,
-            std::function<void(CollisionEvent&)>&& t_callback,
+            std::function<void(Events::CollisionEvent&)>&& t_callback,
             std::shared_ptr<Body2D> t_body)
-            { m_listners[t_name].registerCollisionCallback(std::move(t_callback), t_body); }
+            { m_listeners[t_name].registerCollisionCallback(std::move(t_callback), t_body); }
         
         /**
          * @brief Get a reference to a PhysicsGroup object with provided name.
@@ -86,7 +86,7 @@ namespace MyEngine::Physics
 
     private:
         std::map<std::string, PhysicsGroup> m_groups;
-        std::map<std::string, CollisionEventListener> m_listners;
+        std::map<std::string, Events::CollisionEventListener> m_listeners;
         Helpers::SmartVector<Body2D> m_bodies;
     };
 }

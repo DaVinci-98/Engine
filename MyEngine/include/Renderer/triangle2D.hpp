@@ -20,7 +20,7 @@ namespace MyEngine::Renderer
          */
         Triangle2D() { };
         /**
-         * @brief Construct a new Triangle2D bject with predefined coordinates.
+         * @brief Construct a new Triangle2D object with predefined coordinates.
          * 
          */
         Triangle2D(float t_ax, float t_bx, float t_cx,
@@ -32,7 +32,7 @@ namespace MyEngine::Renderer
          * @param t_params_a vector of floats to be added to first  vertex
          * @param t_params_b vector of floats to be added to second vertex
          * @param t_params_c vector of floats to be added to third  vertex
-         * @return true if the parameter was succesfully added.
+         * @return true if the parameter was successfully added.
          */
         bool addParam(std::vector<float> const& params_a, 
                       std::vector<float> const& params_b, 

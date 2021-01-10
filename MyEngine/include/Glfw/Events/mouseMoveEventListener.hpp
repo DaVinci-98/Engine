@@ -8,7 +8,7 @@
 namespace MyEngine::Glfw::Events
 {
     /**
-     * @brief Listens for MouseMoveEvent obejcts through registered emitter.
+     * @brief Listens for MouseMoveEvent objects through registered emitter.
      * 
      */
     class MouseMoveEventListener: public EventSystem::EventListener<MouseMoveEvent>

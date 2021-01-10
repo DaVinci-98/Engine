@@ -59,7 +59,7 @@ namespace MyEngine::OpenGL
             return "An attempt has been made to perform an operation that would cause an internal stack to overflow.";
             break;
         default:
-            return "Unknown error occured.";
+            return "Unknown error occurred.";
             break;
         }
     }

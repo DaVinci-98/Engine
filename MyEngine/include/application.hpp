@@ -7,6 +7,8 @@
 #include "Glfw/Events/windowEventListener.hpp"
 #include "EventSystem/event.hpp"
 #include "Renderer/renderer.hpp"
+#include "Renderer/drawable2D.hpp"
+#include "Renderer/Events/drawableAddEventEmitter.hpp"
 #include "Physics/physicsManager.hpp"
 
 #include <iostream>
@@ -62,7 +64,7 @@ namespace MyEngine
         virtual bool onWindowCreate() 
             { return true; };
         /**
-         * @brief Function which moves logic and physics forawrd in time.
+         * @brief Function which moves logic and physics forward in time.
          * (overrite for game logic here)
          * 
          * @param t_deltaTime time in seconds by which logic and physics will be advanced
@@ -117,6 +119,15 @@ namespace MyEngine
             { return m_renderer; }
 
         /**
+         * @brief Add Drawable to render queue with callback function which will be called before render.
+         * 
+         * @param t_drawable Object which will be drawn.
+         * @param t_callback Function to call before drawing the object.
+         */
+        inline void addToRenderQueue(std::shared_ptr<Renderer::Drawable2D> t_drawable, std::function<void(void)>&& t_callback)
+            { m_drawableAddEventEmitter.sendEvent(t_drawable, std::move(t_callback)); }
+
+        /**
          * @brief Get a reference to underlying KeyEventListener.
          * 
          */
@@ -158,6 +169,7 @@ namespace MyEngine
         Renderer::Renderer m_renderer;
         Glfw::Window m_window;
         
+        Renderer::Events::DrawableAddEventEmitter m_drawableAddEventEmitter;
         Glfw::Events::KeyEventListener m_keyEventListener;
         Glfw::Events::MouseKeyEventListener m_mouseKeyEventListener;
         Glfw::Events::MouseMoveEventListener m_mouseMoveEventListener;

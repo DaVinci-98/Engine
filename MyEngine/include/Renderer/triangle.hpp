@@ -31,9 +31,9 @@ namespace MyEngine::Renderer
         std::vector<float> const& vertices() const 
             { return m_vertices; }
         /**
-         * @brief Get const reference to layout of the vertecies in this triangle.
+         * @brief Get const reference to layout of the vertices in this triangle.
          * 
-         * @example [3,4] would mean that vertecies consist of two vectors of floats, 
+         * @example [3,4] would mean that vertices consist of two vectors of floats, 
          * first with size 3, second with size 4.
          * 
          */
@@ -46,7 +46,7 @@ namespace MyEngine::Renderer
          * @param t_params_a vector of floats to be added to first  vertex
          * @param t_params_b vector of floats to be added to second vertex
          * @param t_params_c vector of floats to be added to third  vertex
-         * @return true if the parameter was succesfully added.
+         * @return true if the parameter was successfully added.
          */
         virtual bool addParam(std::vector<float> const& t_params_a, 
                               std::vector<float> const& t_params_b, 

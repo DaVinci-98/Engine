@@ -8,31 +8,31 @@
 
 namespace MyEngine::Physics
 {
-    Body2D::Body2D(std::vector<float> const& t_vertecies, bool t_isDynamic)
+    Body2D::Body2D(std::vector<float> const& t_vertices, bool t_isDynamic)
     {
-        std::vector<glm::vec2> vertecies;
-        for(int i = 0; i < t_vertecies.size(); i+=2)
-            vertecies.push_back(glm::vec2(t_vertecies[i], t_vertecies[i+1]));
+        std::vector<glm::vec2> vertices;
+        for(int i = 0; i < t_vertices.size(); i+=2)
+            vertices.push_back(glm::vec2(t_vertices[i], t_vertices[i+1]));
 
-        m_vertecies = vertecies;
+        m_vertices = vertices;
         m_dynamic = t_isDynamic;
 
         calculateBindingCircle();
         calculateAABBB();
     }
 
-    Body2D::Body2D(std::vector<glm::vec2> const& t_vertecies, bool t_isDynamic)
+    Body2D::Body2D(std::vector<glm::vec2> const& t_vertices, bool t_isDynamic)
     {
-        m_vertecies = t_vertecies;
+        m_vertices = t_vertices;
         m_dynamic = t_isDynamic;
 
         calculateBindingCircle();
         calculateAABBB();
     }
 
-    Body2D::Body2D(std::vector<glm::vec2> && t_vertecies, bool t_isDynamic)
+    Body2D::Body2D(std::vector<glm::vec2> && t_vertices, bool t_isDynamic)
     {
-        m_vertecies = std::move(t_vertecies);
+        m_vertices = std::move(t_vertices);
         m_dynamic = t_isDynamic;
 
         calculateBindingCircle();
@@ -41,10 +41,10 @@ namespace MyEngine::Physics
 
     void Body2D::calculateBindingCircle()
     {
-        m_center = std::accumulate(m_vertecies.begin(), m_vertecies.end(), glm::vec2(0)) / static_cast<float>(m_vertecies.size());
+        m_center = std::accumulate(m_vertices.begin(), m_vertices.end(), glm::vec2(0)) / static_cast<float>(m_vertices.size());
 
         m_radius = 0;
-        for(auto& vertex : m_vertecies)
+        for(auto& vertex : m_vertices)
         {
             float dist = glm::distance(m_center, vertex);
             if(dist > m_radius) m_radius = dist;
@@ -53,12 +53,12 @@ namespace MyEngine::Physics
 
     void Body2D::calculateAABBB()
     {
-        m_upperBound = m_vertecies[0].y;
-        m_lowerBound = m_vertecies[0].y;
-        m_leftBound  = m_vertecies[0].x;
-        m_rightBound = m_vertecies[0].x;
+        m_upperBound = m_vertices[0].y;
+        m_lowerBound = m_vertices[0].y;
+        m_leftBound  = m_vertices[0].x;
+        m_rightBound = m_vertices[0].x;
 
-        for(auto& vertex : m_vertecies)
+        for(auto& vertex : m_vertices)
         {
             if(m_upperBound < vertex.y) m_upperBound = vertex.y;
             if(m_lowerBound > vertex.y) m_lowerBound = vertex.y;
@@ -66,19 +66,19 @@ namespace MyEngine::Physics
             if(m_leftBound  > vertex.x) m_leftBound  = vertex.x;
         }
 
-        if(m_vertecies.size() == 4)
+        if(m_vertices.size() == 4)
         {
-            for(auto& vertex : m_vertecies)
+            for(auto& vertex : m_vertices)
             {
                 if((m_upperBound != vertex.y && m_lowerBound != vertex.y) ||
                    (m_rightBound != vertex.x && m_leftBound  != vertex.x))
                 {
-                    m_axisAlligned = false;
+                    m_axisAligned = false;
                     return;
                 }
             }
         }
-        else m_axisAlligned = false;
+        else m_axisAligned = false;
     }
 
     void Body2D::applyMovementStep(float t_time)
@@ -99,7 +99,7 @@ namespace MyEngine::Physics
     {
         m_lastTranslation = t_translation;
         
-        for(auto& vertex : m_vertecies)
+        for(auto& vertex : m_vertices)
             vertex += t_translation;
         
         m_center += t_translation;
@@ -130,7 +130,7 @@ namespace MyEngine::Physics
         case CIRCLE_BOUND:
             return checkBC(t_body);
             break;
-        case AXIS_ALLIGNED_BOUNDING_BOX:
+        case AXIS_ALIGNED_BOUNDING_BOX:
             return checkAABB(t_body);
             break;
         case EDGE_COLLISION:
@@ -181,13 +181,13 @@ namespace MyEngine::Physics
     {
         auto extA = glm::vec3(t_a, 1);
         auto extB = glm::vec3(t_b, 1);
-        for(std::size_t i = 0; i < m_vertecies.size(); i++)
+        for(std::size_t i = 0; i < m_vertices.size(); i++)
         {
             std::size_t leftIdx = i;
-            std::size_t rightIdx = (i + 1) % m_vertecies.size();
+            std::size_t rightIdx = (i + 1) % m_vertices.size();
 
-            auto extLeft = glm::vec3(m_vertecies[leftIdx], 1);
-            auto extRight = glm::vec3(m_vertecies[rightIdx], 1);
+            auto extLeft = glm::vec3(m_vertices[leftIdx], 1);
+            auto extRight = glm::vec3(m_vertices[rightIdx], 1);
 
             float area = glm::determinant(glm::mat<3,3,float>(extA, extLeft, extRight));
             float s = glm::determinant(glm::mat<3,3,float>(extLeft,  extRight, extB)) / area;
@@ -205,13 +205,13 @@ namespace MyEngine::Physics
     CollisionInfo Body2D::checkInclusion(glm::vec2&& t_vertex)
     {
         auto extCenter = glm::vec3(m_center, 1);
-        for(std::size_t i = 0; i < m_vertecies.size(); i++)
+        for(std::size_t i = 0; i < m_vertices.size(); i++)
         {
             std::size_t leftIdx = i;
-            std::size_t rightIdx = (i + 1) % m_vertecies.size();
+            std::size_t rightIdx = (i + 1) % m_vertices.size();
 
-            auto extLeft = glm::vec3(m_vertecies[leftIdx], 1);
-            auto extRight = glm::vec3(m_vertecies[rightIdx], 1);
+            auto extLeft = glm::vec3(m_vertices[leftIdx], 1);
+            auto extRight = glm::vec3(m_vertices[rightIdx], 1);
             auto extVertex = glm::vec3(t_vertex, 1);
 
             float area = glm::determinant(glm::mat<3,3,float>(extCenter, extLeft, extRight));
@@ -290,14 +290,14 @@ namespace MyEngine::Physics
 
     CollisionInfo Body2D::checkEdges(Body2D& t_body)
     {
-        if(t_body.m_axisAlligned && m_axisAlligned) return checkAABB(t_body);
+        if(t_body.m_axisAligned && m_axisAligned) return checkAABB(t_body);
 
-        for(std::size_t i = 0; i < t_body.m_vertecies.size(); i++)
+        for(std::size_t i = 0; i < t_body.m_vertices.size(); i++)
         {
             std::size_t leftIdx = i;
-            std::size_t rightIdx = (i + 1) % t_body.m_vertecies.size();
+            std::size_t rightIdx = (i + 1) % t_body.m_vertices.size();
 
-            CollisionInfo info = checkEdge(t_body.m_vertecies[leftIdx], t_body.m_vertecies[rightIdx]);
+            CollisionInfo info = checkEdge(t_body.m_vertices[leftIdx], t_body.m_vertices[rightIdx]);
             if(info.m_detected) return info;
         }
         

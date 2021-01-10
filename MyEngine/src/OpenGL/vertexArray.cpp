@@ -64,7 +64,7 @@ namespace MyEngine::OpenGL
 
         GL_CALL(glEnableVertexAttribArray(t_pos));
         // Every value is converted to float when accessed, 
-        // Nomralize puts int values into [-1,1] / [0,1] range,
+        // Normalize puts int values into [-1,1] / [0,1] range,
         // To get int values inside shader use glVertexAttribIPointer,
         // To get double values inside shader use glVertexAttribLPointer
         GL_CALL(glVertexAttribPointer(t_pos, t_element.count, t_element.type, t_element.normalized, t_stride, offset));

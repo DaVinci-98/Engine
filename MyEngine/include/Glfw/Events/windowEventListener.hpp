@@ -6,7 +6,7 @@
 namespace MyEngine::Glfw::Events
 {
     /**
-     * @brief Listens for WindowEvent obejcts through registered emitter.
+     * @brief Listens for WindowEvent objects through registered emitter.
      * 
      */
     class WindowEventListener: public EventSystem::EventListener<WindowEvent>

@@ -37,7 +37,7 @@ namespace MyEngine::Glfw
             bool m_allowResize;
         };
         /**
-         * @brief Destroy the Window object. Handles destruction of Glfw windoww.
+         * @brief Destroy the Window object. Handles destruction of Glfw window.
          * 
          */
         ~Window();
@@ -99,7 +99,7 @@ namespace MyEngine::Glfw
          */
         Events::MouseMoveEventEmitter& listenForMouseMoveEvents();
         /**
-         * @brief Set a Glfw callback for listening for Window speccific events (currently only resize).
+         * @brief Set a Glfw callback for listening for Window specific events (currently only resize).
          * @sa glfwSetFramebufferSizeCallback()
          * 
          * @return Reference to Events::WindowEventEmitter - to be passed into EventListener's registerEmitter() function.
