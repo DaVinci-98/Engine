@@ -34,8 +34,10 @@ namespace MyEngine::Renderer
         /**
          * @brief Set Triangle2D objects used in buffer.
          * 
+         * @param t_colapse colapse overlapping vertices into one.
+         * 
          */
-        void setTriangles(std::vector<Triangle2D> && t_triangles);
+        void setTriangles(std::vector<Triangle2D> && t_triangles, bool t_colapse = true);
 
         /**
          * @brief Set a buffer of vertices used in this mesh
@@ -56,9 +58,11 @@ namespace MyEngine::Renderer
         /**
          * @brief Set Triangle2D objects used in buffer.
          * 
+         * @param t_colapse colapse overlapping vertices into one.
+         * 
          */
-        inline void setTriangles(std::vector<Triangle2D> const& t_triangles)
-            { setTriangles(std::vector<Triangle2D>(t_triangles)); }
+        inline void setTriangles(std::vector<Triangle2D> const& t_triangles, bool t_colapse = true)
+            { setTriangles(std::vector<Triangle2D>(t_triangles), t_colapse); }
 
         /**
          * @brief Returns a reference to vector of indicies in this mesh. 
@@ -111,8 +115,8 @@ namespace MyEngine::Renderer
 
     private:
         void clear();
-        void insertVertex(std::vector<float>&& t_vertex);
-        void insertTriangles(std::vector<Triangle2D>&& t_trinagles);
+        void insertVertex(std::vector<float>&& t_vertex, bool t_colapse = true);
+        void insertTriangles(std::vector<Triangle2D>&& t_trinagles, bool t_colapse = true);
         int findVertex(std::vector<float>& t_vertex);
 
         std::vector<float> m_vertices;

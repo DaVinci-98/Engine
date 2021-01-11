@@ -37,13 +37,21 @@ namespace MyEngine::Renderer
          * 
          * @param t_material shared pointer to a material object.
          */
-        void setMaterial(std::shared_ptr<Material> t_material);
+        void setMaterial(std::shared_ptr<Material>& t_material);
         /**
          * @brief Set the Material for this drawable.
          * 
          * @param t_mesh shared pointer to a mesh object.
          */
-        void setMesh(std::shared_ptr<Mesh2D> t_mesh);
+        void setMesh(std::shared_ptr<Mesh2D>& t_mesh);
+
+        /**
+         * @brief Set the Mesh and Material for this drawable.
+         * 
+         * @param t_mesh shared pointer to a mesh object.
+         * @param t_material shared pointer to a material object.
+         */
+        void setMeshMaterial(std::shared_ptr<Mesh2D>& t_mesh, std::shared_ptr<Material>& t_material);
 
         /**
          * @brief Translate the drawable by provided vector.

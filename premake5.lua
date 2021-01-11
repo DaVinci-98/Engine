@@ -37,6 +37,7 @@ project "MyEngine"
         "Vendor/stb/include",
         "Vendor/Glad/include",
         "Vendor/spdlog/include",
+        "Vendor/tinyXML/include",
     }
 
     links{
@@ -44,8 +45,30 @@ project "MyEngine"
         "GL", 
         "Glad",
         "stb",
-        "spdlog"
+        "spdlog",
+        "tinyXML"
     }
+
+project "tinyXML"
+    kind "StaticLib"
+    language "C++"
+    location "Vendor/%{prj.name}"
+    targetdir ("MyEngine/bin/" .. outputDir .. "/%{prj.name}")
+    objdir ("MyEngine/obj/" .. outputDir .. "/%{prj.name}")
+
+    files { 
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/include/**.h"
+    }
+
+    includedirs{
+        "%{prj.location}/include"
+    }
+
+    filter{"system:linux"}
+        buildoptions{"-fPIC"}
+
+    filter { }
 
 project "stb"
     kind "StaticLib"

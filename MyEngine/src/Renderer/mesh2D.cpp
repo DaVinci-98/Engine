@@ -20,11 +20,11 @@ namespace MyEngine::Renderer
         m_layout -> push<float>(m_stride);
     }
 
-    void Mesh2D::setTriangles(std::vector<Triangle2D> && t_triangles)
+    void Mesh2D::setTriangles(std::vector<Triangle2D> && t_triangles, bool t_colapse)
     {
         if(m_stride != 0) clear();
 
-        insertTriangles(std::move(t_triangles));
+        insertTriangles(std::move(t_triangles), t_colapse);
 
         m_indexBuffer = std::make_unique<OpenGL::IndexBuffer>(m_indicies);
         m_vertexBuffer = std::make_unique<OpenGL::VertexBuffer>(m_vertices);
@@ -33,21 +33,23 @@ namespace MyEngine::Renderer
         m_layout -> push<float>(m_stride);
     }
 
-    void Mesh2D::insertTriangles(std::vector<Triangle2D>&& t_triangles)
+    void Mesh2D::insertTriangles(std::vector<Triangle2D>&& t_triangles, bool t_colapse)
     {
         m_stride = static_cast<unsigned int>(t_triangles[0].vertices().size() / 3);
 
         for(auto& triangle : t_triangles)
         {
-            insertVertex(std::vector<float>(triangle.vertices().begin(),              triangle.vertices().begin() +   m_stride));
-            insertVertex(std::vector<float>(triangle.vertices().begin() +   m_stride, triangle.vertices().begin() + 2*m_stride));
-            insertVertex(std::vector<float>(triangle.vertices().begin() + 2*m_stride, triangle.vertices().begin() + 3*m_stride));
+            insertVertex(std::vector<float>(triangle.vertices().begin(),              triangle.vertices().begin() +   m_stride), t_colapse);
+            insertVertex(std::vector<float>(triangle.vertices().begin() +   m_stride, triangle.vertices().begin() + 2*m_stride), t_colapse);
+            insertVertex(std::vector<float>(triangle.vertices().begin() + 2*m_stride, triangle.vertices().begin() + 3*m_stride), t_colapse);
         }
     }
 
-    void Mesh2D::insertVertex(std::vector<float>&& t_vertex)
+    void Mesh2D::insertVertex(std::vector<float>&& t_vertex, bool t_colapse)
     {
-        int index = findVertex(t_vertex);
+        int index = -1;
+        if(t_colapse)
+            index = findVertex(t_vertex);
         if(index < 0)
         {
             m_vertices.insert(m_vertices.end(),

@@ -54,9 +54,11 @@ namespace MyEngine::Renderer
          * 
          * @param t_triangles triangles that will be maped from texture onto rendered triangles
          * @param t_path path to the texture file
+         * @param t_colapse colapse overlapping vertices into one.
+         * 
          * @return unsigned int - slot under which assigned texture will be bound.
          */
-        unsigned int setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path);
+        unsigned int setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path, bool t_colapse = true);
 
         /**
          * @brief Create a texture for this material.
@@ -66,6 +68,7 @@ namespace MyEngine::Renderer
          * that are mapped from texture onto rendered triangles.
          * @param t_path path to the texture file
          * @param t_stride number of floats used by vertex in the buffer.
+         * 
          * @return unsigned int - slot under which assigned texture will be bound.
          */
         inline unsigned int setTextureBuffer(std::vector<float> const& t_vertices, std::vector<unsigned int> const& t_indicies, std::string& t_path, unsigned int t_stride)
@@ -84,10 +87,12 @@ namespace MyEngine::Renderer
          * 
          * @param t_triangles triangles that will be maped from texture onto rendered triangles
          * @param t_path path to the texture file
+         * @param t_colapse colapse overlapping vertices into one.
+         * 
          * @return unsigned int - slot under which assigned texture will be bound.
          */
-        inline unsigned int setTexture(std::vector<Triangle2D> const& t_triangles, std::string& t_path)
-            { return setTexture(std::vector<Triangle2D>(t_triangles), t_path); }
+        inline unsigned int setTexture(std::vector<Triangle2D> const& t_triangles, std::string& t_path, bool t_colapse = true)
+            { return setTexture(std::vector<Triangle2D>(t_triangles), t_path, t_colapse); }
 
         /**
          * @brief Get a shared pointer to underlying Renderer::Shader object.
@@ -149,8 +154,8 @@ namespace MyEngine::Renderer
 
     private:
         void clear();
-        void insertVertex(std::vector<float>&& t_vertex, bool t_useIndicies);
-        void insertTriangles(std::vector<Triangle2D>&& t_trinagles, bool t_useIndicies);
+        void insertVertex(std::vector<float>&& t_vertex, bool t_useIndicies, bool t_colapse = true);
+        void insertTriangles(std::vector<Triangle2D>&& t_trinagles, bool t_useIndicies, bool t_colapse = true);
         int  findVertex(std::vector<float>& t_vertex);
 
         unsigned int m_stride = 0;
