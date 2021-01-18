@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Helpers/logger.hpp"
 #include <memory>
+#include <iostream>
 
 /**
  * @brief Has to be overriden in application using this library,
