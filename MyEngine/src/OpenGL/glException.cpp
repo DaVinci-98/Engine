@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <vector>
-#include <string>
 
 namespace MyEngine::OpenGL
 {

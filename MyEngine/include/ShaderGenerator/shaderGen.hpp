@@ -2,7 +2,6 @@
 
 #include "ShaderGenerator/block.hpp"
 
-#include <string>
 #include <glm/common.hpp>
 #include <unordered_map>
 #include <vector>

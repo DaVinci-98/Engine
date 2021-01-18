@@ -6,8 +6,6 @@
 #include "Glfw/Events/windowEventEmitter.hpp"
 
 #include <GLFW/glfw3.h>
-#include <string>
-#include <functional>
 
 namespace MyEngine::Glfw
 {

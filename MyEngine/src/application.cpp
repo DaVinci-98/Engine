@@ -3,7 +3,6 @@
 
 #include <stdexcept>
 #include <exception>
-#include <string>
 
 namespace MyEngine
 {

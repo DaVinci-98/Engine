@@ -1,8 +1,8 @@
 #pragma once
 
 #include <exception>
-#include <string>
 #include <vector>
+#include <string>
 
 #define GL_CALL(x) \
     MyEngine::OpenGL::GlException::glClearError();\

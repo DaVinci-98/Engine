@@ -1,9 +1,5 @@
 #pragma once
 
-#include "Helpers/type.hpp"
-
-#include <string>
-
 namespace MyEngine::EventSystem
 {
     /**
@@ -40,13 +36,6 @@ namespace MyEngine::EventSystem
          */
         inline bool isDispatched() const 
             { return m_dispatched; }
-        /**
-         * @brief Return name of the type of derived class.
-         * 
-         * @return std::string 
-         */
-        static std::string typeName() 
-            { return Helpers::getTypeName<Derived>(); }
 
     protected:
         Event() { }
