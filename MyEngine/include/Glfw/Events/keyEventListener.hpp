@@ -3,9 +3,6 @@
 #include "Glfw/Events/keyEvent.hpp"
 #include "EventSystem/eventListener.hpp"
 
-#include <unordered_map>
-#include <functional>
-
 namespace MyEngine::Glfw::Events
 {
     /**

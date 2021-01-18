@@ -5,7 +5,7 @@
 #include "Renderer/Events/drawableAddEventEmitter.hpp"
 
 #include <memory>
-#include <unordered_map>
+#include <map>
 
 namespace MyEngine::Renderer
 {
@@ -109,7 +109,7 @@ namespace MyEngine::Renderer
     private:
         static bool draw(unsigned int t_count);
 
-        std::unordered_map<std::string, std::shared_ptr<Shader>> m_activeShaders;
+        std::map<std::string, std::shared_ptr<Shader>> m_activeShaders;
         Events::DrawableAddEventListener m_drawableAddEventListener;
         glm::mat4 m_projection = glm::mat4(1);
         glm::mat4 m_view = glm::mat4(1);

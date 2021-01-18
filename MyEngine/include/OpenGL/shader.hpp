@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <vector>
-#include <unordered_map>
+#include <map>
 
 namespace MyEngine::OpenGL
 {
@@ -96,7 +96,7 @@ namespace MyEngine::OpenGL
         std::string readFile(std::string const& t_path) const;
         int getUniformLocation(std::string const& t_name);
 
-        std::unordered_map<std::string, int> m_locations;
+        std::map<std::string, int> m_locations;
         unsigned int m_rendererId = 0;
     };
 }

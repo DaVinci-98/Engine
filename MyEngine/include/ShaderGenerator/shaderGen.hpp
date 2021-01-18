@@ -3,7 +3,6 @@
 #include "ShaderGenerator/block.hpp"
 
 #include <glm/common.hpp>
-#include <unordered_map>
 #include <vector>
 
 namespace MyEngine::ShaderGenerator

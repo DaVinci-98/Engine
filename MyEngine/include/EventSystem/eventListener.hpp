@@ -3,7 +3,7 @@
 #include "EventSystem/event.hpp"
 #include "EventSystem/eventEmitter.hpp"
 
-#include <unordered_map>
+#include <map>
 #include <functional>
 
 namespace MyEngine::EventSystem
@@ -92,6 +92,6 @@ namespace MyEngine::EventSystem
 
     protected:
         std::function<void(EventType&&)> m_nextDispatcher;
-        std::unordered_map<unsigned int, std::function<void(EventType&)>> m_callbackMap;
+        std::map<unsigned int, std::function<void(EventType&)>> m_callbackMap;
     };
 }
