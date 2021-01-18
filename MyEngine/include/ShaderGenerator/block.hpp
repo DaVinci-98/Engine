@@ -10,7 +10,7 @@ namespace MyEngine::ShaderGenerator
      * @brief Blocks describe one functionality in shader.
      * Derive to make a specified functionality for rendering.
      * 
-     * @example Block describing texture/colour rendering.
+     * For example Block can describe texture/colour rendering.
      * 
      */
     class Block

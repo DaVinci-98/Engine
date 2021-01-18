@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iostream>
+#include "Helpers/logger.hpp"
 #include <memory>
 
 /**

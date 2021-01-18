@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
 
 namespace MyEngine::OpenGL
 {
@@ -36,9 +35,8 @@ namespace MyEngine::OpenGL
         template<typename T> void push(size_t t_count);
 
         /**
-         * @brief Length in bytes of one vertex.
-         * 
-         * @example [3 floats](for coordinates) returns 3 * sizeof(float)
+         * @brief Returns length in bytes of one vertex.
+         * For example, if layout was [3 floats](for coordinates) returns 3 * sizeof(float)
          * 
          */
         unsigned int stride() const 
@@ -46,7 +44,7 @@ namespace MyEngine::OpenGL
         /**
          * @brief Number of element in vertex's layout.
          * 
-         * @example [3 floats](for coordinates)[4 floats](for colour) returns 2
+         * For example, if layout was [3 floats](for coordinates)[4 floats](for colour) returns 2
          */
         unsigned int numElements() const 
             { return m_elements.size(); }

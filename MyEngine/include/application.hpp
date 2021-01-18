@@ -11,7 +11,6 @@
 #include "Renderer/Events/drawableAddEventEmitter.hpp"
 #include "Physics/physicsManager.hpp"
 
-#include <iostream>
 #include <memory>
 #include <unordered_map>
 #include <chrono>

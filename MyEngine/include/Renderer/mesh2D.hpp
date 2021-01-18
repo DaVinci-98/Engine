@@ -24,7 +24,7 @@ namespace MyEngine::Renderer
          * @param t_indicies indexes of vertices
          * @param t_stride number of floats in buffer used by one vertex
          * 
-         * @example mesh is drawn using indexes of vertices. 
+         * For example, if mesh is drawn using indexes of vertices. 
          * Index buffer [0,1,2,2,3,0] creates a mesh with 4 vertices and 2 traingles.
          * First triangle is drawn by vertices on indexes 0,1,2 in buffer,
          * the second one by vertices on indexes 2,3,0 in buffer. 
@@ -47,7 +47,7 @@ namespace MyEngine::Renderer
          * @param t_indicies indexes of vertices
          * @param t_stride number of floats in buffer used by one vertex
          * 
-         * @example mesh is drawn using indexes of vertices. 
+         * For example, if mesh is drawn using indexes of vertices. 
          * Index buffer [0,1,2,2,3,0] creates a mesh with 4 vertices and 2 traingles.
          * First triangle is drawn by vertices on indexes 0,1,2 in buffer,
          * the second one by vertices on indexes 2,3,0 in buffer. 

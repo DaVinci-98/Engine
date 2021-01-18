@@ -1,8 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <array>
-#include <iostream>
 
 namespace MyEngine::Renderer
 {
@@ -33,7 +31,7 @@ namespace MyEngine::Renderer
         /**
          * @brief Get const reference to layout of the vertices in this triangle.
          * 
-         * @example [3,4] would mean that vertices consist of two vectors of floats, 
+         * For example, layout [3,4] would mean that vertices consist of two vectors of floats, 
          * first with size 3, second with size 4.
          * 
          */

@@ -1,10 +1,8 @@
+#include "glad/glad.h"
+
 #include "Glfw/window.hpp"
-#include "Glfw/Events/mouseMoveEvent.hpp"
-#include "Glfw/Events/windowEvent.hpp"
 #include "Helpers/logger.hpp"
 #include "Helpers/type.hpp"
-
-#include <iostream>
 
 namespace MyEngine::Glfw
 {
@@ -179,6 +177,12 @@ namespace MyEngine::Glfw
         }
 
         glfwMakeContextCurrent(m_window);
+
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+        {
+            Helpers::Logger::log<Window>() -> error("[Init]: GL loader couldn't be loaded."); 
+            return false;
+        }
 
         Helpers::Logger::log<Window>() -> info(
             "[Set] [Glfw] [Params]:\n" 

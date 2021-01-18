@@ -4,7 +4,6 @@
 
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
-#include <iostream>
 
 namespace MyEngine::Renderer
 {

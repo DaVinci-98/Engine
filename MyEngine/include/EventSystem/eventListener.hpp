@@ -5,7 +5,6 @@
 
 #include <unordered_map>
 #include <functional>
-#include <iostream>
 
 namespace MyEngine::EventSystem
 {

@@ -4,6 +4,7 @@
 #include "Physics/physicsGroup.hpp"
 #include "Physics/Events/collisionEventListener.hpp"
 #include "shared.hpp"
+#include "Helpers/smartVector.hpp"
 
 #include <map>
 

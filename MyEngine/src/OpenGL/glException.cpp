@@ -2,7 +2,6 @@
 #include "glad/glad.h"
 #include "Helpers/logger.hpp"
 
-#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <string>

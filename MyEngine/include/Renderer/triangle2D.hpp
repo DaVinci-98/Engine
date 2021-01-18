@@ -2,9 +2,6 @@
 
 #include "Renderer/triangle.hpp"
 
-#include <array>
-#include <iostream>
-
 namespace MyEngine::Renderer
 {
     /**

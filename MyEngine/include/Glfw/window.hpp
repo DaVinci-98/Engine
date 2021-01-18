@@ -1,13 +1,8 @@
 #pragma once
 
-#include "EventSystem/event.hpp"
-#include "Glfw/Events/keyEvent.hpp"
 #include "Glfw/Events/keyEventEmitter.hpp"
-#include "Glfw/Events/mouseKeyEvent.hpp"
 #include "Glfw/Events/mouseKeyEventEmitter.hpp"
-#include "Glfw/Events/mouseMoveEvent.hpp"
 #include "Glfw/Events/mouseMoveEventEmitter.hpp"
-#include "Glfw/Events/windowEvent.hpp"
 #include "Glfw/Events/windowEventEmitter.hpp"
 
 #include <GLFW/glfw3.h>

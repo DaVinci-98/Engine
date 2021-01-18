@@ -1,7 +1,6 @@
 #include "Renderer/mesh2D.hpp"
 
 #include <algorithm>
-#include <iostream>
 
 namespace MyEngine::Renderer
 {

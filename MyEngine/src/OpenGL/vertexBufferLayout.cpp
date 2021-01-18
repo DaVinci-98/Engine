@@ -3,7 +3,6 @@
 #include "OpenGL/vertexBufferLayout.hpp"
 
 #include <exception>
-#include <iostream>
 
 namespace MyEngine::OpenGL
 {

@@ -1,9 +1,6 @@
 #include "application.hpp"
-#include "Renderer/renderer.hpp"
-
 #include "Helpers/logger.hpp"
 
-#include <iostream>
 #include <stdexcept>
 #include <exception>
 #include <string>

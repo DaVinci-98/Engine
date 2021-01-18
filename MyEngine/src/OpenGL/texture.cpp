@@ -5,8 +5,6 @@
 #include "stb_image.h"
 #include "Helpers/logger.hpp"
 
-#include <iostream>
-
 namespace MyEngine::OpenGL
 {
     Texture::Texture(std::string const& t_filePath)

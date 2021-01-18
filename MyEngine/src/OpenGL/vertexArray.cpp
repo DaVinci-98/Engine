@@ -3,7 +3,6 @@
 #include "OpenGL/vertexArray.hpp"
 #include "OpenGL/glException.hpp"
 
-#include <iostream>
 #include <algorithm>
 
 namespace MyEngine::OpenGL

@@ -3,7 +3,6 @@
 #include "Physics/body2D.hpp"
 #include "Physics/shared.hpp"
 #include "Physics/Events/collisionEventEmitter.hpp"
-#include "Helpers/smartVector.hpp"
 
 #include <memory>
 #include <vector>

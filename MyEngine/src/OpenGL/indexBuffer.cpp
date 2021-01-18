@@ -3,9 +3,6 @@
 #include "OpenGL/indexBuffer.hpp"
 #include "OpenGL/glException.hpp"
 
-#include <array>
-#include <iostream>
-
 namespace MyEngine::OpenGL
 {    
     IndexBuffer::IndexBuffer(std::vector<unsigned int> const& t_data)

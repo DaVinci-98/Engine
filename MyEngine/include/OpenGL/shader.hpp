@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <array>
-#include <iostream>
 
 namespace MyEngine::OpenGL
 {

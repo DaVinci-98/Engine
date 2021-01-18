@@ -45,9 +45,10 @@ namespace MyEngine::OpenGL
          * @param t_buffer buffer to be attached to this vertex array
          * @param t_layout layout of the attached buffer
          * @param t_firstPos position at which buffer starts
-         * @return unsigned int next unused position in buffer
          * 
-         * @example if layout was [3 float][4 floats] then the next position returned will be 2
+         * @return unsigned int next unused position in buffer
+         * For example, if layout was [3 floats][4 floats] then the next position returned will be 2
+         * 
          */
         unsigned int setBuffer(VertexBuffer& t_buffer, VertexBufferLayout const& t_layout, unsigned int t_firstPos = 0);
     private:

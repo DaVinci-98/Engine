@@ -5,7 +5,6 @@
 #include "Renderer/Events/drawableAddEventEmitter.hpp"
 
 #include <memory>
-#include <queue>
 #include <unordered_map>
 
 namespace MyEngine::Renderer

@@ -5,8 +5,8 @@
 #include "Helpers/logger.hpp"
 
 #include <exception>
-#include <iostream>
 #include <algorithm>
+#include <array>
 
 namespace MyEngine::OpenGL
 {
@@ -88,9 +88,7 @@ namespace MyEngine::OpenGL
 
         if(src == nullptr)
         {
-            std::cout<<"[ERROR]"<<std::endl;
-            std::cout << "- function : Shader -> attachShader -> readFile." << std::endl;
-            std::cout << "- message  : " << "Could not open file." << std::endl;
+            Helpers::Logger::log<Shader>() -> error("[readFile()]: Could not open file.");
             return "";
         } 
 
@@ -121,9 +119,7 @@ namespace MyEngine::OpenGL
             char message[len];
             glGetShaderInfoLog(id, len, &len, message);
 
-            std::cout << "[ERROR]" <<std::endl;
-            std::cout << "- function : Compile shader." << std::endl;
-            std::cout << "- message  : " << message << std::endl;
+            Helpers::Logger::log<Shader>() -> error("[compileShader()]: {0}", std::string(message));
 
             glDeleteShader(id);
 
@@ -149,11 +145,7 @@ namespace MyEngine::OpenGL
 
         GL_CALL(int location = glGetUniformLocation(m_rendererId, t_name.c_str()));
         if(location < 0)
-        {
-            std::cout << "[ERROR]" << std::endl;
-            std::cout << "- message : Invalid uniform" << std::endl;
-            std::cout << "- name    : " << t_name << std::endl;
-        }
+            Helpers::Logger::log<Shader>() -> error("[getUniformLocation()]: Invalid uniform name - {0}", t_name);
         m_locations[t_name] = location;
         return location;
     }

@@ -3,9 +3,6 @@
 #include "OpenGL/vertexBuffer.hpp"
 #include "OpenGL/glException.hpp"
 
-#include <array>
-#include <iostream>
-
 namespace MyEngine::OpenGL
 {   
     VertexBuffer::VertexBuffer(std::vector<float>const& t_data)
