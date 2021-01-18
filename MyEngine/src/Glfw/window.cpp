@@ -137,7 +137,7 @@ namespace MyEngine::Glfw
 
     void Window::setParams(WindowParams&& t_params)
     { 
-        m_params = t_params;
+        m_params = std::move(t_params);
         m_paramsSet = true;
         Helpers::Logger::log<Window>() -> info(
             "[Set] [Window] [Params]:\n"
@@ -146,7 +146,7 @@ namespace MyEngine::Glfw
             "\t[Height]:  {2}\n"
             "\t[V-sync]:  {3}\n"
             "\t[Rescale]: {4}",  
-            t_params.m_title, t_params.m_width, t_params.m_height, t_params.m_vsync, t_params.m_allowResize);
+            m_params.m_title, m_params.m_width, m_params.m_height, m_params.m_vsync, m_params.m_allowResize);
     }
 
     bool Window::initializeWindow()
@@ -167,11 +167,6 @@ namespace MyEngine::Glfw
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Set] [Glfw] [Params]:\n" 
-            "\t[Version]: 4.6\n" 
-            "\t[Profile]: core");
-
         if(m_params.m_allowResize) glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         else glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
@@ -184,6 +179,13 @@ namespace MyEngine::Glfw
         }
 
         glfwMakeContextCurrent(m_window);
+
+        Helpers::Logger::log<Window>() -> info(
+            "[Set] [Glfw] [Params]:\n" 
+            "\t[Version]: 4.6\n" 
+            "\t[Profile]: core\n"
+            "\t[Vendor]: {0}",
+            (const char*)glGetString(GL_VENDOR));
 
         if(m_params.m_vsync) glfwSwapInterval(1);
         else glfwSwapInterval(0);
