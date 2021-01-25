@@ -47,6 +47,8 @@ namespace MyEngine::Renderer
     bool Renderer::drawFromQueue()
     {
         auto events = m_drawableAddEventListener.drawableAddEvents();
+        if(events.size() == 0)
+            return true;
         std::shared_ptr<Material> lastMaterial = events[0].drawable() -> material();
         lastMaterial -> bind();
         for(auto& event : events)

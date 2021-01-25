@@ -34,6 +34,19 @@ namespace MyEngine
          * @param t_updateRate rate at which physics is updated and onUpdate() function is called.
          */
         Application(std::string& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize, float t_updateRate = 1.0f/60.0f);
+
+        /**
+         * @brief Construct a new Application object.
+         * 
+         * @param t_title title for the window
+         * @param t_w window's width
+         * @param t_h window's height
+         * @param t_vsync use vsync
+         * @param t_allowResize allow resize of the window
+         * @param t_updateRate rate at which physics is updated and onUpdate() function is called.
+         */
+        Application(std::string&& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize, float t_updateRate = 1.0f/60.0f):
+            Application(t_title, t_w, t_h, t_vsync, t_allowResize, t_updateRate) { }
         /**
          * @brief Destroy the Application object.
          * 
@@ -122,7 +135,7 @@ namespace MyEngine
          * @param t_drawable Object which will be drawn.
          * @param t_callback Function to call before drawing the object.
          */
-        inline void addToRenderQueue(std::shared_ptr<Renderer::Drawable2D> t_drawable, std::function<void(void)>&& t_callback)
+        inline void addToRenderQueue(std::shared_ptr<Renderer::Drawable2D> t_drawable, std::function<void(void)>&& t_callback = nullptr)
             { m_drawableAddEventEmitter.sendEvent(t_drawable, std::move(t_callback)); }
 
         /**

@@ -29,7 +29,7 @@ namespace MyEngine::Renderer
          * @param t_material Material to render drawable with.
          * @param t_mesh Drawable's mesh.
          */
-        Drawable2D(std::shared_ptr<Material>& t_material, std::shared_ptr<Mesh2D> t_mesh)
+        Drawable2D(std::shared_ptr<Material> t_material, std::shared_ptr<Mesh2D> t_mesh)
             { setMaterial(t_material); 
               setMesh(t_mesh); }
         /**

@@ -67,7 +67,7 @@ namespace MyEngine::Renderer
          */
         std::string colourShader();
         /**
-         * @brief Initialize a colour shader and return a string for accessing it from renderer.
+         * @brief Initialize a texture shader and return a string for accessing it from renderer.
          * Texture shader renders meshes with bound texture.
          * (Accessing shaders from within renderer makes binding projection matrices easier)
          * 
