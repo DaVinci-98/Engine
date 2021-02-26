@@ -1,0 +1,8 @@
+[glm, glfw were installed on the build machine, remove later]
+packages to add:
+glm
+glfw
+dear imgui
+
+packages to fix:
+probably all of them
