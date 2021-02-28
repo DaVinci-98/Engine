@@ -84,6 +84,6 @@ namespace MyEngine::ShaderGenerator
         std::vector<VertexLayoutItem> m_vertexLayout;
         std::vector<UniformItem> m_unifroms;
         std::vector<Block> m_blocks;
-        std::string m_version = "460";
+        std::string m_version = "450";
     };
 }
