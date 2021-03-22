@@ -1,4 +1,4 @@
-#include "glad/glad.h" 
+#include "glad/gl.h" 
 
 #include "Renderer/renderer.hpp"
 #include "OpenGL/glException.hpp"
@@ -14,7 +14,8 @@ namespace MyEngine::Renderer
         GL_CALL(glEnable(GL_BLEND));
         GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-        Helpers::Logger::log<Renderer>() -> info("[Init]: Done"); 
+        Helpers::Logger::log<Renderer>(Helpers::Logger::LogType::INFO,
+            "[Init]: Done"); 
 
         return true;
     }

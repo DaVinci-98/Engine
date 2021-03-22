@@ -1,7 +1,7 @@
 #include "Renderer/text.hpp"
 #include "Renderer/triangle2D.hpp"
 #include "Helpers/logger.hpp"
-#include "tinyxml.h"
+#include "tinyxml2.h"
 
 namespace MyEngine::Renderer
 {
@@ -37,7 +37,8 @@ namespace MyEngine::Renderer
 
         if(!makeGlyphMap(std::move(t_fontPath)))
         {
-            Helpers::Logger::log<Text>() -> error("[makeGlyphMap()]: could not make glyph map.");
+            Helpers::Logger::log<Text>(Helpers::Logger::LogType::ERROR,
+                "[makeGlyphMap()]: could not make glyph map.");
             return false;
         }
         else
@@ -51,7 +52,8 @@ namespace MyEngine::Renderer
     {
         if(!m_fontSet)
         {
-            Helpers::Logger::log<Text>() -> error("[setText]: font hast to be set before calling this function.");
+            Helpers::Logger::log<Text>(Helpers::Logger::LogType::ERROR,
+                "[setText]: font hast to be set before calling this function.");
             return;
         }
 
@@ -101,27 +103,29 @@ namespace MyEngine::Renderer
 
     bool Text::makeGlyphMap(std::string&& t_fontPath)
     {
-        TiXmlDocument doc(t_fontPath.c_str());
-        if(!doc.LoadFile())
+        tinyxml2::XMLDocument doc;
+        if(!doc.LoadFile(t_fontPath.c_str()))
         {
-            Helpers::Logger::log<TiXmlDocument>() -> error("[loadFile()]: could not load font: " + t_fontPath);
+            Helpers::Logger::log<tinyxml2::XMLDocument>(Helpers::Logger::LogType::ERROR,
+                "[loadFile()]: could not load font: " + t_fontPath);
             return false;
         }
 
-        TiXmlHandle docHandle(&doc);
+        tinyxml2::XMLDocument docHandle(&doc);
 
-        TiXmlHandle common = docHandle.FirstChildElement().FirstChild("common");
-        common.ToElement()->QueryUnsignedAttribute("scaleW", &m_bitmapWidth);
-        common.ToElement()->QueryUnsignedAttribute("scaleH", &m_bitmapHeight);
+        auto common = docHandle.FirstChild() -> FirstChildElement("common");
+        common->QueryUnsignedAttribute("scaleW", &m_bitmapWidth);
+        common->QueryUnsignedAttribute("scaleH", &m_bitmapHeight);
 
-        TiXmlHandle chars = docHandle.FirstChildElement().FirstChild("chars");
+        auto chars = docHandle.FirstChild() -> FirstChildElement("chars");
         unsigned int charNum = 0;
-        chars.ToElement()->QueryUnsignedAttribute("count", &charNum);
+        chars->QueryUnsignedAttribute("count", &charNum);
 
-        TiXmlElement* charNode = chars.FirstChild().ToElement();
+        auto charNode = chars -> FirstChild() -> ToElement();
         if(!charNode)
         {
-            Helpers::Logger::log<TiXmlDocument>() -> error("[makeGlyphMap()]: wrong xml file structure.");
+            Helpers::Logger::log<tinyxml2::XMLDocument>(Helpers::Logger::LogType::ERROR,
+                "[makeGlyphMap()]: wrong xml file structure.");
             return false;        
         }
         while(charNode)
@@ -141,9 +145,9 @@ namespace MyEngine::Renderer
         }
 
         if(m_glyphs.size() != charNum)
-            Helpers::Logger::log<TiXmlDocument>() -> warn("[makeGlyphMap()]: some chars may not have been loaded (" + 
-                                                          std::to_string(m_glyphs.size()) + "/" + 
-                                                          std::to_string(charNum) + ").");
+            Helpers::Logger::log<tinyxml2::XMLDocument>(Helpers::Logger::LogType::WARN,
+                "[makeGlyphMap()]: some chars may not have been loaded ({0}/{1}).",
+                std::to_string(m_glyphs.size()), std::to_string(charNum));
         return true;
     }
 }

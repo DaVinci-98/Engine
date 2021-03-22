@@ -1,4 +1,5 @@
 #include "Physics/physicsGroup.hpp"
+#include <algorithm>
 
 namespace MyEngine::Physics
 {

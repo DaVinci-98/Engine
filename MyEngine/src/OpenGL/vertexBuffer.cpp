@@ -1,4 +1,4 @@
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 #include "OpenGL/vertexBuffer.hpp"
 #include "OpenGL/glException.hpp"

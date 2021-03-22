@@ -2,11 +2,6 @@
 
 #include <memory>
 #include <typeinfo>
-
-#include "Helpers/type.hpp"
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-
 namespace Helpers
 {
     /**
@@ -18,50 +13,45 @@ namespace Helpers
     class Logger
     {
     public:
+        enum LogType
+        {
+            ERROR,
+            WARN,
+            INFO
+        };
         /**
          * @brief Get logger with provided name and if it doesn't exist create one.
          * 
          * @param t_name name of the logger (as rvalue).
+         * @param t_type type of lod from enum LogType.
+         * @param t_msg message to log.
+         * @param t_msgArgs arguments for the message string.
          * 
-         * @return std::shared_ptr to spdlog::logger
-         *  
          */
-        static std::shared_ptr<spdlog::logger> log(std::string&& t_name)
-        {
-            auto logger = spdlog::get(t_name);
-
-            if(logger) 
-                return logger;
-            else 
-                return spdlog::stdout_color_mt(t_name);
-        }
+        template<typename FormatString, typename... Args>
+        static void log(std::string&& t_name, LogType t_type, FormatString && t_msg, Args&&...t_msgArgs);
 
         /**
          * @brief Get logger with name of provided type.
          * 
-         * @tparam T type for the logger
-         * 
-         * @return std::shared_ptr to spdlog::logger
+         * @param t_type type of lod from enum LogType.
+         * @param t_msg message to log.
+         * @param t_msgArgs arguments for the message string.
          * 
          */
-        template<typename T>
-        static std::shared_ptr<spdlog::logger> log()
-        {
-            return log(getTypeName<T>());
-        }
-
+        template<typename T, typename FormatString, typename... Args>
+        static void log(LogType t_type, FormatString && t_msg, Args&&...t_msgArgs);
 
         /**
          * @brief Get logger with provided name and if it doesn't exist create one.
          * 
          * @param t_name name of the logger (as lvalue).
+         * @param t_type type of lod from enum LogType.
+         * @param t_msg message to log.
+         * @param t_msgArgs arguments for the message string.
          * 
-         * @return std::shared_ptr to spdlog::logger
-         *  
          */
-        static std::shared_ptr<spdlog::logger> log(std::string const& t_name)
-        { 
-            return log(std::string(t_name)); 
-        }
+        template<typename FormatString, typename... Args>
+        static void log(std::string const& t_name, LogType t_type, FormatString && t_msg, Args&&...t_msgArgs);
     };
 }

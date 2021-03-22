@@ -26,7 +26,8 @@ namespace MyEngine::Renderer
         if(t_params_a.size() != t_params_b.size() ||
            t_params_a.size() != t_params_c.size())
         {
-            Helpers::Logger::log<Triangle2D>() -> error("[addParam()]: Lengths of parameters don't match.");
+            Helpers::Logger::log<Triangle2D>(Helpers::Logger::LogType::ERROR,
+                "[addParam()]: Lengths of parameters don't match.");
             return false;
         }
 

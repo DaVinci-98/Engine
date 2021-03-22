@@ -20,7 +20,8 @@ namespace MyEngine::Glfw::Events
 
         if(!t_event.isHandled() && t_event.isDispatched())
         {
-            Helpers::Logger::log<EventSystem::Event<MouseKeyEvent>>() -> warn("[Unhandled]"); 
+            Helpers::Logger::log<EventSystem::Event<MouseKeyEvent>>(Helpers::Logger::LogType::WARN,
+                "[Unhandled]"); 
         }
     }
 

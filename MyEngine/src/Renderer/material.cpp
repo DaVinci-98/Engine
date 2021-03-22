@@ -14,24 +14,29 @@ namespace MyEngine::Renderer
         m_shader(t_shader) 
     { 
         // if(isColour())
-        //     Helpers::Logger::log<Material>() -> info("[Colour] [Init]: Done");
+        //     Helpers::Logger::log<Material>(Helpers::Logger::LogType::INFO,
+        //    "[Colour] [Init]: Done");
         // else
-        //     Helpers::Logger::log<Material>() -> info("[Texture] [Init]: Done");
+        //     Helpers::Logger::log<Material>(Helpers::Logger::LogType::INFO,
+        //    "[Texture] [Init]: Done");
     }
 
     Material::~Material()
     {
         // if(isColour())
-        //     Helpers::Logger::log<Material>() -> info("[Colour] [Destroy]: Done");
+        //     Helpers::Logger::log<Material>(Helpers::Logger::LogType::INFO,
+        //    "[Colour] [Destroy]: Done");
         // else
-        //     Helpers::Logger::log<Material>() -> info("[Texture] [Destroy]: Done");
+        //     Helpers::Logger::log<Material>(Helpers::Logger::LogType::INFO, 
+        //    "[Texture] [Destroy]: Done");
     }
 
     unsigned int Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indicies, std::string t_path, unsigned int t_stride)
     {
         if(!m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error("[setTextureBuffer()]: Material doesn't render triangles with textures.");
+            Helpers::Logger::log<Material>(Helpers::Logger::LogType::ERROR,
+                "[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }
         if(m_stride != 0) clear();
@@ -53,7 +58,8 @@ namespace MyEngine::Renderer
     {
         if(m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error("[setColour()]: Material doesn't render triangles with flat colour.");
+            Helpers::Logger::log<Material>(Helpers::Logger::LogType::ERROR,
+                "[setColour()]: Material doesn't render triangles with flat colour.");
             return;
         }
 
@@ -64,7 +70,8 @@ namespace MyEngine::Renderer
     {
         if(!m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error("[setTextureBuffer()]: Material doesn't render triangles with textures.");
+            Helpers::Logger::log<Material>(Helpers::Logger::LogType::ERROR,
+                "[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }
         if(m_stride != 0) clear();
