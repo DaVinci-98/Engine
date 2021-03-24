@@ -1,5 +1,10 @@
 include_directories(${CMAKE_SOURCE_DIR}/MyEngine/include)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 add_subdirectory(src/Helpers)
 add_subdirectory(src/Application)
 add_subdirectory(src/EventSystem)
