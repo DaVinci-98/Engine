@@ -1,12 +1,30 @@
 cmake_minimum_required(VERSION 3.16.0)
 
-project(Engine)
+project(MyEngine)
 
-option(BUILD_SANDBOX "Build sandbox executable" OFF)
+set(LIBRARY_NAME ${PROJECT_NAME})
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-add_subdirectory(Vendor)
-add_subdirectory(MyEngine)
+set(VENDOR_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Vendor")
+set(MODULES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Modules")
 
-if(BUILD_SANDBOX)
-    add_subdirectory(Sandbox)
-endif()
+add_subdirectory(${VENDOR_DIR})
+add_subdirectory(${MODULES_DIR})
+
+add_library(${LIBRARY_NAME} SHARED
+    $<TARGET_OBJECTS:Helpers>
+    $<TARGET_OBJECTS:Application>
+    $<TARGET_OBJECTS:EventSystem>
+    $<TARGET_OBJECTS:Glfw>
+    $<TARGET_OBJECTS:OpenGL>
+    $<TARGET_OBJECTS:Physics>
+    $<TARGET_OBJECTS:Renderer>
+    $<TARGET_OBJECTS:ShaderGenerator>
+)
+
+target_link_libraries(${LIBRARY_NAME}
+    PUBLIC Application
+)

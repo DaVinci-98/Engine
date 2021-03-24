@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Application/application.hpp"
-#include "Application/entryPoint.hpp"
+#include "entryPoint.hpp"
 
 #include "Renderer/renderer.hpp"
 

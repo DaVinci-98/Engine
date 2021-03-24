@@ -5,7 +5,6 @@
 #include "Glfw/Events/mouseKeyEventListener.hpp"
 #include "Glfw/Events/mouseMoveEventListener.hpp"
 #include "Glfw/Events/windowEventListener.hpp"
-#include "EventSystem/event.hpp"
 #include "Renderer/renderer.hpp"
 #include "Renderer/drawable2D.hpp"
 #include "Renderer/Events/drawableAddEventEmitter.hpp"
