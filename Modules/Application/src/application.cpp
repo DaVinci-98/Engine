@@ -9,7 +9,7 @@ namespace MyEngine
 
     Application::~Application()
     {
-        Helpers::Logger::log<Application>(Helpers::Logger::LogType::INFO, 
+        Helpers::Logger::log<Application>() -> info( 
             "[Destroy]: Done");
     }
 
@@ -31,7 +31,7 @@ namespace MyEngine
     {
         if(!m_window.initializeWindow())
         {
-            Helpers::Logger::log<Application>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<Application>() -> error(
                 "[Init]: Couldn't initialize Glfw window.");
             return false;
         }
@@ -40,16 +40,16 @@ namespace MyEngine
 
         if(!m_renderer.initialize())
         {
-            Helpers::Logger::log<Application>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<Application>() -> error(
                 "[Init]: Couldn't initialize renderer.");
             return false;
         }
         renderer().registerDrawableAddEventEmitter(m_drawableAddEventEmitter);
         renderer().setOrtho2D(screenWidth(), screenHeight());
 
-        Helpers::Logger::log<Application>(Helpers::Logger::LogType::INFO,
+        Helpers::Logger::log<Application>() -> info(
             "[Version]: {}", glGetString(GL_VERSION));
-        Helpers::Logger::log<Application>(Helpers::Logger::LogType::INFO,
+        Helpers::Logger::log<Application>() -> info(
             "[Init]: Done");
         
         return true;
@@ -57,7 +57,7 @@ namespace MyEngine
 
     void Application::startLoop()
     {
-        Helpers::Logger::log<Application>(Helpers::Logger::LogType::INFO,
+        Helpers::Logger::log<Application>() -> info(
             "[Start] [Game loop]");
         auto currentTime = std::chrono::steady_clock::now();
         float accumulator = 0.0f;
@@ -87,7 +87,7 @@ namespace MyEngine
             if(!frame)
             {
                 onLoopEnd();
-                Helpers::Logger::log<Application>(Helpers::Logger::LogType::INFO,
+                Helpers::Logger::log<Application>() -> info(
                     "[End] [Game loop]");
                 return;
             }
@@ -96,7 +96,7 @@ namespace MyEngine
             m_window.pollEvents();
         }
         bool end = onLoopEnd();
-        Helpers::Logger::log<Application>(Helpers::Logger::LogType::INFO,
+        Helpers::Logger::log<Application>() -> info(
             "[End] [Game loop]");
         return;
     }

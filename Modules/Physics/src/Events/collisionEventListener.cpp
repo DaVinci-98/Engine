@@ -20,7 +20,7 @@ namespace MyEngine::Physics::Events
 
         if(!t_collisionEvent.isHandled() && t_collisionEvent.isDispatched())
         {
-            Helpers::Logger::log<EventSystem::Event<CollisionEvent>>(Helpers::Logger::LogType::WARN,
+            Helpers::Logger::log<EventSystem::Event<CollisionEvent>>() -> warn(
                 "[Unhandled]"); 
         }
     }

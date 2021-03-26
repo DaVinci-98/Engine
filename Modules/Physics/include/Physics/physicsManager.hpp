@@ -7,6 +7,7 @@
 #include "Helpers/smartVector.hpp"
 
 #include <map>
+#include <vector>
 
 namespace MyEngine::Physics
 {
@@ -88,6 +89,6 @@ namespace MyEngine::Physics
     private:
         std::map<std::string, PhysicsGroup> m_groups;
         std::map<std::string, Events::CollisionEventListener> m_listeners;
-        Helpers::SmartVector<Body2D> m_bodies;
+        std::vector<std::shared_ptr<Body2D>> m_bodies;
     };
 }

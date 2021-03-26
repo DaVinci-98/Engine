@@ -14,7 +14,7 @@ namespace MyEngine::Renderer
         GL_CALL(glEnable(GL_BLEND));
         GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-        Helpers::Logger::log<Renderer>(Helpers::Logger::LogType::INFO,
+        Helpers::Logger::log<Renderer>() -> info(
             "[Init]: Done"); 
 
         return true;

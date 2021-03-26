@@ -30,7 +30,7 @@ namespace MyEngine::OpenGL
             m_localBuffer = nullptr;
         }
 
-        // Helpers::Logger::log<Texture>(Helpers::Logger::LogType::INFO,
+        // Helpers::Logger::log<Texture>() -> info(
         //    "[Load] [" + t_filePath + "] [" + std::to_string(m_rendererId) + "]: Done");
     }
 
@@ -40,7 +40,7 @@ namespace MyEngine::OpenGL
         {
             if(m_localBuffer != nullptr) stbi_image_free(m_localBuffer);
             if(m_rendererId != 0) GL_CALL(glDeleteTextures(1, &m_rendererId));
-            // Helpers::Logger::log<Texture>(Helpers::Logger::LogType::INFO, 
+            // Helpers::Logger::log<Texture>() -> info( 
             //     "[Destroy] [" + std::to_string(m_rendererId) + "]: Done");
         }
         catch(GlException const& e)

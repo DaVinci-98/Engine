@@ -15,7 +15,7 @@ namespace MyEngine::Glfw::Events
 
         if(!t_event.isHandled() && t_event.isDispatched())
         {
-            Helpers::Logger::log<EventSystem::Event<MouseMoveEvent>>(Helpers::Logger::LogType::WARN,
+            Helpers::Logger::log<EventSystem::Event<MouseMoveEvent>>() -> warn(
                 "[Unhandled]"); 
         }
     }

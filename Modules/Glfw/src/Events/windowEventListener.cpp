@@ -20,7 +20,7 @@ namespace MyEngine::Glfw::Events
 
         if(!t_windowEvent.isHandled() && t_windowEvent.isDispatched())
         {
-            Helpers::Logger::log<EventSystem::Event<WindowEvent>>(Helpers::Logger::LogType::WARN,
+            Helpers::Logger::log<EventSystem::Event<WindowEvent>>() -> warn(
                 "[Unhandled]"); 
         }
     }

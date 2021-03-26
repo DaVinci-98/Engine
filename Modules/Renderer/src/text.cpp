@@ -37,7 +37,7 @@ namespace MyEngine::Renderer
 
         if(!makeGlyphMap(std::move(t_fontPath)))
         {
-            Helpers::Logger::log<Text>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<Text>() -> error(
                 "[makeGlyphMap()]: could not make glyph map.");
             return false;
         }
@@ -52,7 +52,7 @@ namespace MyEngine::Renderer
     {
         if(!m_fontSet)
         {
-            Helpers::Logger::log<Text>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<Text>() -> error(
                 "[setText]: font hast to be set before calling this function.");
             return;
         }
@@ -106,7 +106,7 @@ namespace MyEngine::Renderer
         tinyxml2::XMLDocument doc;
         if(!doc.LoadFile(t_fontPath.c_str()))
         {
-            Helpers::Logger::log<tinyxml2::XMLDocument>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<tinyxml2::XMLDocument>() -> error(
                 "[loadFile()]: could not load font: " + t_fontPath);
             return false;
         }
@@ -124,7 +124,7 @@ namespace MyEngine::Renderer
         auto charNode = chars -> FirstChild() -> ToElement();
         if(!charNode)
         {
-            Helpers::Logger::log<tinyxml2::XMLDocument>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<tinyxml2::XMLDocument>() -> error(
                 "[makeGlyphMap()]: wrong xml file structure.");
             return false;        
         }
@@ -145,7 +145,7 @@ namespace MyEngine::Renderer
         }
 
         if(m_glyphs.size() != charNum)
-            Helpers::Logger::log<tinyxml2::XMLDocument>(Helpers::Logger::LogType::WARN,
+            Helpers::Logger::log<tinyxml2::XMLDocument>() -> warn(
                 "[makeGlyphMap()]: some chars may not have been loaded ({0}/{1}).",
                 std::to_string(m_glyphs.size()), std::to_string(charNum));
         return true;

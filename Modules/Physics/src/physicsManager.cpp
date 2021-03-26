@@ -34,13 +34,17 @@ namespace MyEngine::Physics
 
     void PhysicsManager::addBody(std::string& t_group, std::shared_ptr<Body2D> t_body)
     { 
-        m_bodies.pushBackUnique(t_body);
+        auto iterator = std::find(m_bodies.begin(), m_bodies.end(), t_body); 
+        if(iterator == m_bodies.end())    
+            m_bodies.push_back(t_body);
         getGroup(t_group).addBody(t_body);
     }
 
     void PhysicsManager::removeBody(std::shared_ptr<Body2D> t_body)
     {
-        m_bodies.remove(t_body);
+        auto iterator = std::find(m_bodies.begin(), m_bodies.end(), t_body); 
+        if(iterator != m_bodies.end())    
+            m_bodies.erase(iterator);
         for(auto& [_, group] : m_groups)
             group.removeBody(t_body);
     }

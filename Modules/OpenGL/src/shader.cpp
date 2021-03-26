@@ -19,7 +19,7 @@ namespace MyEngine::OpenGL
         {
             ShaderText shader { readFile(file.m_filepath), file.m_type };
             idList.push_back(attachShader(shader)); 
-            Helpers::Logger::log<Shader>(Helpers::Logger::LogType::INFO,
+            Helpers::Logger::log<Shader>() -> info(
                 "[Load] [" + file.m_filepath + "]: Done");
         }
 
@@ -29,7 +29,7 @@ namespace MyEngine::OpenGL
         for(auto const& id : idList) 
             detachShader(id);
 
-        Helpers::Logger::log<Shader>(Helpers::Logger::LogType::INFO,
+        Helpers::Logger::log<Shader>() -> info(
             "[Load] [" + std::to_string(m_rendererId)  + "]: Done");
     }
 
@@ -48,7 +48,7 @@ namespace MyEngine::OpenGL
         for(auto const& id : idList) 
             detachShader(id);
 
-        Helpers::Logger::log<Shader>(Helpers::Logger::LogType::INFO,
+        Helpers::Logger::log<Shader>() -> info(
             "[Load] [" + std::to_string(m_rendererId)  + "]: Done");
     }
 
@@ -57,7 +57,7 @@ namespace MyEngine::OpenGL
         try
         {
             GL_CALL(glDeleteProgram(m_rendererId));
-            Helpers::Logger::log<Shader>(Helpers::Logger::LogType::INFO,
+            Helpers::Logger::log<Shader>() -> info(
                 "[Destroy] [" + std::to_string(m_rendererId) + "]: Done");
         }
         catch(GlException const& e)
@@ -92,7 +92,7 @@ namespace MyEngine::OpenGL
 
         if(src == nullptr)
         {
-            Helpers::Logger::log<Shader>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<Shader>() -> error(
                 "[readFile()]: Could not open file.");
             return "";
         } 
@@ -124,7 +124,7 @@ namespace MyEngine::OpenGL
             char message[len];
             glGetShaderInfoLog(id, len, &len, message);
 
-            Helpers::Logger::log<Shader>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<Shader>() -> error(
                 "[compileShader()]: {0}", std::string(message));
 
             glDeleteShader(id);
@@ -151,7 +151,7 @@ namespace MyEngine::OpenGL
 
         GL_CALL(int location = glGetUniformLocation(m_rendererId, t_name.c_str()));
         if(location < 0)
-            Helpers::Logger::log<Shader>(Helpers::Logger::LogType::ERROR,
+            Helpers::Logger::log<Shader>() -> error(
                 "[getUniformLocation()]: Invalid uniform name - {0}", t_name);
         m_locations[t_name] = location;
         return location;

@@ -14,7 +14,7 @@ namespace MyEngine::OpenGL
 
     void GlException::printError(ErrorMessage const& t_error) const
     {
-        Helpers::Logger::log<GlException>(Helpers::Logger::LogType::ERROR,
+        Helpers::Logger::log<GlException>() -> error(
         "[ERROR (" + std::to_string(t_error.code) + ")]\n"
         "\t- message  : " + codeToString(t_error.code) + "\n"
         "\t- function : " + t_error.function + "\n"

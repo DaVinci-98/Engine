@@ -46,5 +46,7 @@ target_include_directories(${TARGET}
 target_link_libraries(${TARGET}
     PUBLIC EventSystem    
     PRIVATE glad
+    PRIVATE GL
+    PRIVATE glfw
     PRIVATE Helpers
 )
