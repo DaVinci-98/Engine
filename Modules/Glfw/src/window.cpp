@@ -4,8 +4,6 @@
 #include "Helpers/logger.hpp"
 #include "Helpers/type.hpp"
 
-#include <iostream>
-
 namespace MyEngine::Glfw
 {
     Events::KeyEventEmitter& Window::listenForKeyEvents()
@@ -166,13 +164,15 @@ namespace MyEngine::Glfw
 
         if (!glfwInit())
         {
+            int error = glfwGetError(nullptr);
             Helpers::Logger::log<Window>() -> error(
-                "[Init]: Couldn't initialize Glfw.");
+                "[Init] [{0}]: Couldn't initialize Glfw.",
+                error);
             return false;
         }
 
-        // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         if(m_params.m_allowResize) glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
@@ -181,10 +181,11 @@ namespace MyEngine::Glfw
         m_window = glfwCreateWindow(m_params.m_width, m_params.m_height, m_params.m_title.c_str(), NULL, NULL);
         if (!m_window)
         {
-            std::cout<<glfwGetError(nullptr);
+            int error = glfwGetError(nullptr);
             glfwTerminate();
             Helpers::Logger::log<Window>() -> error(
-                "[Init]: Couldn't create Glfw window.");
+                "[Init] [{0}]: Couldn't create Glfw window.",
+                error);
             return false;
         }
 
@@ -201,7 +202,7 @@ namespace MyEngine::Glfw
         {
             Helpers::Logger::log<Window>() -> info(
                 "[Init] [glad]: Done\n" 
-                "[Version]: {0}.{1}"
+                "\t[Version]: {0}.{1}\n"
                 "\t[Vendor]: {2}",
                 GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version), 
                 (const char*)glGetString(GL_VENDOR)); 

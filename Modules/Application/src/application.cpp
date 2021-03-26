@@ -35,7 +35,8 @@ namespace MyEngine
                 "[Init]: Couldn't initialize Glfw window.");
             return false;
         }
-        if(m_window.allowResize()) enableResize();
+        if(m_window.allowResize()) 
+            enableResize();
         registerGlfwListeners();
 
         if(!m_renderer.initialize())

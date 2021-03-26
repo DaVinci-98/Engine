@@ -104,24 +104,23 @@ namespace MyEngine::Renderer
     bool Text::makeGlyphMap(std::string&& t_fontPath)
     {
         tinyxml2::XMLDocument doc;
-        if(!doc.LoadFile(t_fontPath.c_str()))
+        auto error = doc.LoadFile(t_fontPath.c_str());
+        if(error != tinyxml2::XML_SUCCESS)
         {
             Helpers::Logger::log<tinyxml2::XMLDocument>() -> error(
                 "[loadFile()]: could not load font: " + t_fontPath);
             return false;
         }
 
-        tinyxml2::XMLDocument docHandle(&doc);
-
-        auto common = docHandle.FirstChild() -> FirstChildElement("common");
+        auto common = doc.FirstChildElement("font") -> FirstChildElement("common");
         common->QueryUnsignedAttribute("scaleW", &m_bitmapWidth);
         common->QueryUnsignedAttribute("scaleH", &m_bitmapHeight);
 
-        auto chars = docHandle.FirstChild() -> FirstChildElement("chars");
+        auto chars = doc.FirstChildElement("font") -> FirstChildElement("chars");
         unsigned int charNum = 0;
         chars->QueryUnsignedAttribute("count", &charNum);
 
-        auto charNode = chars -> FirstChild() -> ToElement();
+        auto charNode = chars -> FirstChildElement();
         if(!charNode)
         {
             Helpers::Logger::log<tinyxml2::XMLDocument>() -> error(
