@@ -27,3 +27,6 @@ add_library(${TARGET} OBJECT
 target_include_directories(${TARGET}
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+target_link_libraries(${TARGET}
+    PUBLIC glm_static)

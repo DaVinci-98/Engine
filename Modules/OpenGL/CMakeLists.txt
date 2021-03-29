@@ -32,6 +32,7 @@ target_include_directories(${TARGET}
 )
 
 target_link_libraries(${TARGET}
+    PUBLIC glm_static
     PRIVATE glad
     PRIVATE stb
     PRIVATE Helpers
