@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(glad)
 
-message(STATUS "Dir: ${CMAKE_CURRENT_SOURCE_DIR}")
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glad-glad2/.gitignore")
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glad2-master/.gitignore")
     message(WARNING "Glad submodule was not downloaded! GIT_SUBMODULE was turned off or failed.")
     message(STATUS "Checking if package was installed.")
 
@@ -11,7 +10,7 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glad-glad2/.gitignore")
         message(FATAL_ERROR "Package not present, cannot continue.")
     endif()
 else()
-    set(GLAD_SOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glad-glad2/")
+    set(GLAD_SOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glad2-master/")
     add_subdirectory("${GLAD_SOURCES_DIR}cmake" glad_cmake)
     glad_add_library(glad STATIC REPRODUCIBLE API gl:core=4.5 LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/sources)
 endif()
