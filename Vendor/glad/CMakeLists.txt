@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(glad)
 
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glad2-master/.gitignore")
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glad2-master/.git")
     message(WARNING "Glad submodule was not downloaded! GIT_SUBMODULE was turned off or failed.")
     message(STATUS "Checking if package was installed.")
 

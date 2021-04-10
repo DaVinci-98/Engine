@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(DearImGui)
 
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/imgui-master/.gitignore")
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/imgui-master/.git")
     message(WARNING "Dear ImGui submodule was not downloaded! GIT_SUBMODULE was turned off or failed.")
     message(STATUS "Checking if package was installed.")
 
@@ -30,6 +30,6 @@ else()
     )
 
     target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/imgui-master
+        PUBLIC ${INCLUDE_DIR}
     )
 endif()

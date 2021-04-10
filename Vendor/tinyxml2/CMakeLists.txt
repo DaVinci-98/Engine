@@ -1,4 +1,4 @@
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tinyxml2-master/.gitignore")
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tinyxml2-master/.git")
     message(WARNING "Tinyxml2 submodule was not downloaded! GIT_SUBMODULE was turned off or failed.")
     message(STATUS "Checking if package was installed.")
 
