@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(glad_examples_c_vulkan_tri_glfw C)
 
-set(GLAD_SOURCES_DIR "${PROJECT_SOURCE_DIR}/../../..")
+set(GLAD_SOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../..")
 add_subdirectory("${GLAD_SOURCES_DIR}/cmake" glad_cmake)
 
 find_package(glfw3 REQUIRED)

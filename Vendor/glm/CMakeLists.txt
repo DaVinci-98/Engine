@@ -1,0 +1,11 @@
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glm-master/.gitignore")
+    message(WARNING "Glm submodule was not downloaded! GIT_SUBMODULE was turned off or failed.")
+    message(STATUS "Checking if package was installed.")
+
+    find_library(GLM_FOUND glm)
+    if(NOT GLM_FOUND)
+        message(FATAL_ERROR "Package not present, cannot continue.")
+    endif()
+else()
+    add_subdirectory(glm-master)
+endif()

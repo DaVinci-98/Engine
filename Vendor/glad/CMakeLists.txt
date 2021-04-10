@@ -1,8 +1,17 @@
-#GLAD2
-
 cmake_minimum_required(VERSION 3.1)
 project(glad)
 
-set(GLAD_SOURCES_DIR "${PROJECT_SOURCE_DIR}/glad-glad2/")
-add_subdirectory("${GLAD_SOURCES_DIR}cmake" glad_cmake)
-glad_add_library(glad STATIC REPRODUCIBLE API gl:core=4.5 LOCATION ${PROJECT_SOURCE_DIR}/sources)
+message(STATUS "Dir: ${CMAKE_CURRENT_SOURCE_DIR}")
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glad-glad2/.gitignore")
+    message(WARNING "Glad submodule was not downloaded! GIT_SUBMODULE was turned off or failed.")
+    message(STATUS "Checking if package was installed.")
+
+    find_library(GLAD_FOUND glad)
+    if(NOT GLAD_FOUND)
+        message(FATAL_ERROR "Package not present, cannot continue.")
+    endif()
+else()
+    set(GLAD_SOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glad-glad2/")
+    add_subdirectory("${GLAD_SOURCES_DIR}cmake" glad_cmake)
+    glad_add_library(glad STATIC REPRODUCIBLE API gl:core=4.5 LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/sources)
+endif()
