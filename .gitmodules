@@ -1,0 +1,16 @@
+[submodule "Vendor/glm/glm-master"]
+	path = Vendor/glm/glm-master
+	url = https://github.com/g-truc/glm.git
+[submodule "Vendor/imgui/imgui-master"]
+	path = Vendor/imgui/imgui-master
+	url = https://github.com/ocornut/imgui.git
+[submodule "Vendor/spdlog/spdlog-master"]
+	path = Vendor/spdlog/spdlog-master
+	url = https://github.com/gabime/spdlog.git
+[submodule "Vendor/tinyxml2/tinyxml2-master"]
+	path = Vendor/tinyxml2/tinyxml2-master
+	url = https://github.com/leethomason/tinyxml2.git
+[submodule "Vendor/glad/glad2-master"]
+	path = Vendor/glad/glad2-master
+	url = https://github.com/Dav1dde/glad.git
+	branch = glad2
