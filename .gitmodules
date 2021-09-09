@@ -1,15 +1,19 @@
 [submodule "Vendor/glm/glm-master"]
 	path = Vendor/glm/glm-master
 	url = https://github.com/g-truc/glm.git
+	branch = master
 [submodule "Vendor/imgui/imgui-master"]
 	path = Vendor/imgui/imgui-master
 	url = https://github.com/ocornut/imgui.git
+	branch = master
 [submodule "Vendor/spdlog/spdlog-master"]
 	path = Vendor/spdlog/spdlog-master
 	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
 [submodule "Vendor/tinyxml2/tinyxml2-master"]
 	path = Vendor/tinyxml2/tinyxml2-master
 	url = https://github.com/leethomason/tinyxml2.git
+	branch = master
 [submodule "Vendor/glad/glad2-master"]
 	path = Vendor/glad/glad2-master
 	url = https://github.com/Dav1dde/glad.git
@@ -17,6 +21,8 @@
 [submodule "Vendor/stb/stb-master"]
 	path = Vendor/stb/stb-master
 	url = https://github.com/nothings/stb.git
+	branch = master
 [submodule "Vendor/smf/master"]
 	path = Vendor/smf/master
 	url = https://github.com/DaVinci-98/SimpleModularFramework.git
+	branch = master
