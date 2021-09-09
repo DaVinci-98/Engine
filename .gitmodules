@@ -17,3 +17,6 @@
 [submodule "Vendor/stb/stb-master"]
 	path = Vendor/stb/stb-master
 	url = https://github.com/nothings/stb.git
+[submodule "Vendor/smf/master"]
+	path = Vendor/smf/master
+	url = https://github.com/DaVinci-98/SimpleModularFramework.git
