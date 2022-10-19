@@ -1042,3 +1042,7 @@ dkms.conf
 
 # Stuff from Visual Studio Code
 .vscode
+Vendor/glad/sources/args.txt
+Vendor/glad/sources/include/KHR/khrplatform.h
+Vendor/glad/sources/include/glad/gl.h
+Vendor/glad/sources/src/gl.c
