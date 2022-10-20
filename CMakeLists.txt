@@ -22,7 +22,6 @@ add_library(${LIBRARY_NAME} SHARED
     $<TARGET_OBJECTS:OpenGL>
     $<TARGET_OBJECTS:Physics>
     $<TARGET_OBJECTS:Renderer>
-    $<TARGET_OBJECTS:ShaderGenerator>
 )
 
 target_link_libraries(${LIBRARY_NAME}

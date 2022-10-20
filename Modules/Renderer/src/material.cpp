@@ -1,8 +1,4 @@
 #include "Renderer/material.hpp"
-#include "ShaderGenerator/shaderGen.hpp"
-#include "ShaderGenerator/positionBlock.hpp"
-#include "ShaderGenerator/textureBlock.hpp"
-#include "ShaderGenerator/colourBlock.hpp"
 #include "Logger/logger.hpp"
 
 #include <algorithm>

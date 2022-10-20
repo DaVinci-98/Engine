@@ -42,7 +42,6 @@ target_include_directories(${TARGET}
 target_link_libraries(${TARGET}
     PUBLIC EventSystem
     PUBLIC OpenGL
-    PUBLIC ShaderGenerator
     PRIVATE glad
     PRIVATE tinyxml2
     PRIVATE Logger
