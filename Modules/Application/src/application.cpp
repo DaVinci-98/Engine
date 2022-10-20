@@ -101,22 +101,21 @@ namespace MyEngine
 
     void Application::registerGlfwListeners()
     {
-        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
-        m_mouseKeyEventListener.registerEmitter(m_window.listenForMouseKeyEvents());
-        m_mouseMoveEventListener.registerEmitter(m_window.listenForMouseMoveEvents());
+        m_window.listenForKeyEvents();
+        m_window.listenForMouseKeyEvents();
+        m_window.listenForMouseMoveEvents();
     }
 
     void Application::enableResize()
     {
-        m_resizeRendererListener.registerEmitter(m_window.listenForWindowResizeEvents());
-        m_resizeRendererListener.registerNextListener(m_windowEventListener);
+        m_window.listenForWindowResizeEvents();
         
-        auto resizeCallback = [this](Glfw::Events::WindowEvent& t_event) -> void 
+        auto resizeCallback = [this](Glfw::Events::WindowEvent&& t_event) -> void 
         {
             auto&& [width, height] = t_event.newWindowSize();
             this->m_renderer.resizeWindow(width, height); 
-            t_event.handle();
         };
-        m_resizeRendererListener.registerResizeCallback(resizeCallback);
+
+        m_window.registerWindowCallback(resizeCallback);
     }
 }

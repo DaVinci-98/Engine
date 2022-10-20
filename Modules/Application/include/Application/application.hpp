@@ -1,10 +1,6 @@
 #pragma once
 
 #include "Glfw/window.hpp"
-#include "Glfw/Events/keyEventListener.hpp"
-#include "Glfw/Events/mouseKeyEventListener.hpp"
-#include "Glfw/Events/mouseMoveEventListener.hpp"
-#include "Glfw/Events/windowEventListener.hpp"
 #include "Renderer/renderer.hpp"
 #include "Renderer/drawable2D.hpp"
 #include "Physics/physicsManager.hpp"
@@ -33,18 +29,6 @@ namespace MyEngine
          */
         Application(std::string& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize, float t_updateRate = 1.0f/60.0f);
 
-        /**
-         * @brief Construct a new Application object.
-         * 
-         * @param t_title title for the window
-         * @param t_w window's width
-         * @param t_h window's height
-         * @param t_vsync use vsync
-         * @param t_allowResize allow resize of the window
-         * @param t_updateRate rate at which physics is updated and onUpdate() function is called.
-         */
-        Application(std::string&& t_title, int t_w, int t_h, bool t_vsync, bool t_allowResize, float t_updateRate = 1.0f/60.0f):
-            Application(t_title, t_w, t_h, t_vsync, t_allowResize, t_updateRate) { }
         /**
          * @brief Destroy the Application object.
          * 
@@ -127,30 +111,16 @@ namespace MyEngine
         inline Renderer::Renderer& renderer() 
             { return m_renderer; }
 
-        /**
-         * @brief Get a reference to underlying KeyEventListener.
-         * 
-         */
-        inline Glfw::Events::KeyEventListener& keyEventListener() 
-            { return m_keyEventListener; }
-        /**
-         * @brief Get a reference to underlying MouseKeyEventListener.
-         * 
-         */
-        inline Glfw::Events::MouseKeyEventListener& mouseKeyEventListener() 
-            { return m_mouseKeyEventListener; }
-        /**
-         * @brief Get a reference to underlying MouseMoveEventListener.
-         * 
-         */
-        inline Glfw::Events::MouseMoveEventListener& mouseMoveEventListener() 
-            { return m_mouseMoveEventListener; }
-        /**
-         * @brief Get a reference to underlying WindowEventListener.
-         * 
-         */
-        inline Glfw::Events::WindowEventListener& windowEventListener() 
-            { return m_windowEventListener; }
+       void registerKeyCallback(std::function<void(Glfw::Events::KeyEvent&&)>&& t_callback, 
+            std::tuple<Glfw::Events::KeyEvent::KeyMods, Glfw::Events::KeyEvent::Key, Glfw::Events::KeyEvent::KeyEventType>&& t_key)
+            { m_window.registerKeyCallback(std::move(t_callback), std::move(t_key)); }
+        void registerMouseKeyCallback(std::function<void(Glfw::Events::MouseKeyEvent&&)>&& t_callback, 
+            std::tuple<Glfw::Events::MouseKeyEvent::KeyMods, Glfw::Events::MouseKeyEvent::Key, Glfw::Events::MouseKeyEvent::KeyEventType>&& t_key)
+            { m_window.registerMouseKeyCallback(std::move(t_callback), std::move(t_key)); }
+        void registerMouseMoveCallback(std::function<void(Glfw::Events::MouseMoveEvent&&)>&& t_callback)
+            { m_window.registerMouseMoveCallback(std::move(t_callback)); }
+        void registerWindowCallback(std::function<void(Glfw::Events::WindowEvent&&)>&& t_callback)
+            { m_windowEventCallback = std::move(t_callback); }
 
         /**
          * @brief Get a reference to underlying PhysicsManager.
@@ -168,12 +138,7 @@ namespace MyEngine
         Physics::PhysicsManager m_physicsManager;
         Renderer::Renderer m_renderer;
         Glfw::Window m_window;
-        
-        Glfw::Events::KeyEventListener m_keyEventListener;
-        Glfw::Events::MouseKeyEventListener m_mouseKeyEventListener;
-        Glfw::Events::MouseMoveEventListener m_mouseMoveEventListener;
-        Glfw::Events::WindowEventListener m_windowEventListener;
-        Glfw::Events::WindowEventListener m_resizeRendererListener;
+        std::function<void(Glfw::Events::WindowEvent&&)> m_windowEventCallback;
     };
 
     std::unique_ptr<Application> CreateApplication();

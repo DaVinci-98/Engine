@@ -1,14 +1,12 @@
 #pragma once
 
-#include "EventSystem/event.hpp"
-
 namespace MyEngine::Glfw::Events
 {
     /**
      * @brief Event for sending information about mouse position.
      * 
      */
-    class MouseMoveEvent: public EventSystem::Event<MouseMoveEvent>
+    class MouseMoveEvent
     {
     public:
         /**

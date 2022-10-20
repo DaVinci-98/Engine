@@ -5,114 +5,114 @@
 
 namespace MyEngine::Glfw
 {
-    Events::KeyEventEmitter& Window::listenForKeyEvents()
+    void Window::listenForKeyEvents()
     {
         if(!isActive())
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
                 typeid(Events::KeyEvent).name());
-            return m_keyEventEmitter;
+            return;
         }
-        using Events::KeyEvent;
+
         auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
 
             if(t_key < 0 || t_action < 0 || t_mods < 0) return;
 
-            KeyEvent::KeyMods mods = static_cast<KeyEvent::KeyMods>(t_mods);
-            KeyEvent::Key key = static_cast<KeyEvent::Key>(t_key);
-            KeyEvent::KeyEventType keyEventType = static_cast<KeyEvent::KeyEventType>(t_action);
-            
-            user -> m_keyEventEmitter.sendEvent(mods, key, keyEventType);
+            auto key = std::make_tuple(
+                static_cast<Events::KeyEvent::KeyMods>(t_mods),
+                static_cast<Events::KeyEvent::Key>(t_key),
+                static_cast<Events::KeyEvent::KeyEventType>(t_action)
+            );
+
+            user -> m_keyEventCallbacks[key](Events::KeyEvent(std::move(key)));
         };
 
         glfwSetKeyCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
             "[Start] [Glfw] [Listener]: {}", typeid(Events::KeyEvent).name());
-
-        return m_keyEventEmitter;
     }
 
-    Events::MouseKeyEventEmitter&  Window::listenForMouseKeyEvents()
+    void Window::listenForMouseKeyEvents()
     {
         if(!isActive())
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
                 typeid(Events::MouseKeyEvent).name());
-            return m_mouseKeyEventEmitter;
+            return;
         }
-        using Events::MouseKeyEvent;
+
         auto callback = [](GLFWwindow* t_window, int t_button, int t_action, int t_mods) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
 
             if(t_button < 0 || t_action < 0 || t_mods < 0) return;
 
-            MouseKeyEvent::KeyMods mods = static_cast<MouseKeyEvent::KeyMods>(t_mods);
-            MouseKeyEvent::Key key = static_cast<MouseKeyEvent::Key>(t_button);
-            MouseKeyEvent::KeyEventType keyEventType = static_cast<MouseKeyEvent::KeyEventType>(t_action);
+            auto key = std::make_tuple(
+                static_cast<Events::MouseKeyEvent::KeyMods>(t_mods),
+                static_cast<Events::MouseKeyEvent::Key>(t_button),
+                static_cast<Events::MouseKeyEvent::KeyEventType>(t_action)
+            );
+
 
             double xpos, ypos;
             glfwGetCursorPos(user -> m_window, &xpos, &ypos);
 
-            user->m_mouseKeyEventEmitter.sendEvent(mods, key, keyEventType, xpos, ypos);
+            user -> m_mouseKeyEventCallbacks[key](Events::MouseKeyEvent(std::move(key), xpos, ypos));
         };
         glfwSetMouseButtonCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
             "[Start] [Glfw] [Listener]: {}", typeid(Events::MouseKeyEvent).name());
-
-        return m_mouseKeyEventEmitter;
     }
 
-    Events::MouseMoveEventEmitter&  Window::listenForMouseMoveEvents()
+    void Window::listenForMouseMoveEvents()
     {
         if(!isActive())
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
                 typeid(Events::MouseMoveEvent).name());
-            return m_mouseMoveEventEmitter;
+            return;
         }
         auto callback = [](GLFWwindow* t_window, double t_xPos, double t_yPos) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
-            user->m_mouseMoveEventEmitter.sendEvent(t_xPos, t_yPos);
+            double last_xPos = std::get<0>(user -> m_lastMousePos);
+            double last_yPos = std::get<1>(user -> m_lastMousePos);
+            user -> m_mouseMoveEventCallback(Events::MouseMoveEvent(last_xPos, last_yPos, t_xPos, t_yPos));
+            user -> m_lastMousePos = std::make_tuple(t_xPos, t_yPos);
         };
         glfwSetCursorPosCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
             "[Start] [Glfw] [Listener]: {}", typeid(Events::MouseMoveEvent).name());
-
-        return m_mouseMoveEventEmitter;
     }
 
-    Events::WindowEventEmitter&  Window::listenForWindowResizeEvents()
+    void Window::listenForWindowResizeEvents()
     {
         if(!isActive())
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
                 typeid(Events::WindowEvent).name());
-            return m_windowEventEmitter;
+            return;
         }
         auto callback = [](GLFWwindow* t_window, int t_width, int t_height) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
-            user->m_windowEventEmitter.sendEvent(user->m_params.m_width, user->m_params.m_height, t_width, t_height);
-            user->m_params.m_width = t_width;
-            user->m_params.m_height = t_height;
+            user -> m_windowEventCallback(Events::WindowEvent(user->m_params.m_width, user->m_params.m_height, t_width, t_height));
+            user -> m_params.m_width = t_width;
+            user -> m_params.m_height = t_height;
         };
         glfwSetFramebufferSizeCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
             "[Start] [Glfw] [Listener]: {}", typeid(Events::WindowEvent).name());
-
-        return m_windowEventEmitter;
     }
 
     void Window::pollEvents() const

@@ -34,7 +34,6 @@ target_include_directories(${TARGET}
 )
 
 target_link_libraries(${TARGET}
-    PUBLIC EventSystem
     PUBLIC OpenGL
     PRIVATE glad
     PRIVATE tinyxml2
