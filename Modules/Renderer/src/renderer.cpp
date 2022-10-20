@@ -46,18 +46,9 @@ namespace MyEngine::Renderer
 
     bool Renderer::draw(Drawable2D& t_drawable)
     {
-        if(m_lastMaterial != t_drawable.material())
-        {
-            if(m_lastMaterial)
-                m_lastMaterial -> unbind();
-            m_lastMaterial = t_drawable.material();
-            m_lastMaterial -> bind();
-        }
-
         t_drawable.bind();
         bool drawn = draw(t_drawable.vertexCount());
-        if(!drawn)
-            m_lastMaterial -> unbind();
+        t_drawable.unbind();
 
         return drawn;
     }

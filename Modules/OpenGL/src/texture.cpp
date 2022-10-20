@@ -40,8 +40,8 @@ namespace MyEngine::OpenGL
         {
             if(m_localBuffer != nullptr) stbi_image_free(m_localBuffer);
             if(m_rendererId != 0) GL_CALL(glDeleteTextures(1, &m_rendererId));
-            // Logger::Logger::log<Texture>() -> info( 
-            //     "[Destroy] [" + std::to_string(m_rendererId) + "]: Done");
+            Logger::Logger::log<Texture>() -> info( 
+                "[Destroy] [" + std::to_string(m_rendererId) + "]: Done");
         }
         catch(GlException const& e)
         {
