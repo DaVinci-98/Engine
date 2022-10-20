@@ -30,7 +30,7 @@ namespace MyEngine::Renderer
         return height;
     }
 
-    bool Text::setFont(std::string&& t_bitmapPath, std::string&& t_fontPath, std::shared_ptr<Shader> t_textureShader)
+    bool Text::setFont(std::string& t_bitmapPath, std::string& t_fontPath, std::shared_ptr<Shader> t_textureShader)
     {
         m_fontBitmapPath = std::move(t_bitmapPath);
         m_textureShader = t_textureShader;

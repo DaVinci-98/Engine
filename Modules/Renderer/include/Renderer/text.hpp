@@ -24,7 +24,7 @@ namespace MyEngine::Renderer
          * @param t_fontPath path to xml file with glyph mapping on bitmap
          * @param t_renderer reference to renderer(necessary to create a material)
          */
-        bool setFont(std::string&& t_bitmapPath, std::string&& t_fontPath, std::shared_ptr<Shader> t_textureShader);
+        bool setFont(std::string& t_bitmapPath, std::string& t_fontPath, std::shared_ptr<Shader> t_textureShader);
 
         /**
          * @brief Set drawable to provided text
