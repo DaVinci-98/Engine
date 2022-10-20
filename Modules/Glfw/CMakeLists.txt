@@ -47,5 +47,5 @@ target_link_libraries(${TARGET}
     PUBLIC EventSystem
     PUBLIC glfw
     PRIVATE glad
-    PRIVATE Helpers
+    PRIVATE Logger
 )

@@ -1,5 +1,5 @@
 #include "Glfw/Events/keyEventListener.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 #include "EventSystem/event.hpp"
 
 namespace MyEngine::Glfw::Events
@@ -20,7 +20,7 @@ namespace MyEngine::Glfw::Events
 
         if(!t_event.isHandled() && t_event.isDispatched())
         {
-            Helpers::Logger::log<EventSystem::Event<KeyEvent>>() -> warn(
+            Logger::Logger::log<EventSystem::Event<KeyEvent>>() -> warn(
                 "[Unhandled]"); 
         }
     }
@@ -28,7 +28,7 @@ namespace MyEngine::Glfw::Events
     void KeyEventListener::registerKeyCallback(std::function<void(KeyEvent&)>&& t_callback, 
         KeyEvent::Key t_key, KeyEvent::KeyMods t_mods, KeyEvent::KeyEventType t_keyEventType)
     {
-        Helpers::Logger::log<EventSystem::Event<KeyEvent>>() -> info(
+        Logger::Logger::log<EventSystem::Event<KeyEvent>>() -> info(
             "[Registered] [Callback] [Key]: {0}, {1}, {2}",
             static_cast<unsigned int>(t_key), static_cast<unsigned int>(t_mods), static_cast<unsigned int>(t_keyEventType));
         unsigned int keyCode = KeyEvent::getKeyCode(t_mods, t_key, t_keyEventType);
@@ -37,7 +37,7 @@ namespace MyEngine::Glfw::Events
 
     void KeyEventListener::registerKeyCallback(std::function<void(KeyEvent&)>&& t_callback, unsigned int t_keycode)
     {
-        Helpers::Logger::log<EventSystem::Event<KeyEvent>>() -> info(
+        Logger::Logger::log<EventSystem::Event<KeyEvent>>() -> info(
             "[Registered] [Callback] [Keycode]: {0}",
             t_keycode);
         registerCallback(t_keycode, std::move(t_callback));

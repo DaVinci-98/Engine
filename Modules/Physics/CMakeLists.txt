@@ -33,5 +33,5 @@ target_include_directories(${TARGET}
 target_link_libraries(${TARGET}
     PUBLIC EventSystem
     PUBLIC glm_static
-    PRIVATE Helpers
+    PRIVATE Logger
 )

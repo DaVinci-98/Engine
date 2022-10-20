@@ -2,8 +2,8 @@
 
 #include "Renderer/renderer.hpp"
 #include "OpenGL/glException.hpp"
-#include "Helpers/logger.hpp"
-#include "Helpers/type.hpp"
+#include "Logger/logger.hpp"
+#include "Logger/type.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -14,7 +14,7 @@ namespace MyEngine::Renderer
         GL_CALL(glEnable(GL_BLEND));
         GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-        Helpers::Logger::log<Renderer>() -> info(
+        Logger::Logger::log<Renderer>() -> info(
             "[Init]: Done"); 
 
         return true;

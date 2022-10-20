@@ -1,5 +1,5 @@
 #include "Glfw/Events/mouseKeyEventListener.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 #include "EventSystem/event.hpp"
 
 namespace MyEngine::Glfw::Events
@@ -20,7 +20,7 @@ namespace MyEngine::Glfw::Events
 
         if(!t_event.isHandled() && t_event.isDispatched())
         {
-            Helpers::Logger::log<EventSystem::Event<MouseKeyEvent>>() -> warn(
+            Logger::Logger::log<EventSystem::Event<MouseKeyEvent>>() -> warn(
                 "[Unhandled]"); 
         }
     }

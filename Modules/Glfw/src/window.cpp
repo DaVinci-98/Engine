@@ -1,8 +1,8 @@
 #include "glad/gl.h"
 
 #include "Glfw/window.hpp"
-#include "Helpers/logger.hpp"
-#include "Helpers/type.hpp"
+#include "Logger/logger.hpp"
+#include "Logger/type.hpp"
 
 namespace MyEngine::Glfw
 {
@@ -10,9 +10,9 @@ namespace MyEngine::Glfw
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::KeyEvent>());
+                Logger::getTypeName<Events::KeyEvent>());
             return m_keyEventEmitter;
         }
         using Events::KeyEvent;
@@ -31,8 +31,8 @@ namespace MyEngine::Glfw
 
         glfwSetKeyCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::KeyEvent>());
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::KeyEvent>());
 
         return m_keyEventEmitter;
     }
@@ -41,9 +41,9 @@ namespace MyEngine::Glfw
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::MouseKeyEvent>());
+                Logger::getTypeName<Events::MouseKeyEvent>());
             return m_mouseKeyEventEmitter;
         }
         using Events::MouseKeyEvent;
@@ -64,8 +64,8 @@ namespace MyEngine::Glfw
         };
         glfwSetMouseButtonCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::MouseKeyEvent>());
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::MouseKeyEvent>());
 
         return m_mouseKeyEventEmitter;
     }
@@ -74,9 +74,9 @@ namespace MyEngine::Glfw
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::MouseMoveEvent>());
+                Logger::getTypeName<Events::MouseMoveEvent>());
             return m_mouseMoveEventEmitter;
         }
         auto callback = [](GLFWwindow* t_window, double t_xPos, double t_yPos) -> void
@@ -86,8 +86,8 @@ namespace MyEngine::Glfw
         };
         glfwSetCursorPosCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::MouseMoveEvent>());
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::MouseMoveEvent>());
 
         return m_mouseMoveEventEmitter;
     }
@@ -96,9 +96,9 @@ namespace MyEngine::Glfw
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::WindowEvent>());
+                Logger::getTypeName<Events::WindowEvent>());
             return m_windowEventEmitter;
         }
         auto callback = [](GLFWwindow* t_window, int t_width, int t_height) -> void
@@ -110,8 +110,8 @@ namespace MyEngine::Glfw
         };
         glfwSetFramebufferSizeCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::WindowEvent>());
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::WindowEvent>());
 
         return m_windowEventEmitter;
     }
@@ -119,7 +119,7 @@ namespace MyEngine::Glfw
     void Window::pollEvents() const
     {
         if(!isActive())
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[pollEvents()]: Window's params have to be set before calling this function.");
         glfwPollEvents();
     }
@@ -127,7 +127,7 @@ namespace MyEngine::Glfw
     void Window::draw() const
     {
         if(!isActive())
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[draw()]: Window's params have to be set before calling this function.");
         glfwSwapBuffers(m_window);
     }
@@ -143,7 +143,7 @@ namespace MyEngine::Glfw
     { 
         m_params = std::move(t_params);
         m_paramsSet = true;
-        Helpers::Logger::log<Window>() -> info(
+        Logger::Logger::log<Window>() -> info(
             "[Set] [Window] [Params]:\n"
             "\t[Title]:   {0}\n"
             "\t[Width]:   {1}\n"
@@ -157,7 +157,7 @@ namespace MyEngine::Glfw
     {
         if(!m_paramsSet)
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init]: Window's params have to be set before init.");
             return false;
         }
@@ -165,7 +165,7 @@ namespace MyEngine::Glfw
         if (!glfwInit())
         {
             int error = glfwGetError(nullptr);
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init] [{0}]: Couldn't initialize Glfw.",
                 error);
             return false;
@@ -183,7 +183,7 @@ namespace MyEngine::Glfw
         {
             int error = glfwGetError(nullptr);
             glfwTerminate();
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init] [{0}]: Couldn't create Glfw window.",
                 error);
             return false;
@@ -194,13 +194,13 @@ namespace MyEngine::Glfw
         int version = gladLoadGL(glfwGetProcAddress);
         if (!version)
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init]: GL loader couldn't be loaded."); 
             return false;
         }
         else
         {
-            Helpers::Logger::log<Window>() -> info(
+            Logger::Logger::log<Window>() -> info(
                 "[Init] [glad]: Done\n" 
                 "\t[Version]: {0}.{1}\n"
                 "\t[Vendor]: {2}",
@@ -215,7 +215,7 @@ namespace MyEngine::Glfw
 
         glfwSetInputMode(m_window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
 
-        Helpers::Logger::log<Window>() -> info(
+        Logger::Logger::log<Window>() -> info(
             "[Init]: Done");
         
         return true;
@@ -229,7 +229,7 @@ namespace MyEngine::Glfw
             glfwTerminate();
         }
 
-        Helpers::Logger::log<Window>() -> info(
+        Logger::Logger::log<Window>() -> info(
             "[Destroy]: Done");
     }
 }

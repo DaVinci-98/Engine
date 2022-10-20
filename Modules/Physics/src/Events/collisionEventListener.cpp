@@ -1,5 +1,5 @@
 #include "Physics/Events/collisionEventListener.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 #include "EventSystem/event.hpp"
 
 namespace MyEngine::Physics::Events
@@ -20,7 +20,7 @@ namespace MyEngine::Physics::Events
 
         if(!t_collisionEvent.isHandled() && t_collisionEvent.isDispatched())
         {
-            Helpers::Logger::log<EventSystem::Event<CollisionEvent>>() -> warn(
+            Logger::Logger::log<EventSystem::Event<CollisionEvent>>() -> warn(
                 "[Unhandled]"); 
         }
     }

@@ -1,5 +1,5 @@
 
-set(TARGET Helpers)
+set(TARGET Logger)
 
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${TARGET})
@@ -9,9 +9,6 @@ set(SOURCEFILES
 )
 set(INCLUDEFILES
     ${INCLUDE_DIR}/logger.hpp
-    ${INCLUDE_DIR}/smartVector.hpp
-    ${INCLUDE_DIR}/type.hpp
-    ${INCLUDE_DIR}/zip.hpp
 )
 
 add_library(${TARGET} OBJECT

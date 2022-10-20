@@ -3,11 +3,10 @@
 #include <memory>
 #include <typeinfo>
 
-#include "Helpers/type.hpp"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
-namespace Helpers
+namespace Logger
 {
     /**
      * @brief Sends logs to terminal using spdlog library.

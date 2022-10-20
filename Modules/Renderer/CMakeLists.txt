@@ -45,5 +45,5 @@ target_link_libraries(${TARGET}
     PUBLIC ShaderGenerator
     PRIVATE glad
     PRIVATE tinyxml2
-    PRIVATE Helpers
+    PRIVATE Logger
 )

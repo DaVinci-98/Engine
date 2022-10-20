@@ -3,7 +3,7 @@
 #include "ShaderGenerator/positionBlock.hpp"
 #include "ShaderGenerator/textureBlock.hpp"
 #include "ShaderGenerator/colourBlock.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 #include <algorithm>
 #include <iterator>
@@ -14,20 +14,20 @@ namespace MyEngine::Renderer
         m_shader(t_shader) 
     { 
         // if(isColour())
-        //     Helpers::Logger::log<Material>() -> info(
+        //     Logger::Logger::log<Material>() -> info(
         //    "[Colour] [Init]: Done");
         // else
-        //     Helpers::Logger::log<Material>() -> info(
+        //     Logger::Logger::log<Material>() -> info(
         //    "[Texture] [Init]: Done");
     }
 
     Material::~Material()
     {
         // if(isColour())
-        //     Helpers::Logger::log<Material>() -> info(
+        //     Logger::Logger::log<Material>() -> info(
         //    "[Colour] [Destroy]: Done");
         // else
-        //     Helpers::Logger::log<Material>() -> info( 
+        //     Logger::Logger::log<Material>() -> info( 
         //    "[Texture] [Destroy]: Done");
     }
 
@@ -35,7 +35,7 @@ namespace MyEngine::Renderer
     {
         if(!m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error(
+            Logger::Logger::log<Material>() -> error(
                 "[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }
@@ -58,7 +58,7 @@ namespace MyEngine::Renderer
     {
         if(m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error(
+            Logger::Logger::log<Material>() -> error(
                 "[setColour()]: Material doesn't render triangles with flat colour.");
             return;
         }
@@ -70,7 +70,7 @@ namespace MyEngine::Renderer
     {
         if(!m_shader->usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error(
+            Logger::Logger::log<Material>() -> error(
                 "[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }

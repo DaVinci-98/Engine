@@ -1,6 +1,6 @@
 #include "Renderer/drawable2D.hpp"
 #include "Renderer/shader.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -11,7 +11,7 @@ namespace MyEngine::Renderer
     {
         if(t_material -> isTexture() && t_mesh->indicies().size() != t_material->indicies().size())
         {
-            Helpers::Logger::log<Drawable2D>() -> error(
+            Logger::Logger::log<Drawable2D>() -> error(
                 "[setMaterial()]: number of indicies in mesh and material does not match.");
             return;
         }
@@ -33,7 +33,7 @@ namespace MyEngine::Renderer
         {
             if(t_material -> isTexture() && m_mesh->indicies().size() != t_material->indicies().size())
             {
-                Helpers::Logger::log<Drawable2D>() -> error(
+                Logger::Logger::log<Drawable2D>() -> error(
                     "[setMaterial()]: number of indicies in mesh and material does not match.");
                 return;
             }
@@ -54,7 +54,7 @@ namespace MyEngine::Renderer
         {
             if(m_material -> isTexture() && t_mesh->indicies().size() != m_material->indicies().size())
             {
-                Helpers::Logger::log<Drawable2D>() -> error(
+                Logger::Logger::log<Drawable2D>() -> error(
                     "[setMaterial()]: number of indicies in mesh and material does not match.");
                 return;
             }
@@ -72,7 +72,7 @@ namespace MyEngine::Renderer
     {
         if(!m_material || !m_mesh)
         {
-            Helpers::Logger::log<Drawable2D>() -> error(
+            Logger::Logger::log<Drawable2D>() -> error(
                 "[makeArray()]: Drawable has to have both Material and Mesh2D set in order to create a VAO");
             return;
         }
