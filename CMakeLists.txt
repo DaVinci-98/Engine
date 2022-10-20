@@ -10,9 +10,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(VENDOR_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Vendor")
 set(MODULES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Modules")
+set(SANDBOX_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Sandbox")
 
 add_subdirectory(${VENDOR_DIR})
 add_subdirectory(${MODULES_DIR})
+add_subdirectory(${SANDBOX_DIR})
 
 add_library(${LIBRARY_NAME} SHARED
     $<TARGET_OBJECTS:Logger>
