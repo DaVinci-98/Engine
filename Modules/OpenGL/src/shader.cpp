@@ -123,12 +123,13 @@ namespace MyEngine::OpenGL
             int len;
             glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
 
-            char message[len];
+            char* message = new char[len];
             glGetShaderInfoLog(id, len, &len, message);
 
             Logger::Logger::log<Shader>() -> error(
                 "[compileShader()]: {0}", std::string(message));
 
+            delete[](message);
             glDeleteShader(id);
 
             return 0;

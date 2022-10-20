@@ -124,7 +124,7 @@ namespace MyEngine::Renderer
             int dist = std::distance(m_vertices.begin(), begin);
             if(dist%m_stride == 0 && begin < m_vertices.end())
                 return static_cast<int>(dist / m_stride);
-            begin++;
+            if(begin < m_vertices.end()) begin++;
         }
         return -1;
     }
