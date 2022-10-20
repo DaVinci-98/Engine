@@ -44,38 +44,22 @@ namespace MyEngine::Renderer
         m_projection = glm::ortho<float>(0.0f, (float) t_width, 0.0f, (float) t_height, -1.0f, 1.0f);
     }
 
-    bool Renderer::drawFromQueue()
-    {
-        auto events = m_drawableAddEventListener.drawableAddEvents();
-        if(events.size() == 0)
-            return true;
-        std::shared_ptr<Material> lastMaterial = events[0].drawable() -> material();
-        lastMaterial -> bind();
-        for(auto& event : events)
-        {
-            if(lastMaterial != event.drawable()->material())
-            {
-                lastMaterial -> unbind();
-                lastMaterial = event.drawable()->material();
-                lastMaterial -> bind();
-            }
-
-            event.callback();
-            if(!draw(*event.drawable()))
-            {
-                lastMaterial -> unbind();
-                return false;
-            }
-        }
-
-        lastMaterial -> unbind();
-        return true;
-    }
-
     bool Renderer::draw(Drawable2D& t_drawable)
     {
+        if(m_lastMaterial != t_drawable.material())
+        {
+            if(m_lastMaterial)
+                m_lastMaterial -> unbind();
+            m_lastMaterial = t_drawable.material();
+            m_lastMaterial -> bind();
+        }
+
         t_drawable.bind();
-        return draw(t_drawable.vertexCount());
+        bool drawn = draw(t_drawable.vertexCount());
+        if(!drawn)
+            m_lastMaterial -> unbind();
+
+        return drawn;
     }
 
     bool Renderer::draw(unsigned int t_count)

@@ -7,7 +7,6 @@
 #include "Glfw/Events/windowEventListener.hpp"
 #include "Renderer/renderer.hpp"
 #include "Renderer/drawable2D.hpp"
-#include "Renderer/Events/drawableAddEventEmitter.hpp"
 #include "Physics/physicsManager.hpp"
 
 #include <memory>
@@ -129,15 +128,6 @@ namespace MyEngine
             { return m_renderer; }
 
         /**
-         * @brief Add Drawable to render queue with callback function which will be called before render.
-         * 
-         * @param t_drawable Object which will be drawn.
-         * @param t_callback Function to call before drawing the object.
-         */
-        inline void addToRenderQueue(std::shared_ptr<Renderer::Drawable2D> t_drawable, std::function<void(void)>&& t_callback = nullptr)
-            { m_drawableAddEventEmitter.sendEvent(t_drawable, std::move(t_callback)); }
-
-        /**
          * @brief Get a reference to underlying KeyEventListener.
          * 
          */
@@ -179,7 +169,6 @@ namespace MyEngine
         Renderer::Renderer m_renderer;
         Glfw::Window m_window;
         
-        Renderer::Events::DrawableAddEventEmitter m_drawableAddEventEmitter;
         Glfw::Events::KeyEventListener m_keyEventListener;
         Glfw::Events::MouseKeyEventListener m_mouseKeyEventListener;
         Glfw::Events::MouseMoveEventListener m_mouseMoveEventListener;
