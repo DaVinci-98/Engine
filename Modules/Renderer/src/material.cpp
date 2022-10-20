@@ -29,7 +29,7 @@ namespace MyEngine::Renderer
 
     unsigned int Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indicies, std::string t_path, unsigned int t_stride)
     {
-        if(!m_shader->usesTexture())
+        if(!m_shader -> usesTexture())
         {
             Logger::Logger::log<Material>() -> error(
                 "[setTextureBuffer()]: Material doesn't render triangles with textures.");
@@ -52,7 +52,7 @@ namespace MyEngine::Renderer
 
     void Material::setColour(glm::vec4&& t_colour)
     {
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
         {
             Logger::Logger::log<Material>() -> error(
                 "[setColour()]: Material doesn't render triangles with flat colour.");
@@ -64,7 +64,7 @@ namespace MyEngine::Renderer
 
     unsigned int Material::setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path, bool t_colapse)
     {
-        if(!m_shader->usesTexture())
+        if(!m_shader -> usesTexture())
         {
             Logger::Logger::log<Material>() -> error(
                 "[setTextureBuffer()]: Material doesn't render triangles with textures.");
@@ -134,12 +134,12 @@ namespace MyEngine::Renderer
         if(m_bound) return;
         m_bound = true;
 
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
             m_shader -> setTextureUniform(Shader::TEXTURE_UNIFORM, 0);
 
         m_shader -> bind();
         
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
             m_texture -> bind(0);
     }
 
@@ -149,7 +149,7 @@ namespace MyEngine::Renderer
         m_bound = false;
 
         m_shader -> unbind();
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
         {
             m_vertexBuffer -> unbind();
             m_texture -> unbind();
@@ -164,7 +164,7 @@ namespace MyEngine::Renderer
 
         m_vertexBuffer.reset();
         m_layout.reset();
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
             m_texture.reset();
 
         m_vertices.clear();

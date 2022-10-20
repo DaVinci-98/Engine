@@ -113,12 +113,12 @@ namespace MyEngine::Renderer
         }
 
         auto common = doc.FirstChildElement("font") -> FirstChildElement("common");
-        common->QueryUnsignedAttribute("scaleW", &m_bitmapWidth);
-        common->QueryUnsignedAttribute("scaleH", &m_bitmapHeight);
+        common -> QueryUnsignedAttribute("scaleW", &m_bitmapWidth);
+        common -> QueryUnsignedAttribute("scaleH", &m_bitmapHeight);
 
         auto chars = doc.FirstChildElement("font") -> FirstChildElement("chars");
         unsigned int charNum = 0;
-        chars->QueryUnsignedAttribute("count", &charNum);
+        chars -> QueryUnsignedAttribute("count", &charNum);
 
         auto charNode = chars -> FirstChildElement();
         if(!charNode)
@@ -132,11 +132,11 @@ namespace MyEngine::Renderer
             Glyph glyph;
             int id;
 
-            charNode->QueryUnsignedAttribute("x", &glyph.m_x);
-            charNode->QueryUnsignedAttribute("y", &glyph.m_y);
-            charNode->QueryUnsignedAttribute("width", &glyph.m_width);
-            charNode->QueryUnsignedAttribute("height", &glyph.m_height);
-            charNode->QueryIntAttribute("id", &id);
+            charNode -> QueryUnsignedAttribute("x", &glyph.m_x);
+            charNode -> QueryUnsignedAttribute("y", &glyph.m_y);
+            charNode -> QueryUnsignedAttribute("width", &glyph.m_width);
+            charNode -> QueryUnsignedAttribute("height", &glyph.m_height);
+            charNode -> QueryIntAttribute("id", &id);
             glyph.m_y = m_bitmapHeight - glyph.m_y - glyph.m_height;
 
             m_glyphs.insert(std::pair<char, Glyph>(static_cast<char>(id), glyph));

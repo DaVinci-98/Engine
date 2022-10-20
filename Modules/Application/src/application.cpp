@@ -113,7 +113,7 @@ namespace MyEngine
         auto resizeCallback = [this](Glfw::Events::WindowEvent&& t_event) -> void 
         {
             auto&& [width, height] = t_event.newWindowSize();
-            this->m_renderer.resizeWindow(width, height); 
+            this -> m_renderer.resizeWindow(width, height); 
         };
 
         m_window.registerWindowCallback(resizeCallback);

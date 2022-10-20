@@ -105,7 +105,7 @@ namespace MyEngine::Glfw
         auto callback = [](GLFWwindow* t_window, int t_width, int t_height) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
-            user -> m_windowEventCallback(Events::WindowEvent(user->m_params.m_width, user->m_params.m_height, t_width, t_height));
+            user -> m_windowEventCallback(Events::WindowEvent(user -> m_params.m_width, user -> m_params.m_height, t_width, t_height));
             user -> m_params.m_width = t_width;
             user -> m_params.m_height = t_height;
         };

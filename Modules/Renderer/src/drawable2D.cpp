@@ -9,7 +9,7 @@ namespace MyEngine::Renderer
 {
     void Drawable2D::setMeshMaterial(std::shared_ptr<Mesh2D>& t_mesh, std::shared_ptr<Material>& t_material)
     {
-        if(t_material -> isTexture() && t_mesh->indicies().size() != t_material->indicies().size())
+        if(t_material -> isTexture() && t_mesh -> indicies().size() != t_material -> indicies().size())
         {
             Logger::Logger::log<Drawable2D>() -> error(
                 "[setMaterial()]: number of indicies in mesh and material does not match.");
@@ -31,7 +31,7 @@ namespace MyEngine::Renderer
     {
         if(m_mesh)
         {
-            if(t_material -> isTexture() && m_mesh->indicies().size() != t_material->indicies().size())
+            if(t_material -> isTexture() && m_mesh -> indicies().size() != t_material -> indicies().size())
             {
                 Logger::Logger::log<Drawable2D>() -> error(
                     "[setMaterial()]: number of indicies in mesh and material does not match.");
@@ -52,7 +52,7 @@ namespace MyEngine::Renderer
     {
         if(m_material)
         {
-            if(m_material -> isTexture() && t_mesh->indicies().size() != m_material->indicies().size())
+            if(m_material -> isTexture() && t_mesh -> indicies().size() != m_material -> indicies().size())
             {
                 Logger::Logger::log<Drawable2D>() -> error(
                     "[setMaterial()]: number of indicies in mesh and material does not match.");
@@ -78,8 +78,8 @@ namespace MyEngine::Renderer
         }
         m_vertexArray = std::make_unique<OpenGL::VertexArray>();
 
-        unsigned int offset = m_vertexArray -> setBuffer(m_mesh -> buffer(), m_mesh->layout());
-        if(m_material -> isTexture()) m_vertexArray -> setBuffer(m_material -> buffer(), m_material->layout(), offset);
+        unsigned int offset = m_vertexArray -> setBuffer(m_mesh -> buffer(), m_mesh -> layout());
+        if(m_material -> isTexture()) m_vertexArray -> setBuffer(m_material -> buffer(), m_material -> layout(), offset);
     }
 
     void Drawable2D::bind()

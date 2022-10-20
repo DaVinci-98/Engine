@@ -10,7 +10,7 @@ namespace MyEngine::Physics
             group.updateSpeed();
 
         for(auto& body : m_bodies)
-            body->applyMovementStep(t_time);
+            body -> applyMovementStep(t_time);
 
         for(auto& [_, group] : m_groups)
             group.checkForCollisions();

@@ -132,13 +132,13 @@ namespace MyEngine::Renderer
          * 
          */
         inline bool isTexture() const
-            { return m_shader->usesTexture(); }
+            { return m_shader -> usesTexture(); }
         /**
          * @brief Returns true if this material renders traingles with flat colour.
          * 
          */
         inline bool isColour()
-            { return !m_shader->usesTexture(); }   
+            { return !m_shader -> usesTexture(); }   
 
         /**
          * @brief Bind the underlying shader and uniforms.
