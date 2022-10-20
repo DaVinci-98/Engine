@@ -15,14 +15,12 @@ add_subdirectory(${VENDOR_DIR})
 add_subdirectory(${MODULES_DIR})
 
 add_library(${LIBRARY_NAME} SHARED
-    $<TARGET_OBJECTS:Helpers>
+    $<TARGET_OBJECTS:Logger>
     $<TARGET_OBJECTS:Application>
-    $<TARGET_OBJECTS:EventSystem>
     $<TARGET_OBJECTS:Glfw>
     $<TARGET_OBJECTS:OpenGL>
     $<TARGET_OBJECTS:Physics>
     $<TARGET_OBJECTS:Renderer>
-    $<TARGET_OBJECTS:ShaderGenerator>
 )
 
 target_link_libraries(${LIBRARY_NAME}

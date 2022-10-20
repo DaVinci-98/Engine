@@ -1,6 +1,6 @@
 #include "Renderer/drawable2D.hpp"
 #include "Renderer/shader.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -9,9 +9,9 @@ namespace MyEngine::Renderer
 {
     void Drawable2D::setMeshMaterial(std::shared_ptr<Mesh2D>& t_mesh, std::shared_ptr<Material>& t_material)
     {
-        if(t_material -> isTexture() && t_mesh->indicies().size() != t_material->indicies().size())
+        if(t_material -> isTexture() && t_mesh -> indicies().size() != t_material -> indicies().size())
         {
-            Helpers::Logger::log<Drawable2D>() -> error(
+            Logger::Logger::log<Drawable2D>() -> error(
                 "[setMaterial()]: number of indicies in mesh and material does not match.");
             return;
         }
@@ -31,9 +31,9 @@ namespace MyEngine::Renderer
     {
         if(m_mesh)
         {
-            if(t_material -> isTexture() && m_mesh->indicies().size() != t_material->indicies().size())
+            if(t_material -> isTexture() && m_mesh -> indicies().size() != t_material -> indicies().size())
             {
-                Helpers::Logger::log<Drawable2D>() -> error(
+                Logger::Logger::log<Drawable2D>() -> error(
                     "[setMaterial()]: number of indicies in mesh and material does not match.");
                 return;
             }
@@ -52,9 +52,9 @@ namespace MyEngine::Renderer
     {
         if(m_material)
         {
-            if(m_material -> isTexture() && t_mesh->indicies().size() != m_material->indicies().size())
+            if(m_material -> isTexture() && t_mesh -> indicies().size() != m_material -> indicies().size())
             {
-                Helpers::Logger::log<Drawable2D>() -> error(
+                Logger::Logger::log<Drawable2D>() -> error(
                     "[setMaterial()]: number of indicies in mesh and material does not match.");
                 return;
             }
@@ -72,14 +72,14 @@ namespace MyEngine::Renderer
     {
         if(!m_material || !m_mesh)
         {
-            Helpers::Logger::log<Drawable2D>() -> error(
+            Logger::Logger::log<Drawable2D>() -> error(
                 "[makeArray()]: Drawable has to have both Material and Mesh2D set in order to create a VAO");
             return;
         }
         m_vertexArray = std::make_unique<OpenGL::VertexArray>();
 
-        unsigned int offset = m_vertexArray -> setBuffer(m_mesh -> buffer(), m_mesh->layout());
-        if(m_material -> isTexture()) m_vertexArray -> setBuffer(m_material -> buffer(), m_material->layout(), offset);
+        unsigned int offset = m_vertexArray -> setBuffer(m_mesh -> buffer(), m_mesh -> layout());
+        if(m_material -> isTexture()) m_vertexArray -> setBuffer(m_material -> buffer(), m_material -> layout(), offset);
     }
 
     void Drawable2D::bind()

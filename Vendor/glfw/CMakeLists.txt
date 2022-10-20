@@ -1,0 +1,13 @@
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/glfw/.git")
+    message(WARNING "Glfw submodule was not downloaded! GIT_SUBMODULE was turned off or failed.")
+    message(STATUS "Checking if package was installed.")
+
+    find_library(GLFW_FOUND glfw)
+    if(NOT GLFW_FOUND)
+        message(FATAL_ERROR "Package not present, cannot continue.")
+    endif()
+else()
+    set(GLFW_BUILD_DOCS OFF)
+    set(GLFW_INSTALL OFF)
+    add_subdirectory(glfw)
+endif()

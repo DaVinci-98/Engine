@@ -1,125 +1,129 @@
 #include "glad/gl.h"
 
 #include "Glfw/window.hpp"
-#include "Helpers/logger.hpp"
-#include "Helpers/type.hpp"
+#include "Logger/logger.hpp"
 
 namespace MyEngine::Glfw
 {
-    Events::KeyEventEmitter& Window::listenForKeyEvents()
+    void Window::listenForKeyEvents()
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::KeyEvent>());
-            return m_keyEventEmitter;
+                typeid(Events::KeyEvent).name());
+            return;
         }
-        using Events::KeyEvent;
+
         auto callback = [](GLFWwindow* t_window, int t_key, int t_scancode, int t_action, int t_mods) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
 
             if(t_key < 0 || t_action < 0 || t_mods < 0) return;
 
-            KeyEvent::KeyMods mods = static_cast<KeyEvent::KeyMods>(t_mods);
-            KeyEvent::Key key = static_cast<KeyEvent::Key>(t_key);
-            KeyEvent::KeyEventType keyEventType = static_cast<KeyEvent::KeyEventType>(t_action);
-            
-            user -> m_keyEventEmitter.sendEvent(mods, key, keyEventType);
+            auto key = std::make_tuple(
+                static_cast<Events::KeyEvent::KeyMods>(t_mods),
+                static_cast<Events::KeyEvent::Key>(t_key),
+                static_cast<Events::KeyEvent::KeyEventType>(t_action)
+            );
+            if(!user -> m_keyEventCallbacks.contains(key)) return;
+
+            user -> m_keyEventCallbacks[key](Events::KeyEvent(std::move(key)));
         };
 
         glfwSetKeyCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::KeyEvent>());
-
-        return m_keyEventEmitter;
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::KeyEvent).name());
     }
 
-    Events::MouseKeyEventEmitter&  Window::listenForMouseKeyEvents()
+    void Window::listenForMouseKeyEvents()
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::MouseKeyEvent>());
-            return m_mouseKeyEventEmitter;
+                typeid(Events::MouseKeyEvent).name());
+            return;
         }
-        using Events::MouseKeyEvent;
+
         auto callback = [](GLFWwindow* t_window, int t_button, int t_action, int t_mods) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
 
             if(t_button < 0 || t_action < 0 || t_mods < 0) return;
 
-            MouseKeyEvent::KeyMods mods = static_cast<MouseKeyEvent::KeyMods>(t_mods);
-            MouseKeyEvent::Key key = static_cast<MouseKeyEvent::Key>(t_button);
-            MouseKeyEvent::KeyEventType keyEventType = static_cast<MouseKeyEvent::KeyEventType>(t_action);
+            auto key = std::make_tuple(
+                static_cast<Events::MouseKeyEvent::KeyMods>(t_mods),
+                static_cast<Events::MouseKeyEvent::Key>(t_button),
+                static_cast<Events::MouseKeyEvent::KeyEventType>(t_action)
+            );
+            if(!user -> m_mouseKeyEventCallbacks.contains(key)) return;
 
             double xpos, ypos;
             glfwGetCursorPos(user -> m_window, &xpos, &ypos);
 
-            user->m_mouseKeyEventEmitter.sendEvent(mods, key, keyEventType, xpos, ypos);
+            user -> m_mouseKeyEventCallbacks[key](Events::MouseKeyEvent(std::move(key), xpos, ypos));
         };
         glfwSetMouseButtonCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::MouseKeyEvent>());
-
-        return m_mouseKeyEventEmitter;
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::MouseKeyEvent).name());
     }
 
-    Events::MouseMoveEventEmitter&  Window::listenForMouseMoveEvents()
+    void Window::listenForMouseMoveEvents()
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::MouseMoveEvent>());
-            return m_mouseMoveEventEmitter;
+                typeid(Events::MouseMoveEvent).name());
+            return;
         }
         auto callback = [](GLFWwindow* t_window, double t_xPos, double t_yPos) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
-            user->m_mouseMoveEventEmitter.sendEvent(t_xPos, t_yPos);
+            if(!user -> m_mouseMoveEventCallback) return;
+
+            double last_xPos = std::get<0>(user -> m_lastMousePos);
+            double last_yPos = std::get<1>(user -> m_lastMousePos);
+            user -> m_mouseMoveEventCallback(Events::MouseMoveEvent(last_xPos, last_yPos, t_xPos, t_yPos));
+            user -> m_lastMousePos = std::make_tuple(t_xPos, t_yPos);
         };
         glfwSetCursorPosCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::MouseMoveEvent>());
-
-        return m_mouseMoveEventEmitter;
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::MouseMoveEvent).name());
     }
 
-    Events::WindowEventEmitter&  Window::listenForWindowResizeEvents()
+    void Window::listenForWindowResizeEvents()
     {
         if(!isActive())
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Helpers::getTypeName<Events::WindowEvent>());
-            return m_windowEventEmitter;
+                typeid(Events::WindowEvent).name());
+            return;
         }
         auto callback = [](GLFWwindow* t_window, int t_width, int t_height) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
-            user->m_windowEventEmitter.sendEvent(user->m_params.m_width, user->m_params.m_height, t_width, t_height);
-            user->m_params.m_width = t_width;
-            user->m_params.m_height = t_height;
+            if(!user -> m_windowEventCallback) return;
+
+            user -> m_windowEventCallback(Events::WindowEvent(user -> m_params.m_width, user -> m_params.m_height, t_width, t_height));
+            user -> m_params.m_width = t_width;
+            user -> m_params.m_height = t_height;
         };
         glfwSetFramebufferSizeCallback(m_window, callback);
 
-        Helpers::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Helpers::getTypeName<Events::WindowEvent>());
-
-        return m_windowEventEmitter;
+        Logger::Logger::log<Window>() -> info(
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::WindowEvent).name());
     }
 
     void Window::pollEvents() const
     {
         if(!isActive())
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[pollEvents()]: Window's params have to be set before calling this function.");
         glfwPollEvents();
     }
@@ -127,7 +131,7 @@ namespace MyEngine::Glfw
     void Window::draw() const
     {
         if(!isActive())
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[draw()]: Window's params have to be set before calling this function.");
         glfwSwapBuffers(m_window);
     }
@@ -143,7 +147,7 @@ namespace MyEngine::Glfw
     { 
         m_params = std::move(t_params);
         m_paramsSet = true;
-        Helpers::Logger::log<Window>() -> info(
+        Logger::Logger::log<Window>() -> info(
             "[Set] [Window] [Params]:\n"
             "\t[Title]:   {0}\n"
             "\t[Width]:   {1}\n"
@@ -157,7 +161,7 @@ namespace MyEngine::Glfw
     {
         if(!m_paramsSet)
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init]: Window's params have to be set before init.");
             return false;
         }
@@ -165,7 +169,7 @@ namespace MyEngine::Glfw
         if (!glfwInit())
         {
             int error = glfwGetError(nullptr);
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init] [{0}]: Couldn't initialize Glfw.",
                 error);
             return false;
@@ -183,7 +187,7 @@ namespace MyEngine::Glfw
         {
             int error = glfwGetError(nullptr);
             glfwTerminate();
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init] [{0}]: Couldn't create Glfw window.",
                 error);
             return false;
@@ -194,13 +198,13 @@ namespace MyEngine::Glfw
         int version = gladLoadGL(glfwGetProcAddress);
         if (!version)
         {
-            Helpers::Logger::log<Window>() -> error(
+            Logger::Logger::log<Window>() -> error(
                 "[Init]: GL loader couldn't be loaded."); 
             return false;
         }
         else
         {
-            Helpers::Logger::log<Window>() -> info(
+            Logger::Logger::log<Window>() -> info(
                 "[Init] [glad]: Done\n" 
                 "\t[Version]: {0}.{1}\n"
                 "\t[Vendor]: {2}",
@@ -215,7 +219,7 @@ namespace MyEngine::Glfw
 
         glfwSetInputMode(m_window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
 
-        Helpers::Logger::log<Window>() -> info(
+        Logger::Logger::log<Window>() -> info(
             "[Init]: Done");
         
         return true;
@@ -229,7 +233,7 @@ namespace MyEngine::Glfw
             glfwTerminate();
         }
 
-        Helpers::Logger::log<Window>() -> info(
+        Logger::Logger::log<Window>() -> info(
             "[Destroy]: Done");
     }
 }

@@ -1,11 +1,16 @@
 #pragma once
 
-#include "Glfw/Events/keyEventEmitter.hpp"
-#include "Glfw/Events/mouseKeyEventEmitter.hpp"
-#include "Glfw/Events/mouseMoveEventEmitter.hpp"
-#include "Glfw/Events/windowEventEmitter.hpp"
+#include "Glfw/Events/keyEvent.hpp"
+#include "Glfw/Events/mouseKeyEvent.hpp"
+#include "Glfw/Events/mouseMoveEvent.hpp"
+#include "Glfw/Events/windowEvent.hpp"
 
-#include <GLFW/glfw3.h>
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+#include <string>
+#include <map>
+#include <tuple>
+#include <functional>
 
 namespace MyEngine::Glfw
 {
@@ -71,35 +76,6 @@ namespace MyEngine::Glfw
         bool isActive() const;
 
         /**
-         * @brief Set a Glfw callback for listening for keyboard input.
-         * @sa glfwSetKeyCallback()
-         * 
-         * @return Reference to Events::KeyEventEmitter - to be passed into EventListener's registerEmitter() function.
-         */
-        Events::KeyEventEmitter& listenForKeyEvents();
-        /**
-         * @brief Set a Glfw callback for listening for mouse key input.
-         * @sa glfwSetMouseButtonCallback()
-         * 
-         * @return Reference to Events::MouseKeyEventEmitter - to be passed into EventListener's registerEmitter() function.
-         */
-        Events::MouseKeyEventEmitter& listenForMouseKeyEvents();
-        /**
-         * @brief Set a Glfw callback for listening for mouse movement input.
-         * @sa glfwSetCursorPosCallback()
-         * 
-         * @return Reference to Events::MouseMoveEventEmitter - to be passed into EventListener's registerEmitter() function.
-         */
-        Events::MouseMoveEventEmitter& listenForMouseMoveEvents();
-        /**
-         * @brief Set a Glfw callback for listening for Window specific events (currently only resize).
-         * @sa glfwSetFramebufferSizeCallback()
-         * 
-         * @return Reference to Events::WindowEventEmitter - to be passed into EventListener's registerEmitter() function.
-         */
-        Events::WindowEventEmitter& listenForWindowResizeEvents();
-
-        /**
          * @brief Get window's title from params object.
          * 
          */
@@ -130,15 +106,47 @@ namespace MyEngine::Glfw
         inline bool initialzed() const 
             { return m_window != nullptr; }
 
+        /**
+         * @brief Set a Glfw callback for listening for keyboard input.
+         * @sa glfwSetKeyCallback()
+         */
+        void listenForKeyEvents();
+        /**
+         * @brief Set a Glfw callback for listening for mouse key input.
+         * @sa glfwSetMouseButtonCallback()
+         */
+        void listenForMouseKeyEvents();
+        /**
+         * @brief Set a Glfw callback for listening for mouse movement input.
+         * @sa glfwSetCursorPosCallback()
+         */
+        void listenForMouseMoveEvents();
+        /**
+         * @brief Set a Glfw callback for listening for Window specific events (currently only resize).
+         * @sa glfwSetFramebufferSizeCallback()
+         */
+        void listenForWindowResizeEvents();
+
+        void registerKeyCallback(std::function<void(Events::KeyEvent&&)>&& t_callback, 
+            std::tuple<Events::KeyEvent::KeyMods, Events::KeyEvent::Key, Events::KeyEvent::KeyEventType>&& t_key)
+            { m_keyEventCallbacks[t_key] = std::move(t_callback); }
+        void registerMouseKeyCallback(std::function<void(Events::MouseKeyEvent&&)>&& t_callback, 
+            std::tuple<Events::MouseKeyEvent::KeyMods, Events::MouseKeyEvent::Key, Events::MouseKeyEvent::KeyEventType>&& t_key)
+            { m_mouseKeyEventCallbacks[t_key] = std::move(t_callback); }
+        void registerMouseMoveCallback(std::function<void(Events::MouseMoveEvent&&)>&& t_callback)
+            { m_mouseMoveEventCallback = std::move(t_callback); }
+        void registerWindowCallback(std::function<void(Events::WindowEvent&&)>&& t_callback)
+            { m_windowEventCallback = std::move(t_callback); }
+
     private:
         GLFWwindow *m_window = nullptr;
+        std::map<std::tuple<Events::KeyEvent::KeyMods, Events::KeyEvent::Key, Events::KeyEvent::KeyEventType>, std::function<void(Events::KeyEvent&&)>> m_keyEventCallbacks;
+        std::map<std::tuple<Events::MouseKeyEvent::KeyMods, Events::MouseKeyEvent::Key, Events::MouseKeyEvent::KeyEventType>, std::function<void(Events::MouseKeyEvent&&)>> m_mouseKeyEventCallbacks;
+        std::function<void(Events::MouseMoveEvent&&)> m_mouseMoveEventCallback;
+        std::function<void(Events::WindowEvent&&)> m_windowEventCallback;
 
+        std::tuple<double, double> m_lastMousePos;
         bool m_paramsSet = false;
         WindowParams m_params;
-        
-        Events::KeyEventEmitter m_keyEventEmitter;
-        Events::MouseKeyEventEmitter m_mouseKeyEventEmitter;
-        Events::MouseMoveEventEmitter m_mouseMoveEventEmitter;
-        Events::WindowEventEmitter m_windowEventEmitter;
     };
 }

@@ -2,12 +2,6 @@ option(BUILD_SHARED_LIBS OFF)
 option(BUILD_TESTS OFF)
 set(BUILD_STATIC_LIBS ON)
 
-#GLFW
-find_library(GLFW_FOUND glfw)
-if(NOT GLFW_FOUND)
-    message(FATAL_ERROR "Glfw library not found.")
-endif()
-
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
 # Update submodules as needed
@@ -40,3 +34,6 @@ add_subdirectory(glm)
 
 #IMGUI
 add_subdirectory(imgui)
+
+#GLFW
+add_subdirectory(glfw)

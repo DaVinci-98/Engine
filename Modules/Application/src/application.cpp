@@ -1,5 +1,6 @@
 #include "Application/application.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
+#include "glad/gl.h"
 
 #include <stdexcept>
 #include <exception>
@@ -9,7 +10,12 @@ namespace MyEngine
 
     Application::~Application()
     {
-        Helpers::Logger::log<Application>() -> info( 
+        Logger::Logger::log<Application>() -> info( 
+            "[Destroy]: Start");
+        m_physicsManager.reset();
+        m_renderer.reset();
+        m_window.reset();
+        Logger::Logger::log<Application>() -> info( 
             "[Destroy]: Done");
     }
 
@@ -24,33 +30,37 @@ namespace MyEngine
             .m_vsync = t_vsync, 
             .m_allowResize = t_allowResize 
         };
-        m_window.setParams(std::move(params));
+
+        m_window = std::make_unique<Glfw::Window>();
+        m_renderer = std::make_unique<Renderer::Renderer>();
+        m_physicsManager = std::make_unique<Physics::PhysicsManager>();
+
+        m_window -> setParams(std::move(params));
     }
 
     bool Application::initialize()
     {
-        if(!m_window.initializeWindow())
+        if(!m_window -> initializeWindow())
         {
-            Helpers::Logger::log<Application>() -> error(
+            Logger::Logger::log<Application>() -> error(
                 "[Init]: Couldn't initialize Glfw window.");
             return false;
         }
-        if(m_window.allowResize()) 
+        if(m_window -> allowResize()) 
             enableResize();
         registerGlfwListeners();
 
-        if(!m_renderer.initialize())
+        if(!m_renderer -> initialize())
         {
-            Helpers::Logger::log<Application>() -> error(
+            Logger::Logger::log<Application>() -> error(
                 "[Init]: Couldn't initialize renderer.");
             return false;
         }
-        renderer().registerDrawableAddEventEmitter(m_drawableAddEventEmitter);
         renderer().setOrtho2D(screenWidth(), screenHeight());
 
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[Version]: {}", glGetString(GL_VERSION));
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[Init]: Done");
         
         return true;
@@ -58,12 +68,12 @@ namespace MyEngine
 
     void Application::startLoop()
     {
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[Start] [Game loop]");
         auto currentTime = std::chrono::steady_clock::now();
         float accumulator = 0.0f;
 
-        while (m_window.isActive())
+        while (m_window -> isActive())
         {
             auto newTime = std::chrono::steady_clock::now();
             float frameTime = std::chrono::duration_cast<std::chrono::duration<float>>(newTime - currentTime).count();
@@ -80,46 +90,43 @@ namespace MyEngine
 
             if(frame)
             {
-                m_renderer.clear();
+                m_renderer -> clear();
                 frame = onRender();
-                if(frame) 
-                    frame = m_renderer.drawFromQueue();
             }
             if(!frame)
             {
                 onLoopEnd();
-                Helpers::Logger::log<Application>() -> info(
+                Logger::Logger::log<Application>() -> info(
                     "[End] [Game loop]");
                 return;
             }
 
-            m_window.draw();
-            m_window.pollEvents();
+            m_window -> draw();
+            m_window -> pollEvents();
         }
         bool end = onLoopEnd();
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[End] [Game loop]");
         return;
     }
 
     void Application::registerGlfwListeners()
     {
-        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
-        m_mouseKeyEventListener.registerEmitter(m_window.listenForMouseKeyEvents());
-        m_mouseMoveEventListener.registerEmitter(m_window.listenForMouseMoveEvents());
+        m_window -> listenForKeyEvents();
+        m_window -> listenForMouseKeyEvents();
+        m_window -> listenForMouseMoveEvents();
     }
 
     void Application::enableResize()
     {
-        m_resizeRendererListener.registerEmitter(m_window.listenForWindowResizeEvents());
-        m_resizeRendererListener.registerNextListener(m_windowEventListener);
+        m_window -> listenForWindowResizeEvents();
         
-        auto resizeCallback = [this](Glfw::Events::WindowEvent& t_event) -> void 
+        auto resizeCallback = [this](Glfw::Events::WindowEvent&& t_event) -> void 
         {
             auto&& [width, height] = t_event.newWindowSize();
-            this->m_renderer.resizeWindow(width, height); 
-            t_event.handle();
+            this -> m_renderer -> resizeWindow(width, height); 
         };
-        m_resizeRendererListener.registerResizeCallback(resizeCallback);
+
+        m_window -> registerWindowCallback(resizeCallback);
     }
 }

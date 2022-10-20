@@ -1,6 +1,6 @@
 #include "Renderer/text.hpp"
 #include "Renderer/triangle2D.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 #include "tinyxml2.h"
 
 namespace MyEngine::Renderer
@@ -30,14 +30,14 @@ namespace MyEngine::Renderer
         return height;
     }
 
-    bool Text::setFont(std::string&& t_bitmapPath, std::string&& t_fontPath, std::shared_ptr<Shader> t_textureShader)
+    bool Text::setFont(std::string& t_bitmapPath, std::string& t_fontPath, std::shared_ptr<Shader> t_textureShader)
     {
         m_fontBitmapPath = std::move(t_bitmapPath);
         m_textureShader = t_textureShader;
 
         if(!makeGlyphMap(std::move(t_fontPath)))
         {
-            Helpers::Logger::log<Text>() -> error(
+            Logger::Logger::log<Text>() -> error(
                 "[makeGlyphMap()]: could not make glyph map.");
             return false;
         }
@@ -52,7 +52,7 @@ namespace MyEngine::Renderer
     {
         if(!m_fontSet)
         {
-            Helpers::Logger::log<Text>() -> error(
+            Logger::Logger::log<Text>() -> error(
                 "[setText]: font hast to be set before calling this function.");
             return;
         }
@@ -107,23 +107,23 @@ namespace MyEngine::Renderer
         auto error = doc.LoadFile(t_fontPath.c_str());
         if(error != tinyxml2::XML_SUCCESS)
         {
-            Helpers::Logger::log<tinyxml2::XMLDocument>() -> error(
+            Logger::Logger::log<tinyxml2::XMLDocument>() -> error(
                 "[loadFile()]: could not load font: " + t_fontPath);
             return false;
         }
 
         auto common = doc.FirstChildElement("font") -> FirstChildElement("common");
-        common->QueryUnsignedAttribute("scaleW", &m_bitmapWidth);
-        common->QueryUnsignedAttribute("scaleH", &m_bitmapHeight);
+        common -> QueryUnsignedAttribute("scaleW", &m_bitmapWidth);
+        common -> QueryUnsignedAttribute("scaleH", &m_bitmapHeight);
 
         auto chars = doc.FirstChildElement("font") -> FirstChildElement("chars");
         unsigned int charNum = 0;
-        chars->QueryUnsignedAttribute("count", &charNum);
+        chars -> QueryUnsignedAttribute("count", &charNum);
 
         auto charNode = chars -> FirstChildElement();
         if(!charNode)
         {
-            Helpers::Logger::log<tinyxml2::XMLDocument>() -> error(
+            Logger::Logger::log<tinyxml2::XMLDocument>() -> error(
                 "[makeGlyphMap()]: wrong xml file structure.");
             return false;        
         }
@@ -132,11 +132,11 @@ namespace MyEngine::Renderer
             Glyph glyph;
             int id;
 
-            charNode->QueryUnsignedAttribute("x", &glyph.m_x);
-            charNode->QueryUnsignedAttribute("y", &glyph.m_y);
-            charNode->QueryUnsignedAttribute("width", &glyph.m_width);
-            charNode->QueryUnsignedAttribute("height", &glyph.m_height);
-            charNode->QueryIntAttribute("id", &id);
+            charNode -> QueryUnsignedAttribute("x", &glyph.m_x);
+            charNode -> QueryUnsignedAttribute("y", &glyph.m_y);
+            charNode -> QueryUnsignedAttribute("width", &glyph.m_width);
+            charNode -> QueryUnsignedAttribute("height", &glyph.m_height);
+            charNode -> QueryIntAttribute("id", &id);
             glyph.m_y = m_bitmapHeight - glyph.m_y - glyph.m_height;
 
             m_glyphs.insert(std::pair<char, Glyph>(static_cast<char>(id), glyph));
@@ -144,7 +144,7 @@ namespace MyEngine::Renderer
         }
 
         if(m_glyphs.size() != charNum)
-            Helpers::Logger::log<tinyxml2::XMLDocument>() -> warn(
+            Logger::Logger::log<tinyxml2::XMLDocument>() -> warn(
                 "[makeGlyphMap()]: some chars may not have been loaded ({0}/{1}).",
                 std::to_string(m_glyphs.size()), std::to_string(charNum));
         return true;

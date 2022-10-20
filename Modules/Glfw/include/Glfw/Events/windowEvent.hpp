@@ -1,7 +1,5 @@
 #pragma once
 
-#include "EventSystem/event.hpp"
-
 #include <tuple>
 
 namespace MyEngine::Glfw::Events
@@ -10,7 +8,7 @@ namespace MyEngine::Glfw::Events
      * @brief Event for sending informations related to window.
      * 
      */
-    class WindowEvent: public EventSystem::Event<WindowEvent>
+    class WindowEvent
     {
     public:
         /**

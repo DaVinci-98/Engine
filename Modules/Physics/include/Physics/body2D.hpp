@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared.hpp"
+#include "Physics/shared.hpp"
 
 #include <glm/glm.hpp>
 #include <vector>
@@ -139,7 +139,7 @@ namespace MyEngine::Physics
          * @param t_collisionLevel algorithm to use.
          * @return CollisionInfo object with information about the collision.
          */
-        CollisionInfo checkCollision(Body2D& t_body, CollisionLevel t_collisionLevel);
+        CollisionInfo checkCollision(std::shared_ptr<Body2D> t_body, CollisionLevel t_collisionLevel);
         /**
          * @brief Check inclusion of a point in this body.
          * (uses baricentric coordinates of the point in reaaltions to triangles
@@ -156,7 +156,7 @@ namespace MyEngine::Physics
          * @param t_body body with which collision is supposed to be detected.
          * @return CollisionInfo object, only the "detected" field is filled in.
          */
-        CollisionInfo checkBC(Body2D& t_body);
+        CollisionInfo checkBC(std::shared_ptr<Body2D> t_body);
         /**
          * @brief Check collision between this and provided body.
          * (Uses axis aligned bounding boxes calculated during creation of bodies)
@@ -166,7 +166,7 @@ namespace MyEngine::Physics
          * @param t_body body with which collision is supposed to be detected.
          * @return CollisionInfo object, fills in fields: detected, collisionPoints and penetration.
          */
-        CollisionInfo checkAABB(Body2D& t_body);
+        CollisionInfo checkAABB(std::shared_ptr<Body2D> t_body);
         /**
          * @brief Check if the body went out bounds represented by provided body.
          * (Assumes the bodies are axis-aligned boxes)
@@ -174,7 +174,7 @@ namespace MyEngine::Physics
          * @param t_body body with which collision is supposed to be detected.
          * @return CollisionInfo object, fills in fields: detected, collisionPoints and penetration.
          */
-        CollisionInfo checkOutOfBounds(Body2D& t_body);
+        CollisionInfo checkOutOfBounds(std::shared_ptr<Body2D> t_body);
         /**
          * @brief Check collision between this and provided body.
          * (Checks for collisions edge by edge)
@@ -182,7 +182,7 @@ namespace MyEngine::Physics
          * @param t_body body with which collision is supposed to be detected.
          * @return CollisionInfo object, only the "detected" field is filled in.
          */
-        CollisionInfo checkEdges(Body2D& t_body);
+        CollisionInfo checkEdges(std::shared_ptr<Body2D> t_body);
         /**
          * @brief Check collision between this body and provided edge.
          * 

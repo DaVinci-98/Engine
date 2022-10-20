@@ -2,7 +2,7 @@
 
 #include "OpenGL/shader.hpp"
 #include "OpenGL/glException.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 #include <exception>
 #include <algorithm>
@@ -19,7 +19,7 @@ namespace MyEngine::OpenGL
         {
             ShaderText shader { readFile(file.m_filepath), file.m_type };
             idList.push_back(attachShader(shader)); 
-            Helpers::Logger::log<Shader>() -> info(
+            Logger::Logger::log<Shader>() -> info(
                 "[Load] [" + file.m_filepath + "]: Done");
         }
 
@@ -29,7 +29,7 @@ namespace MyEngine::OpenGL
         for(auto const& id : idList) 
             detachShader(id);
 
-        Helpers::Logger::log<Shader>() -> info(
+        Logger::Logger::log<Shader>() -> info(
             "[Load] [" + std::to_string(m_rendererId)  + "]: Done");
     }
 
@@ -48,7 +48,7 @@ namespace MyEngine::OpenGL
         for(auto const& id : idList) 
             detachShader(id);
 
-        Helpers::Logger::log<Shader>() -> info(
+        Logger::Logger::log<Shader>() -> info(
             "[Load] [" + std::to_string(m_rendererId)  + "]: Done");
     }
 
@@ -56,8 +56,10 @@ namespace MyEngine::OpenGL
     {
         try
         {
+            Logger::Logger::log<Shader>() -> info(
+                "[Destroy] [" + std::to_string(m_rendererId) + "]: Start");
             GL_CALL(glDeleteProgram(m_rendererId));
-            Helpers::Logger::log<Shader>() -> info(
+            Logger::Logger::log<Shader>() -> info(
                 "[Destroy] [" + std::to_string(m_rendererId) + "]: Done");
         }
         catch(GlException const& e)
@@ -92,7 +94,7 @@ namespace MyEngine::OpenGL
 
         if(src == nullptr)
         {
-            Helpers::Logger::log<Shader>() -> error(
+            Logger::Logger::log<Shader>() -> error(
                 "[readFile()]: Could not open file.");
             return "";
         } 
@@ -121,12 +123,13 @@ namespace MyEngine::OpenGL
             int len;
             glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
 
-            char message[len];
+            char* message = new char[len];
             glGetShaderInfoLog(id, len, &len, message);
 
-            Helpers::Logger::log<Shader>() -> error(
+            Logger::Logger::log<Shader>() -> error(
                 "[compileShader()]: {0}", std::string(message));
 
+            delete[](message);
             glDeleteShader(id);
 
             return 0;
@@ -151,7 +154,7 @@ namespace MyEngine::OpenGL
 
         GL_CALL(int location = glGetUniformLocation(m_rendererId, t_name.c_str()));
         if(location < 0)
-            Helpers::Logger::log<Shader>() -> error(
+            Logger::Logger::log<Shader>() -> error(
                 "[getUniformLocation()]: Invalid uniform name - {0}", t_name);
         m_locations[t_name] = location;
         return location;

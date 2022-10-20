@@ -35,5 +35,5 @@ target_link_libraries(${TARGET}
     PUBLIC glm_static
     PRIVATE glad
     PRIVATE stb
-    PRIVATE Helpers
+    PRIVATE Logger
 )

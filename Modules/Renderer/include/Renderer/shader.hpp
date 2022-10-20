@@ -2,8 +2,7 @@
 
 #include "OpenGL/shader.hpp"
 #include "OpenGL/vertexBufferLayout.hpp"
-#include "ShaderGenerator/block.hpp"
-#include "ShaderGenerator/shaderGen.hpp"
+
 
 #include <memory>
 #include <map>
@@ -114,8 +113,27 @@ namespace MyEngine::Renderer
          */
         static const std::string COLOUR_UNIFORM;
     private:
-        std::unique_ptr<OpenGL::Shader> makeShader(ShaderGenerator::Block&& t_materialBlock);
-        void makeUniforms(ShaderGenerator::ShaderGen& t_shaderGen);
+        enum FieldType
+        {
+            VEC2,
+            VEC3,
+            VEC4,
+            MAT4,
+            SAMPLER2D
+        };
+
+        /**
+         * @brief Item in uniform list in the shader.
+         * 
+         */
+        struct UniformItem
+        {
+            std::string m_name;
+            FieldType m_type;
+        };
+
+        std::unique_ptr<OpenGL::Shader> makeShader(std::string&& t_vertex, std::string&& t_fragment, std::vector<UniformItem>&& t_uniforms);
+        void makeUniforms(std::vector<UniformItem>&& t_uniforms);
         void setAllUniforms();
 
         std::map<std::string, glm::vec2> m_vec2Uniforms;

@@ -22,7 +22,7 @@
 	path = Vendor/stb/stb-master
 	url = https://github.com/nothings/stb.git
 	branch = master
-[submodule "Vendor/smf/master"]
-	path = Vendor/smf/master
-	url = https://github.com/DaVinci-98/SimpleModularFramework.git
+[submodule "glfw"]
+	path = Vendor/glfw/glfw
+	url = https://github.com/glfw/glfw.git
 	branch = master

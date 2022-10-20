@@ -1,6 +1,6 @@
 #include "OpenGL/glException.hpp"
 #include "glad/gl.h"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 #include <algorithm>
 #include <vector>
@@ -14,7 +14,7 @@ namespace MyEngine::OpenGL
 
     void GlException::printError(ErrorMessage const& t_error) const
     {
-        Helpers::Logger::log<GlException>() -> error(
+        Logger::Logger::log<GlException>() -> error(
         "[ERROR (" + std::to_string(t_error.code) + ")]\n"
         "\t- message  : " + codeToString(t_error.code) + "\n"
         "\t- function : " + t_error.function + "\n"
