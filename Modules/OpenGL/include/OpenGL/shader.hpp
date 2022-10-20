@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <map>
+#include <string>
 
 namespace MyEngine::OpenGL
 {
