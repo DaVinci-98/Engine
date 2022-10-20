@@ -8,89 +8,88 @@ void Sandbox::setupPlatform()
 {
     unsigned int width  = 10 * m_blockSize;
     unsigned int height = 1.2 * m_blockSize;
+    unsigned int x = (screenWidth() - width) / 2;
+    unsigned int y = 2 * height;
+    std::shared_ptr<MyEngine::Renderer::Mesh2D> mesh = nullptr;
 
-    auto args = Platform::PlatformArgs{
-        .m_x = (screenWidth() - width) / 2,
-        .m_y = 2 * height,
-        .m_width = width,
-        .m_height = height,
-        .m_material = m_material,
-        .m_mesh = nullptr,
-        .m_renderer = renderer(),
-        .m_keyListener = keyEventListener(),
-        .m_physics = physicsManager(),
-    };
+    renderer().colourShader();
 
-    m_platform = Platform::makePlatform(args);
-    if(args.m_material && !m_material) m_material = args.m_material;
+    m_platform = Platform::makePlatform(m_material, mesh, 
+                                        renderer().shader(renderer().colourShader()),
+                                        x, y, width, height);
 
     physicsManager().addBody(m_windowGroup, m_platform);
-    auto collisionCallback = [this](MyEngine::Physics::Events::CollisionEvent &t_event) 
+    auto collisionCallback = [this](MyEngine::Physics::CollisionInfo& t_info, 
+                                    std::shared_ptr<MyEngine::Physics::Body2D> t_first, 
+                                    std::shared_ptr<MyEngine::Physics::Body2D> t_second) 
     {
-        t_event.callingBody() -> velocity() *= 0.0f;
-        t_event.callingBody() -> applyTranslation(- t_event.info().m_penetration);
-        t_event.handle();
+        t_first -> velocity() *= 0.0f;
+        t_first -> applyTranslation(- t_info.m_penetration);
     };
     physicsManager().registerCollisionCallback(m_windowGroup, collisionCallback, m_platform);
+
+    using MyEngine::Glfw::Events::KeyEvent;
+    auto left    = [this](KeyEvent &&t_event) 
+        { m_platform -> velocity() = glm::vec2(0,0); m_platform -> acceleration() += glm::vec2(-400, 0); };
+    auto right   = [this](KeyEvent &&t_event) 
+        { m_platform -> velocity() = glm::vec2(0,0); m_platform -> acceleration() += glm::vec2( 400, 0); };
+    auto release = [this](KeyEvent &&t_event) 
+        { m_platform -> velocity() = glm::vec2(0,0); m_platform -> acceleration()  = glm::vec2( 0, 0);   };
+
+    registerKeyCallback(left,  std::make_tuple(KeyEvent::KeyMods::NONE, KeyEvent::Key::KEY_A, KeyEvent::KeyEventType::PRESSED));
+    registerKeyCallback(right, std::make_tuple(KeyEvent::KeyMods::NONE, KeyEvent::Key::KEY_A, KeyEvent::KeyEventType::RELEASED));
+    registerKeyCallback(right, std::make_tuple(KeyEvent::KeyMods::NONE, KeyEvent::Key::KEY_D, KeyEvent::KeyEventType::PRESSED));
+    registerKeyCallback(left,  std::make_tuple(KeyEvent::KeyMods::NONE, KeyEvent::Key::KEY_D, KeyEvent::KeyEventType::RELEASED));
 }
 
 void Sandbox::addBall(unsigned int t_x, unsigned int t_y)
 {
-    auto args = Ball::BallArgs{
-        .m_x = t_x,
-        .m_y = t_y,
-        .m_side = static_cast<unsigned int>(m_blockSize * 1.1),
-        .m_material = m_ballMaterial,
-        .m_mesh = m_ballMesh,
-        .m_renderer = renderer(),
-        .m_keyListener = keyEventListener(),
-        .m_physics = physicsManager(),
-    };
-    auto ball = Ball::makeBall(args);
-    if(args.m_material && !m_ballMaterial) m_ballMaterial = args.m_material;
-    if(args.m_mesh && !m_ballMesh) m_ballMesh = args.m_mesh;
+    unsigned int side = m_blockSize * 1.1;
+    auto ball = Ball::makeBall(m_ballMaterial, m_ballMesh, 
+                               renderer().shader(renderer().textureShader()), physicsManager(), 
+                               t_x, t_y, side);
 
-    auto windowCollisionCallback = [this](MyEngine::Physics::Events::CollisionEvent &t_event) 
+    auto windowCollisionCallback = [this](MyEngine::Physics::CollisionInfo& t_info, 
+                                          std::shared_ptr<MyEngine::Physics::Body2D> t_first, 
+                                          std::shared_ptr<MyEngine::Physics::Body2D> t_second) 
     {
-        t_event.callingBody() -> velocity() *= -0.5f;
-        if(t_event.info().m_penetration.y != 0)
-            t_event.callingBody() -> velocity()[0] *= -1;
-        if(t_event.info().m_penetration.x != 0)
-            t_event.callingBody() -> velocity()[1] *= -1;
-        t_event.callingBody() -> applyTranslation(-t_event.info().m_penetration);
-
-        t_event.handle();
+        t_first -> velocity() *= -0.5f;
+        if(t_info.m_penetration.y != 0)
+            t_first -> velocity()[0] *= -1;
+        if(t_info.m_penetration.x != 0)
+            t_first -> velocity()[1] *= -1;
+        t_first -> applyTranslation(-t_info.m_penetration);
     };
-    auto paltformCollisionCallback = [this](MyEngine::Physics::Events::CollisionEvent &t_event) 
+    auto paltformCollisionCallback = [this](MyEngine::Physics::CollisionInfo& t_info, 
+                                            std::shared_ptr<MyEngine::Physics::Body2D> t_first, 
+                                            std::shared_ptr<MyEngine::Physics::Body2D> t_second) 
     {
-        t_event.callingBody() -> velocity()[0] *= -1.0f;
-        if(t_event.info().m_penetration.y != 0)
-            t_event.callingBody() -> velocity()[0] *= -1;
+        t_first -> velocity()[0] *= -1.0f;
+        if(t_info.m_penetration.y != 0)
+            t_first -> velocity()[0] *= -1;
 
-        if(t_event.secondBody() -> velocity() != glm::vec2(0))
+        if(t_second -> velocity() != glm::vec2(0))
         {
-            t_event.callingBody() -> velocity()[1] *= -1.5f;
-            t_event.callingBody() -> velocity() += t_event.secondBody() -> velocity();
+            t_first -> velocity()[1] *= -1.5f;
+            t_first -> velocity() += t_second -> velocity();
         }
         else
-            t_event.callingBody() -> velocity()[1] *= -0.9f;
-
-        t_event.handle();
+            t_first -> velocity()[1] *= -0.9f;
     };
-    auto blockCollisionCallback = [this](MyEngine::Physics::Events::CollisionEvent &t_event) 
+    auto blockCollisionCallback = [this](MyEngine::Physics::CollisionInfo& t_info, 
+                                         std::shared_ptr<MyEngine::Physics::Body2D> t_first, 
+                                         std::shared_ptr<MyEngine::Physics::Body2D> t_second) 
     {
-        t_event.callingBody() -> applyTranslation(-t_event.info().m_penetration);
-        t_event.callingBody() -> velocity() *= -0.5f;
-        if(t_event.info().m_penetration.y != 0)
-            t_event.callingBody() -> velocity()[0] *= -1;
+        t_first -> applyTranslation(-t_info.m_penetration);
+        t_first -> velocity() *= -0.5f;
+        if(t_info.m_penetration.y != 0)
+            t_first -> velocity()[0] *= -1;
         
-        auto hitBlock = std::find(this->m_breakableBlocks.begin(), this->m_breakableBlocks.end(), t_event.secondBody());
-        if(hitBlock == this->m_breakableBlocks.end())
-            this->physicsManager().removeBody(t_event.secondBody());
+        auto hitBlock = std::find(this -> m_breakableBlocks.begin(), this -> m_breakableBlocks.end(), t_second);
+        if(hitBlock == this -> m_breakableBlocks.end())
+            this -> physicsManager().removeBody(t_second);
         else
-            this->m_breakableBlocks[hitBlock - this->m_breakableBlocks.begin()] -> takeDamage(); 
-
-        t_event.handle();
+            this -> m_breakableBlocks[hitBlock - this -> m_breakableBlocks.begin()] -> takeDamage(); 
     };
     std::string platformBallGroup = "Platform-Ball-" + std::to_string(m_lastId++);
 
@@ -104,8 +103,8 @@ void Sandbox::addBall(unsigned int t_x, unsigned int t_y)
     physicsManager().addBody(platformBallGroup, m_platform);
 
     physicsManager().registerCollisionCallback(platformBallGroup, paltformCollisionCallback, ball);
-    physicsManager().registerCollisionCallback(m_breakableBlockGroup,      blockCollisionCallback,    ball);
-    physicsManager().registerCollisionCallback(m_windowGroup,     windowCollisionCallback,   ball);
+    physicsManager().registerCollisionCallback(m_breakableBlockGroup, blockCollisionCallback, ball);
+    physicsManager().registerCollisionCallback(m_windowGroup, windowCollisionCallback, ball);
 
     m_balls.push_back(ball);
     m_ballGroups.push_back(platformBallGroup);
@@ -126,32 +125,18 @@ void Sandbox::setupBlocks()
     physicsManager().getGroup(m_breakableBlockGroup).setCollisionDetectionPipeline(
     std::vector<MyEngine::Physics::CollisionLevel>{MyEngine::Physics::CollisionLevel::AXIS_ALIGNED_BOUNDING_BOX});
 
-    auto args = BreakableBlock::BreakableBlockArgs{
-        .m_x = GL_SHADING_RATE_1_INVOCATION_PER_4X2_PIXELS_NV,
-        .m_y = y,
-        .m_width = width,
-        .m_height = height,
-        .m_material = m_material,
-        .m_mesh = mesh,
-        .m_renderer = renderer(),
-        .m_physics = physicsManager(),
-    };
-
     for(std::size_t i = 0; i < 3; i++)
     {
         for(std::size_t ii = 0; ii < maxBlocks; ii++)
         {
-            args.m_x = x;
-            args.m_y = y;
-            auto breakableBlock = BreakableBlock::makeBreakableBlock(args);
+            auto breakableBlock = BreakableBlock::makeBreakableBlock(
+                m_material, mesh, renderer().shader(renderer().colourShader()), physicsManager(),
+                x, y, width, height);
             m_breakableBlocks.push_back(breakableBlock);
             physicsManager().addBody(m_breakableBlockGroup, m_breakableBlocks.back());
 
             x += 1 + width;
         }
-        if(args.m_material && !m_material) m_material = args.m_material;
-        if(args.m_mesh && !mesh) mesh = args.m_mesh;
-
 
         x = allign;
         y -= 1 + height;
@@ -165,17 +150,17 @@ void Sandbox::setupText()
     m_currentScoreText = std::make_shared<MyEngine::Renderer::Text>();
     m_maxScoreText     = std::make_shared<MyEngine::Renderer::Text>();
 
-    m_maxBallCount     -> setFont("/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
+    m_maxBallCount     -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
+                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
                                   renderer().shader(renderer().textureShader()));
-    m_ballCount        -> setFont("/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
+    m_ballCount        -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
+                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
                                   renderer().shader(renderer().textureShader()));
-    m_currentScoreText -> setFont("/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
+    m_currentScoreText -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
+                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
                                   renderer().shader(renderer().textureShader()));
-    m_maxScoreText     -> setFont("/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/DaVinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
+    m_maxScoreText     -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
+                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
                                   renderer().shader(renderer().textureShader()));
 
     m_currentScoreText -> setText("Current Score: ");
@@ -213,14 +198,14 @@ void Sandbox::setupWindowCollision()
 bool Sandbox::onWindowCreate()
 {
     m_blockSize = std::gcd(screenHeight(), screenWidth()) / 16;
-
+    
     setupWindowCollision();
     setupPlatform();
     setupBlocks();
     addBall((screenWidth() - m_blockSize) / 2, static_cast<unsigned int>(screenHeight()/2));
 
     using MyEngine::Glfw::Events::KeyEvent;
-    auto spawnBall = [this](KeyEvent &t_event) 
+    auto spawnBall = [this](KeyEvent &&t_event) 
     {
         while(!this->m_breakableBlocks.empty())
         {
@@ -239,13 +224,8 @@ bool Sandbox::onWindowCreate()
         auto dX = this->screenWidth()/2.0f - this->m_platform->center().x;
         this -> m_platform -> applyTranslation(glm::vec2(dX, 0));
         m_ballCount -> setUint(m_balls.size());
-
-        t_event.handle(); 
     };
-    keyEventListener().registerKeyCallback(spawnBall, 
-        KeyEvent::Key::KEY_R, 
-        KeyEvent::KeyMods::NONE, 
-        KeyEvent::KeyEventType::PRESSED);
+    registerKeyCallback(spawnBall, std::make_tuple(KeyEvent::KeyMods::NONE, KeyEvent::Key::KEY_R, KeyEvent::KeyEventType::PRESSED));
 
     setupText();
 
@@ -298,14 +278,18 @@ bool Sandbox::onRender()
 {
     using MyEngine::Renderer::Drawable2D;
     for(auto& ball : m_balls)
-        addToRenderQueue(ball, nullptr);
+        renderer().draw(*std::dynamic_pointer_cast<Drawable2D>(ball));
     for(auto& breakableBlock : m_breakableBlocks)
-        addToRenderQueue(breakableBlock, breakableBlock->getRenderCallback());
-    addToRenderQueue(m_platform, m_platform->getRenderCallback());
-    addToRenderQueue(m_ballCount, nullptr);
-    addToRenderQueue(m_maxBallCount, nullptr);
-    addToRenderQueue(m_maxScoreText, nullptr);
-    addToRenderQueue(m_currentScoreText, nullptr);
+    {
+        breakableBlock -> updateColour();
+        renderer().draw(*std::dynamic_pointer_cast<Drawable2D>(breakableBlock));
+    }
+    // m_platform -> updateColour();
+    renderer().draw(*std::dynamic_pointer_cast<Drawable2D>(m_platform));
+    renderer().draw(*std::dynamic_pointer_cast<Drawable2D>(m_ballCount));
+    renderer().draw(*std::dynamic_pointer_cast<Drawable2D>(m_maxBallCount));
+    renderer().draw(*std::dynamic_pointer_cast<Drawable2D>(m_maxScoreText));
+    renderer().draw(*std::dynamic_pointer_cast<Drawable2D>(m_currentScoreText));
 
     return true;
 }

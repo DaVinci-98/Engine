@@ -1,6 +1,5 @@
 #include "Application/MyEngine.hpp"
 #include "Physics/body2D.hpp"
-#include "Physics/Events/collisionEvent.hpp"
 #include "Renderer/text.hpp"
 
 #include "platform.hpp"
