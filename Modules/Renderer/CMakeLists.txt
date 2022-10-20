@@ -12,9 +12,6 @@ set(SOURCEFILES
     ${SOURCE_DIR}/text.cpp
     ${SOURCE_DIR}/renderer.cpp
     ${SOURCE_DIR}/material.cpp
-    ${SOURCE_DIR}/Events/drawableAddEvent.cpp
-    ${SOURCE_DIR}/Events/drawableAddEventEmitter.cpp
-    ${SOURCE_DIR}/Events/drawableAddEventListener.cpp
 )
 set(INCLUDEFILES
     ${INCLUDE_DIR}/drawable2D.hpp
@@ -25,9 +22,6 @@ set(INCLUDEFILES
     ${INCLUDE_DIR}/text.hpp
     ${INCLUDE_DIR}/renderer.hpp
     ${INCLUDE_DIR}/material.hpp
-    ${INCLUDE_DIR}/Events/drawableAddEvent.hpp
-    ${INCLUDE_DIR}/Events/drawableAddEventEmitter.hpp
-    ${INCLUDE_DIR}/Events/drawableAddEventListener.hpp
 )
 
 add_library(${TARGET} OBJECT
@@ -40,10 +34,8 @@ target_include_directories(${TARGET}
 )
 
 target_link_libraries(${TARGET}
-    PUBLIC EventSystem
     PUBLIC OpenGL
-    PUBLIC ShaderGenerator
     PRIVATE glad
     PRIVATE tinyxml2
-    PRIVATE Helpers
+    PRIVATE Logger
 )

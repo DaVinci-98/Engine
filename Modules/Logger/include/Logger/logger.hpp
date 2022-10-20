@@ -3,11 +3,10 @@
 #include <memory>
 #include <typeinfo>
 
-#include "Helpers/type.hpp"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
-namespace Helpers
+namespace Logger
 {
     /**
      * @brief Sends logs to terminal using spdlog library.
@@ -47,7 +46,7 @@ namespace Helpers
         template<typename T>
         static std::shared_ptr<spdlog::logger> log()
         {
-            return log(getTypeName<T>());
+            return log(typeid(T).name());
         }
 
 

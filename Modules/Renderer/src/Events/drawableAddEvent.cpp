@@ -1,4 +1,0 @@
-namespace MyEngine::Renderer::Events
-{
-
-}

@@ -122,7 +122,7 @@ namespace MyEngine::Physics
         m_lastTranslation = glm::vec2(0);
     }
 
-    CollisionInfo Body2D::checkCollision(Body2D& t_body, CollisionLevel t_collisionLevel)
+    CollisionInfo Body2D::checkCollision(std::shared_ptr<Body2D> t_body, CollisionLevel t_collisionLevel)
     {
         switch (t_collisionLevel)
         {
@@ -144,33 +144,33 @@ namespace MyEngine::Physics
         }
     }
 
-    CollisionInfo Body2D::checkOutOfBounds(Body2D& t_body)
+    CollisionInfo Body2D::checkOutOfBounds(std::shared_ptr<Body2D> t_body)
     {
         CollisionInfo info;
         info.m_detected = false;
         info.m_penetration = glm::vec2(0);
-        if (m_upperBound > t_body.m_upperBound)
+        if (m_upperBound > t_body -> m_upperBound)
         {
             info.m_detected = true;
-            info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body.m_upperBound));
+            info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body -> m_upperBound));
             info.m_penetration += info.m_collisionPoints.back();
         }
-        else if (m_lowerBound < t_body.m_lowerBound)
+        else if (m_lowerBound < t_body -> m_lowerBound)
         {
             info.m_detected = true;
-            info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body.m_lowerBound));
+            info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body -> m_lowerBound));
             info.m_penetration += info.m_collisionPoints.back();
         }
-        if (m_rightBound > t_body.m_rightBound)
+        if (m_rightBound > t_body -> m_rightBound)
         {
             info.m_detected = true;
-            info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body.m_rightBound, 0));
+            info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body -> m_rightBound, 0));
             info.m_penetration += info.m_collisionPoints.back();
         }
-        else if (m_leftBound  < t_body.m_leftBound )
+        else if (m_leftBound  < t_body -> m_leftBound )
         {
             info.m_detected = true;
-            info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body.m_leftBound,   0));
+            info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body -> m_leftBound,   0));
             info.m_penetration += info.m_collisionPoints.back();
         }
         return info;
@@ -229,74 +229,74 @@ namespace MyEngine::Physics
         return CollisionInfo { false };
     }
 
-    CollisionInfo Body2D::checkBC(Body2D& t_body)
+    CollisionInfo Body2D::checkBC(std::shared_ptr<Body2D> t_body)
     {
-        float distance = glm::distance(m_center, t_body.m_center);
-        float allowedDistance = m_radius + t_body.m_radius;
+        float distance = glm::distance(m_center, t_body -> m_center);
+        float allowedDistance = m_radius + t_body -> m_radius;
 
         return CollisionInfo { .m_detected = distance < allowedDistance };
     }
 
-    CollisionInfo Body2D::checkAABB(Body2D& t_body)
+    CollisionInfo Body2D::checkAABB(std::shared_ptr<Body2D> t_body)
     {
 
         CollisionInfo info;
         info.m_detected = false;
         info.m_penetration = glm::vec2(0);
 
-        if(m_leftBound  < t_body.m_rightBound &&
-           m_rightBound > t_body.m_leftBound)
+        if(m_leftBound  < t_body -> m_rightBound &&
+           m_rightBound > t_body -> m_leftBound)
         {
-            if(m_lowerBound < t_body.m_upperBound && 
-               m_lowerBound > t_body.m_lowerBound && 
-               m_upperBound > t_body.m_upperBound)
+            if(m_lowerBound < t_body -> m_upperBound && 
+               m_lowerBound > t_body -> m_lowerBound && 
+               m_upperBound > t_body -> m_upperBound)
             {
                 info.m_detected = true;
-                info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body.m_upperBound));
+                info.m_collisionPoints.push_back(glm::vec2(0, m_lowerBound - t_body -> m_upperBound));
                 info.m_penetration += info.m_collisionPoints.back();
             }
-            else if(m_upperBound > t_body.m_lowerBound && 
-                    m_upperBound < t_body.m_upperBound && 
-                    m_lowerBound < t_body.m_lowerBound)
+            else if(m_upperBound > t_body -> m_lowerBound && 
+                    m_upperBound < t_body -> m_upperBound && 
+                    m_lowerBound < t_body -> m_lowerBound)
             {
                 info.m_detected = true;
-                info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body.m_lowerBound));
+                info.m_collisionPoints.push_back(glm::vec2(0, m_upperBound - t_body -> m_lowerBound));
                 info.m_penetration += info.m_collisionPoints.back();
             }
         }
-        if(m_lowerBound < t_body.m_upperBound &&
-           m_upperBound > t_body.m_lowerBound)
+        if(m_lowerBound < t_body -> m_upperBound &&
+           m_upperBound > t_body -> m_lowerBound)
         {
-            if(m_leftBound  < t_body.m_rightBound && 
-               m_leftBound  > t_body.m_leftBound  && 
-               m_rightBound > t_body.m_rightBound)
+            if(m_leftBound  < t_body -> m_rightBound && 
+               m_leftBound  > t_body -> m_leftBound  && 
+               m_rightBound > t_body -> m_rightBound)
             {
                 info.m_detected = true;
-                info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body.m_rightBound,  0));
+                info.m_collisionPoints.push_back(glm::vec2(m_leftBound - t_body -> m_rightBound,  0));
                 info.m_penetration += info.m_collisionPoints.back();
             }
-            else if(m_rightBound > t_body.m_leftBound  && 
-                    m_rightBound < t_body.m_rightBound && 
-                    m_leftBound  < t_body.m_leftBound) 
+            else if(m_rightBound > t_body -> m_leftBound  && 
+                    m_rightBound < t_body -> m_rightBound && 
+                    m_leftBound  < t_body -> m_leftBound) 
             {
                 info.m_detected = true;
-                info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body.m_leftBound,  0));
+                info.m_collisionPoints.push_back(glm::vec2(m_rightBound - t_body -> m_leftBound,  0));
                 info.m_penetration += info.m_collisionPoints.back();
             }   
         }
         return info;
     }
 
-    CollisionInfo Body2D::checkEdges(Body2D& t_body)
+    CollisionInfo Body2D::checkEdges(std::shared_ptr<Body2D> t_body)
     {
-        if(t_body.m_axisAligned && m_axisAligned) return checkAABB(t_body);
+        if(t_body -> m_axisAligned && m_axisAligned) return checkAABB(t_body);
 
-        for(std::size_t i = 0; i < t_body.m_vertices.size(); i++)
+        for(std::size_t i = 0; i < t_body -> m_vertices.size(); i++)
         {
             std::size_t leftIdx = i;
-            std::size_t rightIdx = (i + 1) % t_body.m_vertices.size();
+            std::size_t rightIdx = (i + 1) % t_body -> m_vertices.size();
 
-            CollisionInfo info = checkEdge(t_body.m_vertices[leftIdx], t_body.m_vertices[rightIdx]);
+            CollisionInfo info = checkEdge(t_body -> m_vertices[leftIdx], t_body -> m_vertices[rightIdx]);
             if(info.m_detected) return info;
         }
         

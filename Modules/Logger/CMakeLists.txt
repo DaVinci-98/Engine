@@ -1,17 +1,14 @@
-set(TARGET EventSystem)
+
+set(TARGET Logger)
 
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/${TARGET})
 
 set(SOURCEFILES
-    ${SOURCE_DIR}/event.cpp
-    ${SOURCE_DIR}/eventEmitter.cpp
-    ${SOURCE_DIR}/eventListener.cpp
+    ${SOURCE_DIR}/logger.cpp
 )
 set(INCLUDEFILES
-    ${INCLUDE_DIR}/event.hpp
-    ${INCLUDE_DIR}/eventEmitter.hpp
-    ${INCLUDE_DIR}/eventListener.hpp
+    ${INCLUDE_DIR}/logger.hpp
 )
 
 add_library(${TARGET} OBJECT
@@ -21,4 +18,8 @@ add_library(${TARGET} OBJECT
 
 target_include_directories(${TARGET}
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(${TARGET}
+    PUBLIC spdlog
 )

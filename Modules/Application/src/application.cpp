@@ -1,5 +1,5 @@
 #include "Application/application.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 #include <stdexcept>
 #include <exception>
@@ -9,7 +9,7 @@ namespace MyEngine
 
     Application::~Application()
     {
-        Helpers::Logger::log<Application>() -> info( 
+        Logger::Logger::log<Application>() -> info( 
             "[Destroy]: Done");
     }
 
@@ -31,7 +31,7 @@ namespace MyEngine
     {
         if(!m_window.initializeWindow())
         {
-            Helpers::Logger::log<Application>() -> error(
+            Logger::Logger::log<Application>() -> error(
                 "[Init]: Couldn't initialize Glfw window.");
             return false;
         }
@@ -41,16 +41,15 @@ namespace MyEngine
 
         if(!m_renderer.initialize())
         {
-            Helpers::Logger::log<Application>() -> error(
+            Logger::Logger::log<Application>() -> error(
                 "[Init]: Couldn't initialize renderer.");
             return false;
         }
-        renderer().registerDrawableAddEventEmitter(m_drawableAddEventEmitter);
         renderer().setOrtho2D(screenWidth(), screenHeight());
 
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[Version]: {}", glGetString(GL_VERSION));
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[Init]: Done");
         
         return true;
@@ -58,7 +57,7 @@ namespace MyEngine
 
     void Application::startLoop()
     {
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[Start] [Game loop]");
         auto currentTime = std::chrono::steady_clock::now();
         float accumulator = 0.0f;
@@ -82,13 +81,11 @@ namespace MyEngine
             {
                 m_renderer.clear();
                 frame = onRender();
-                if(frame) 
-                    frame = m_renderer.drawFromQueue();
             }
             if(!frame)
             {
                 onLoopEnd();
-                Helpers::Logger::log<Application>() -> info(
+                Logger::Logger::log<Application>() -> info(
                     "[End] [Game loop]");
                 return;
             }
@@ -97,29 +94,28 @@ namespace MyEngine
             m_window.pollEvents();
         }
         bool end = onLoopEnd();
-        Helpers::Logger::log<Application>() -> info(
+        Logger::Logger::log<Application>() -> info(
             "[End] [Game loop]");
         return;
     }
 
     void Application::registerGlfwListeners()
     {
-        m_keyEventListener.registerEmitter(m_window.listenForKeyEvents());
-        m_mouseKeyEventListener.registerEmitter(m_window.listenForMouseKeyEvents());
-        m_mouseMoveEventListener.registerEmitter(m_window.listenForMouseMoveEvents());
+        m_window.listenForKeyEvents();
+        m_window.listenForMouseKeyEvents();
+        m_window.listenForMouseMoveEvents();
     }
 
     void Application::enableResize()
     {
-        m_resizeRendererListener.registerEmitter(m_window.listenForWindowResizeEvents());
-        m_resizeRendererListener.registerNextListener(m_windowEventListener);
+        m_window.listenForWindowResizeEvents();
         
-        auto resizeCallback = [this](Glfw::Events::WindowEvent& t_event) -> void 
+        auto resizeCallback = [this](Glfw::Events::WindowEvent&& t_event) -> void 
         {
             auto&& [width, height] = t_event.newWindowSize();
-            this->m_renderer.resizeWindow(width, height); 
-            t_event.handle();
+            this -> m_renderer.resizeWindow(width, height); 
         };
-        m_resizeRendererListener.registerResizeCallback(resizeCallback);
+
+        m_window.registerWindowCallback(resizeCallback);
     }
 }

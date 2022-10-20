@@ -1,5 +1,5 @@
 #include "Renderer/triangle2D.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 namespace MyEngine::Renderer
 {
@@ -26,7 +26,7 @@ namespace MyEngine::Renderer
         if(t_params_a.size() != t_params_b.size() ||
            t_params_a.size() != t_params_c.size())
         {
-            Helpers::Logger::log<Triangle2D>() -> error(
+            Logger::Logger::log<Triangle2D>() -> error(
                 "[addParam()]: Lengths of parameters don't match.");
             return false;
         }

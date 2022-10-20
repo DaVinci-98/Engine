@@ -2,7 +2,6 @@
 
 #include "Physics/body2D.hpp"
 #include "Physics/physicsGroup.hpp"
-#include "Physics/Events/collisionEventListener.hpp"
 #include "shared.hpp"
 
 #include <map>
@@ -58,20 +57,12 @@ namespace MyEngine::Physics
          */
         inline void registerPhysicsGroup(std::string const& t_name, bool t_isStatic)
             { registerPhysicsGroup(std::string(t_name), t_isStatic); }
-        /**
-         * @brief Register a callback for CollisionEvent for provided body in specified group.
-         * 
-         * @param t_name name of the physics group.
-         * @param t_callback callback function, takes a reference to the KeyEvent
-         * @param t_body pointer to body, 
-         * which will triger the callback when coliding with another body
-         * 
-         */
-        inline void registerCollisionCallback(std::string& t_name,
-            std::function<void(Events::CollisionEvent&)>&& t_callback,
-            std::shared_ptr<Body2D> t_body)
-            { m_listeners[t_name].registerCollisionCallback(std::move(t_callback), t_body); }
-        
+
+        void registerCollisionCallback(
+            std::string& t_name,
+            std::function<void(CollisionInfo&, std::shared_ptr<Body2D>, std::shared_ptr<Body2D>)>&& t_callback,
+            std::shared_ptr<Body2D> t_body);
+
         /**
          * @brief Get a reference to a PhysicsGroup object with provided name.
          * 
@@ -87,7 +78,6 @@ namespace MyEngine::Physics
 
     private:
         std::map<std::string, PhysicsGroup> m_groups;
-        std::map<std::string, Events::CollisionEventListener> m_listeners;
         std::vector<std::shared_ptr<Body2D>> m_bodies;
     };
 }

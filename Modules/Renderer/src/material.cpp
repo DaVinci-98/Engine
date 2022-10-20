@@ -1,9 +1,5 @@
 #include "Renderer/material.hpp"
-#include "ShaderGenerator/shaderGen.hpp"
-#include "ShaderGenerator/positionBlock.hpp"
-#include "ShaderGenerator/textureBlock.hpp"
-#include "ShaderGenerator/colourBlock.hpp"
-#include "Helpers/logger.hpp"
+#include "Logger/logger.hpp"
 
 #include <algorithm>
 #include <iterator>
@@ -14,28 +10,28 @@ namespace MyEngine::Renderer
         m_shader(t_shader) 
     { 
         // if(isColour())
-        //     Helpers::Logger::log<Material>() -> info(
+        //     Logger::Logger::log<Material>() -> info(
         //    "[Colour] [Init]: Done");
         // else
-        //     Helpers::Logger::log<Material>() -> info(
+        //     Logger::Logger::log<Material>() -> info(
         //    "[Texture] [Init]: Done");
     }
 
     Material::~Material()
     {
         // if(isColour())
-        //     Helpers::Logger::log<Material>() -> info(
+        //     Logger::Logger::log<Material>() -> info(
         //    "[Colour] [Destroy]: Done");
         // else
-        //     Helpers::Logger::log<Material>() -> info( 
+        //     Logger::Logger::log<Material>() -> info( 
         //    "[Texture] [Destroy]: Done");
     }
 
     unsigned int Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indicies, std::string t_path, unsigned int t_stride)
     {
-        if(!m_shader->usesTexture())
+        if(!m_shader -> usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error(
+            Logger::Logger::log<Material>() -> error(
                 "[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }
@@ -56,9 +52,9 @@ namespace MyEngine::Renderer
 
     void Material::setColour(glm::vec4&& t_colour)
     {
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error(
+            Logger::Logger::log<Material>() -> error(
                 "[setColour()]: Material doesn't render triangles with flat colour.");
             return;
         }
@@ -68,9 +64,9 @@ namespace MyEngine::Renderer
 
     unsigned int Material::setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path, bool t_colapse)
     {
-        if(!m_shader->usesTexture())
+        if(!m_shader -> usesTexture())
         {
-            Helpers::Logger::log<Material>() -> error(
+            Logger::Logger::log<Material>() -> error(
                 "[setTextureBuffer()]: Material doesn't render triangles with textures.");
             return 0;
         }
@@ -138,12 +134,12 @@ namespace MyEngine::Renderer
         if(m_bound) return;
         m_bound = true;
 
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
             m_shader -> setTextureUniform(Shader::TEXTURE_UNIFORM, 0);
 
         m_shader -> bind();
         
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
             m_texture -> bind(0);
     }
 
@@ -153,7 +149,7 @@ namespace MyEngine::Renderer
         m_bound = false;
 
         m_shader -> unbind();
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
         {
             m_vertexBuffer -> unbind();
             m_texture -> unbind();
@@ -168,7 +164,7 @@ namespace MyEngine::Renderer
 
         m_vertexBuffer.reset();
         m_layout.reset();
-        if(m_shader->usesTexture())
+        if(m_shader -> usesTexture())
             m_texture.reset();
 
         m_vertices.clear();
