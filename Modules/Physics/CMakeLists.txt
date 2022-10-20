@@ -8,17 +8,11 @@ set(SOURCEFILES
     ${SOURCE_DIR}/body2D.cpp
     ${SOURCE_DIR}/physicsGroup.cpp
     ${SOURCE_DIR}/physicsManager.cpp
-    ${SOURCE_DIR}/Events/collisionEvent.cpp
-    ${SOURCE_DIR}/Events/collisionEventEmitter.cpp
-    ${SOURCE_DIR}/Events/collisionEventListener.cpp
 )
 set(INCLUDEFILES
     ${INCLUDE_DIR}/body2D.hpp
     ${INCLUDE_DIR}/physicsGroup.hpp
     ${INCLUDE_DIR}/physicsManager.hpp
-    ${INCLUDE_DIR}/Events/collisionEvent.hpp
-    ${INCLUDE_DIR}/Events/collisionEventEmitter.hpp
-    ${INCLUDE_DIR}/Events/collisionEventListener.hpp
 )
 
 add_library(${TARGET} OBJECT

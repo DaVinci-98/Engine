@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <vector>
+#include <string>
 
 namespace MyEngine::Physics
 {
@@ -27,6 +28,7 @@ namespace MyEngine::Physics
     struct CollisionInfo
     {
         bool m_detected;
+        std::string m_physicsGroup;
         std::vector<glm::vec2> m_collisionPoints;
         glm::vec2 m_direction;
         glm::vec2 m_penetration;
