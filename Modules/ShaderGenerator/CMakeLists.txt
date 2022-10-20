@@ -29,4 +29,5 @@ target_include_directories(${TARGET}
 )
 
 target_link_libraries(${TARGET}
-    PUBLIC glm_static)
+    PUBLIC glm_static
+)
