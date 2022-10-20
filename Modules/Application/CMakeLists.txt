@@ -26,4 +26,5 @@ target_link_libraries(${TARGET}
     PUBLIC Renderer
     PUBLIC Physics
     PRIVATE Logger
+    PRIVATE glad
 )

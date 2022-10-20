@@ -91,34 +91,34 @@ namespace MyEngine
          * 
          */
         inline std::string title() const 
-            { return m_window.title(); }
+            { return m_window -> title(); }
         /**
          * @brief Get window's width.
          * 
          */
         inline int screenWidth() const 
-            { return m_window.screenWidth(); }
+            { return m_window -> screenWidth(); }
         /**
          * @brief Get window's height.
          * 
          */
         inline int screenHeight() const 
-            { return m_window.screenHeight(); }
+            { return m_window -> screenHeight(); }
         /**
          * @brief Get a reference to underlying renderer.
          * 
          */
         inline Renderer::Renderer& renderer() 
-            { return m_renderer; }
+            { return *m_renderer; }
 
        void registerKeyCallback(std::function<void(Glfw::Events::KeyEvent&&)>&& t_callback, 
             std::tuple<Glfw::Events::KeyEvent::KeyMods, Glfw::Events::KeyEvent::Key, Glfw::Events::KeyEvent::KeyEventType>&& t_key)
-            { m_window.registerKeyCallback(std::move(t_callback), std::move(t_key)); }
+            { m_window -> registerKeyCallback(std::move(t_callback), std::move(t_key)); }
         void registerMouseKeyCallback(std::function<void(Glfw::Events::MouseKeyEvent&&)>&& t_callback, 
             std::tuple<Glfw::Events::MouseKeyEvent::KeyMods, Glfw::Events::MouseKeyEvent::Key, Glfw::Events::MouseKeyEvent::KeyEventType>&& t_key)
-            { m_window.registerMouseKeyCallback(std::move(t_callback), std::move(t_key)); }
+            { m_window -> registerMouseKeyCallback(std::move(t_callback), std::move(t_key)); }
         void registerMouseMoveCallback(std::function<void(Glfw::Events::MouseMoveEvent&&)>&& t_callback)
-            { m_window.registerMouseMoveCallback(std::move(t_callback)); }
+            { m_window -> registerMouseMoveCallback(std::move(t_callback)); }
         void registerWindowCallback(std::function<void(Glfw::Events::WindowEvent&&)>&& t_callback)
             { m_windowEventCallback = std::move(t_callback); }
 
@@ -127,7 +127,7 @@ namespace MyEngine
          * 
          */
         inline Physics::PhysicsManager& physicsManager()
-            {return m_physicsManager; }
+            {return *m_physicsManager; }
                 
     private:
         void registerGlfwListeners();
@@ -135,9 +135,9 @@ namespace MyEngine
 
         float m_updateRate = 1.0f / 60.0f;
 
-        Physics::PhysicsManager m_physicsManager;
-        Renderer::Renderer m_renderer;
-        Glfw::Window m_window;
+        std::unique_ptr<Physics::PhysicsManager> m_physicsManager;
+        std::unique_ptr<Renderer::Renderer> m_renderer;
+        std::unique_ptr<Glfw::Window> m_window;
         std::function<void(Glfw::Events::WindowEvent&&)> m_windowEventCallback;
     };
 

@@ -56,6 +56,8 @@ namespace MyEngine::OpenGL
     {
         try
         {
+            Logger::Logger::log<Shader>() -> info(
+                "[Destroy] [" + std::to_string(m_rendererId) + "]: Start");
             GL_CALL(glDeleteProgram(m_rendererId));
             Logger::Logger::log<Shader>() -> info(
                 "[Destroy] [" + std::to_string(m_rendererId) + "]: Done");

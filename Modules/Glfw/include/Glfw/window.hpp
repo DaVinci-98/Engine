@@ -5,6 +5,7 @@
 #include "Glfw/Events/mouseMoveEvent.hpp"
 #include "Glfw/Events/windowEvent.hpp"
 
+#define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include <string>
 #include <map>

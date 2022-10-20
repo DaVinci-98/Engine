@@ -19,12 +19,12 @@ namespace MyEngine::Renderer
 
     Material::~Material()
     {
-        // if(isColour())
-        //     Logger::Logger::log<Material>() -> info(
-        //    "[Colour] [Destroy]: Done");
-        // else
-        //     Logger::Logger::log<Material>() -> info( 
-        //    "[Texture] [Destroy]: Done");
+        if(isColour())
+            Logger::Logger::log<Material>() -> info(
+           "[Colour] [Destroy]: Done");
+        else
+            Logger::Logger::log<Material>() -> info( 
+           "[Texture] [Destroy]: Done");
     }
 
     unsigned int Material::setTextureBuffer(std::vector<float> && t_vertices, std::vector<unsigned int> && t_indicies, std::string t_path, unsigned int t_stride)
@@ -59,7 +59,7 @@ namespace MyEngine::Renderer
             return;
         }
 
-        m_shader -> setVec4Uniform(Shader::COLOUR_UNIFORM, t_colour, true);
+        m_shader -> setVec4Uniform(Shader::COLOUR_UNIFORM, t_colour, false);
     }
 
     unsigned int Material::setTexture(std::vector<Triangle2D> && t_triangles, std::string t_path, bool t_colapse)

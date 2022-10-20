@@ -26,6 +26,7 @@ namespace MyEngine::Glfw
                 static_cast<Events::KeyEvent::Key>(t_key),
                 static_cast<Events::KeyEvent::KeyEventType>(t_action)
             );
+            if(!user -> m_keyEventCallbacks.contains(key)) return;
 
             user -> m_keyEventCallbacks[key](Events::KeyEvent(std::move(key)));
         };
@@ -57,7 +58,7 @@ namespace MyEngine::Glfw
                 static_cast<Events::MouseKeyEvent::Key>(t_button),
                 static_cast<Events::MouseKeyEvent::KeyEventType>(t_action)
             );
-
+            if(!user -> m_mouseKeyEventCallbacks.contains(key)) return;
 
             double xpos, ypos;
             glfwGetCursorPos(user -> m_window, &xpos, &ypos);
@@ -82,6 +83,8 @@ namespace MyEngine::Glfw
         auto callback = [](GLFWwindow* t_window, double t_xPos, double t_yPos) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
+            if(!user -> m_mouseMoveEventCallback) return;
+
             double last_xPos = std::get<0>(user -> m_lastMousePos);
             double last_yPos = std::get<1>(user -> m_lastMousePos);
             user -> m_mouseMoveEventCallback(Events::MouseMoveEvent(last_xPos, last_yPos, t_xPos, t_yPos));
@@ -105,6 +108,8 @@ namespace MyEngine::Glfw
         auto callback = [](GLFWwindow* t_window, int t_width, int t_height) -> void
         {
             Window* user = (Window*)glfwGetWindowUserPointer(t_window);
+            if(!user -> m_windowEventCallback) return;
+
             user -> m_windowEventCallback(Events::WindowEvent(user -> m_params.m_width, user -> m_params.m_height, t_width, t_height));
             user -> m_params.m_width = t_width;
             user -> m_params.m_height = t_height;
