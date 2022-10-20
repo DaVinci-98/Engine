@@ -3,7 +3,6 @@
 #include "Renderer/renderer.hpp"
 #include "OpenGL/glException.hpp"
 #include "Logger/logger.hpp"
-#include "Logger/type.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 

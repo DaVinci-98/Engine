@@ -15,7 +15,7 @@ add_subdirectory(${VENDOR_DIR})
 add_subdirectory(${MODULES_DIR})
 
 add_library(${LIBRARY_NAME} SHARED
-    $<TARGET_OBJECTS:Helpers>
+    $<TARGET_OBJECTS:Logger>
     $<TARGET_OBJECTS:Application>
     $<TARGET_OBJECTS:EventSystem>
     $<TARGET_OBJECTS:Glfw>

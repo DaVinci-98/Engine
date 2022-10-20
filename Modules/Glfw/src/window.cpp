@@ -2,7 +2,6 @@
 
 #include "Glfw/window.hpp"
 #include "Logger/logger.hpp"
-#include "Logger/type.hpp"
 
 namespace MyEngine::Glfw
 {
@@ -12,7 +11,7 @@ namespace MyEngine::Glfw
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Logger::getTypeName<Events::KeyEvent>());
+                typeid(Events::KeyEvent).name());
             return m_keyEventEmitter;
         }
         using Events::KeyEvent;
@@ -32,7 +31,7 @@ namespace MyEngine::Glfw
         glfwSetKeyCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::KeyEvent>());
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::KeyEvent).name());
 
         return m_keyEventEmitter;
     }
@@ -43,7 +42,7 @@ namespace MyEngine::Glfw
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Logger::getTypeName<Events::MouseKeyEvent>());
+                typeid(Events::MouseKeyEvent).name());
             return m_mouseKeyEventEmitter;
         }
         using Events::MouseKeyEvent;
@@ -65,7 +64,7 @@ namespace MyEngine::Glfw
         glfwSetMouseButtonCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::MouseKeyEvent>());
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::MouseKeyEvent).name());
 
         return m_mouseKeyEventEmitter;
     }
@@ -76,7 +75,7 @@ namespace MyEngine::Glfw
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Logger::getTypeName<Events::MouseMoveEvent>());
+                typeid(Events::MouseMoveEvent).name());
             return m_mouseMoveEventEmitter;
         }
         auto callback = [](GLFWwindow* t_window, double t_xPos, double t_yPos) -> void
@@ -87,7 +86,7 @@ namespace MyEngine::Glfw
         glfwSetCursorPosCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::MouseMoveEvent>());
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::MouseMoveEvent).name());
 
         return m_mouseMoveEventEmitter;
     }
@@ -98,7 +97,7 @@ namespace MyEngine::Glfw
         {
             Logger::Logger::log<Window>() -> error(
                 "[Start] [Glfw] [Listener]: Window has to be created before it can start to listen for {}.", 
-                Logger::getTypeName<Events::WindowEvent>());
+                typeid(Events::WindowEvent).name());
             return m_windowEventEmitter;
         }
         auto callback = [](GLFWwindow* t_window, int t_width, int t_height) -> void
@@ -111,7 +110,7 @@ namespace MyEngine::Glfw
         glfwSetFramebufferSizeCallback(m_window, callback);
 
         Logger::Logger::log<Window>() -> info(
-            "[Start] [Glfw] [Listener]: {}", Logger::getTypeName<Events::WindowEvent>());
+            "[Start] [Glfw] [Listener]: {}", typeid(Events::WindowEvent).name());
 
         return m_windowEventEmitter;
     }

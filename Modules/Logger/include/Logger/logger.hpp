@@ -46,7 +46,7 @@ namespace Logger
         template<typename T>
         static std::shared_ptr<spdlog::logger> log()
         {
-            return log(getTypeName<T>());
+            return log(typeid(T).name());
         }
 
 
