@@ -20,5 +20,6 @@ public:
                                           std::shared_ptr<MyEngine::Renderer::Mesh2D>& t_mesh,
                                           std::shared_ptr<MyEngine::Renderer::Shader> t_shader,
                                           MyEngine::Physics::PhysicsManager& t_physics,
+                                          std::string& t_texturePath,
                                           unsigned int t_x, unsigned int t_y,unsigned int t_side);
 };

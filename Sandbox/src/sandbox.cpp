@@ -4,6 +4,14 @@
 #include <glm/gtc/random.hpp>
 #include <numeric>
 
+void Sandbox::setupPaths()
+{
+    std::string path = PATH;
+    m_fontPath = path + "/res/fonts/font.fnt";
+    m_fontPngPath = path + "/res/fonts/font_0.png";
+    m_ballTexturePath = path + "/res/textures/ball.png";
+}
+
 void Sandbox::setupPlatform()
 {
     unsigned int width  = 10 * m_blockSize;
@@ -47,7 +55,7 @@ void Sandbox::addBall(unsigned int t_x, unsigned int t_y)
     unsigned int side = m_blockSize * 1.1;
     auto ball = Ball::makeBall(m_ballMaterial, m_ballMesh, 
                                renderer().shader(renderer().textureShader()), physicsManager(), 
-                               t_x, t_y, side);
+                               m_ballTexturePath, t_x, t_y, side);
 
     auto windowCollisionCallback = [this](MyEngine::Physics::CollisionInfo& t_info, 
                                           std::shared_ptr<MyEngine::Physics::Body2D> t_first, 
@@ -150,18 +158,10 @@ void Sandbox::setupText()
     m_currentScoreText = std::make_shared<MyEngine::Renderer::Text>();
     m_maxScoreText     = std::make_shared<MyEngine::Renderer::Text>();
 
-    m_maxBallCount     -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
-                                  renderer().shader(renderer().textureShader()));
-    m_ballCount        -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
-                                  renderer().shader(renderer().textureShader()));
-    m_currentScoreText -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
-                                  renderer().shader(renderer().textureShader()));
-    m_maxScoreText     -> setFont("/home/davinci/Projects/Engine/Sandbox/res/fonts/font_0.png", 
-                                  "/home/davinci/Projects/Engine/Sandbox/res/fonts/font.fnt", 
-                                  renderer().shader(renderer().textureShader()));
+    m_maxBallCount     -> setFont(m_fontPngPath, m_fontPath, renderer().shader(renderer().textureShader()));
+    m_ballCount        -> setFont(m_fontPngPath, m_fontPath, renderer().shader(renderer().textureShader()));
+    m_currentScoreText -> setFont(m_fontPngPath, m_fontPath, renderer().shader(renderer().textureShader()));
+    m_maxScoreText     -> setFont(m_fontPngPath, m_fontPath, renderer().shader(renderer().textureShader()));
 
     m_currentScoreText -> setText("Current Score: ");
     m_maxScoreText     -> setText("Max Score: ");
@@ -199,6 +199,7 @@ bool Sandbox::onWindowCreate()
 {
     m_blockSize = std::gcd(screenHeight(), screenWidth()) / 16;
     
+    setupPaths();
     setupWindowCollision();
     setupPlatform();
     setupBlocks();

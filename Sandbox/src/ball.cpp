@@ -18,14 +18,15 @@ namespace
     }
 
     void makeMaterial(std::shared_ptr<MyEngine::Renderer::Material>& t_material, 
-                      std::shared_ptr<MyEngine::Renderer::Shader> t_shader)
+                      std::shared_ptr<MyEngine::Renderer::Shader> t_shader,
+                      std::string& t_texturePath)
     {
         if(!t_material)
         {
             t_material = std::make_shared<MyEngine::Renderer::Material>(t_shader);
             MyEngine::Renderer::Triangle2D bottomLeft(0, 0, 1, 1, 0, 0);
             MyEngine::Renderer::Triangle2D topRight(  1, 1, 0, 0, 1, 1);
-            t_material -> setTexture(std::vector{ bottomLeft, topRight }, "/home/davinci/Projects/Engine/Sandbox/res/textures/ball.png");
+            t_material -> setTexture(std::vector{ bottomLeft, topRight }, t_texturePath); //"/home/davinci/Projects/Engine/Sandbox/res/textures/ball.png");
         }
     }
 }
@@ -34,10 +35,11 @@ std::shared_ptr<Ball> Ball::makeBall(std::shared_ptr<MyEngine::Renderer::Materia
                                      std::shared_ptr<MyEngine::Renderer::Mesh2D>& t_mesh,
                                      std::shared_ptr<MyEngine::Renderer::Shader> t_shader,
                                      MyEngine::Physics::PhysicsManager& t_physics,
+                                     std::string& t_texturePath,
                                      unsigned int t_x, unsigned int t_y, unsigned int t_side)
 {
     makeMesh(t_mesh, t_side, t_side);
-    makeMaterial(t_material, t_shader);
+    makeMaterial(t_material, t_shader, t_texturePath);
 
     auto ball = std::make_shared<Ball>(t_material, t_mesh);
 

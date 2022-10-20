@@ -10,6 +10,10 @@
 #include <memory>
 #include <iostream>
 
+#define STRINGIFY2(X) #X
+#define STRINGIFY(X) STRINGIFY2(X)
+#define PATH STRINGIFY(SANDBOX_PATH)
+
 class Sandbox : public MyEngine::Application
 {
 public:
@@ -26,10 +30,15 @@ private:
     void addBall(unsigned int t_x, unsigned int t_y);
     void setupWindowCollision();
     void setupText();
+    void setupPaths();
 
     unsigned int m_maxScore = 1;
     unsigned int m_blockSize;
     unsigned int m_lastId = 0;
+
+    std::string m_ballTexturePath = "";
+    std::string m_fontPngPath = "";
+    std::string m_fontPath = "";
 
     std::shared_ptr<MyEngine::Renderer::Text> m_maxBallCount;
     std::shared_ptr<MyEngine::Renderer::Text> m_ballCount;

@@ -22,6 +22,10 @@ set(INCLUDEFILES
     ${INCLUDE_DIR}/sandbox.hpp
 )
 
+add_compile_definitions(
+    SANDBOX_PATH=${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 add_executable(${PROJECT_NAME}
     ${SOURCEFILES}
     ${INCLUDEFILES}
